@@ -6,7 +6,9 @@
     "packages/*"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cd packages/react-frontend && npm run dev",
+    "lint": "npx eslint ."
   },
   "repository": {
     "type": "git",
@@ -18,5 +20,12 @@
     "url": "https://github.com/s6hib/CSC-307-To-Do-App/issues"
   },
   "homepage": "https://github.com/s6hib/CSC-307-To-Do-App#readme",
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "eslint": "^9.38.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "eslint-plugin-react": "^7.37.5",
+    "prettier": "^3.6.2"
+  }
 }
