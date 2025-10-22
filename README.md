@@ -1,25 +1,36 @@
-#CSC-307-To-Do-App
+# CSC-307-To-Do-App
 
-**Getting Started : Install Dependencies**</br>
-    *cd packages/react-frontend </br>
-    npm install</br>
-    cd ../express-backend</br>
-    npm install*</br>
+## Getting Started: Install Dependencies
+```bash
+cd packages/react-frontend
+npm install
+cd ../express-backend
+npm install
+```
 
-*Installing prettier and eslint extensions for vs code is recommended!*
+*Installing Prettier and ESLint extensions for VS Code is recommended.*
 
-**Contributing : Code Styles**</br>
-  *{ </br>
-  "trailingComma": "none",</br>
-  "semi": true,</br>
-  "singleQuote": false,</br>
-  "printWidth": 64</br>
-  }*</br>
+## Contributing: Code Styles
 
-**Running**</br>
-  *Two separate terminals are recommended</br>
-  cd packages/react-frontend</br>
-  npm run dev (runs on localhost:5173)</br>
-  cd packages/express-backend</br>
-  npm run dev (runs on localhost:8000)*</br>
-  
+```json
+{
+  "trailingComma": "none",
+  "semi": true,
+  "singleQuote": false,
+  "printWidth": 64
+}
+```
+
+## Running
+
+Two separate terminals are recommended:
+
+```bash
+# Terminal 1
+cd packages/react-frontend
+npm run dev   # runs on localhost:5173
+
+# Terminal 2
+cd packages/express-backend
+npm run dev   # runs on localhost:8000
+```
