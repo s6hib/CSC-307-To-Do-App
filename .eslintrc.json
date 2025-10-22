@@ -1,0 +1,45 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2023": true,
+    "jest": true
+  },
+
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+
+  "rules": {
+    "consistent-return": "error",
+    "eqeqeq": "warn",
+    "react/prop-types": 0,
+    "react/react-in-jsx-scope": "off"
+  },
+
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+
+  "overrides": [
+    {
+      "files": ["**/*.ts?(x)"],
+      "rules": {
+        "additional-typescript-only-rule": "warn"
+      }
+    }
+  ],
+
+  "extends": [
+    "react-app",
+    "shared-config",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:prettier/recommended"
+  ]
+}
