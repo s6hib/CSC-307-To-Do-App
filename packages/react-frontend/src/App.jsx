@@ -1,10 +1,16 @@
-import { useState } from "react";
-import "./App.css";
+import { Routes, Route } from "react-router-dom";
+
+import "./css/App.css";
+import MainPage from "./pages/MainPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  return <h1> Hello World </h1>;
+  return (
+    <Routes>
+      <Route path="/" element={<MainPage />} />
+      <Route path="/login" element={<LoginPage />} />
+    </Routes>
+  );
 }
 
 export default App;
