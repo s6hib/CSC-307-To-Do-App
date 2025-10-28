@@ -1,0 +1,33 @@
+.mainpage-heading-container {
+  position: absolute;
+  top: 50px;
+  left: 100px;
+  text-align: left;
+}
+
+.mainpage-header {
+  font-size: 8rem;
+  margin: 0;
+  letter-spacing: 20px;
+}
+
+.mainpage-subheading {
+  font-size: 3rem;
+  margin: 0px;
+  letter-spacing: 10px;
+}
+
+.mainpage-login-box {
+  position: absolute;
+  left: 50%;
+  bottom: 5%;
+  transform: translateX(
+    -50%
+  ); /*shifts back half the width to center*/
+  background-color: rgb(195, 193, 193);
+  font-size: 5rem;
+  width: 300px;
+  padding: 0px;
+  border-radius: 35px;
+  text-align: center;
+}
