@@ -12,9 +12,7 @@ function LoginPage() {
           <p>password: </p>
           <input type="text" className="loginpage-input" />
         </div>
-        <div className="loginpage-login-box">
-          <p>login</p>
-        </div>
+        <button className="loginpage-login-box">login</button>
       </div>
     </>
   );

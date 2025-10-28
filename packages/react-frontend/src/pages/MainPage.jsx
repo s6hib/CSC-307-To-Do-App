@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import "../css/MainPage.css";
 
 function MainPage() {
@@ -8,9 +10,9 @@ function MainPage() {
         <p className="mainpage-subheading">a TO-DO lissst</p>
       </div>
 
-      <div className="mainpage-login-box">
-        <p1>login</p1>
-      </div>
+      <Link to="/login" className="mainpage-login-box">
+        login
+      </Link>
     </>
   );
 }
