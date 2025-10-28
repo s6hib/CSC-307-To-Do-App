@@ -3,12 +3,12 @@ import "../css/MainPage.css";
 function MainPage() {
   return (
     <>
-      <div className="heading-container">
-        <h1 className="header">adder</h1>
-        <p1 className="subheading">a TO-DO lissst</p1>
+      <div className="mainpage-heading-container">
+        <h1 className="mainpage-header">adder</h1>
+        <p className="mainpage-subheading">a TO-DO lissst</p>
       </div>
 
-      <div className="login-container">
+      <div className="mainpage-login-box">
         <p1>login</p1>
       </div>
     </>

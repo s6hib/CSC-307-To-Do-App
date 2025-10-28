@@ -2,14 +2,14 @@ import { Routes, Route } from "react-router-dom";
 
 import "./css/App.css";
 import MainPage from "./pages/MainPage.jsx";
+import LoginPage from "./pages/LoginPage.jsx";
 
 function App() {
   return (
-    <div>
-      <Routes>
-        <Route path="/" element={<MainPage />} />
-      </Routes>
-    </div>
+    <Routes>
+      <Route path="/" element={<MainPage />} />
+      <Route path="/login" element={<LoginPage />} />
+    </Routes>
   );
 }
 

@@ -1,33 +1,33 @@
-.heading-container {
+.mainpage-heading-container {
   position: absolute;
   top: 50px;
   left: 100px;
   text-align: left;
 }
 
-.header {
+.mainpage-header {
   font-size: 8rem;
-  margin: 0px;
+  margin: 0;
   letter-spacing: 20px;
 }
 
-.subheading {
+.mainpage-subheading {
   font-size: 3rem;
   margin: 0px;
   letter-spacing: 10px;
 }
 
-.login-container {
+.mainpage-login-box {
   position: absolute;
   left: 50%;
-  text-align: center;
+  bottom: 5%;
   transform: translateX(
     -50%
   ); /*shifts back half the width to center*/
-  background-color: rgb(163, 161, 161);
-  font-size: 3rem;
+  background-color: rgb(195, 193, 193);
+  font-size: 5rem;
   width: 300px;
-  bottom: 150px;
-  padding: 10px;
+  padding: 0px;
   border-radius: 35px;
+  text-align: center;
 }
