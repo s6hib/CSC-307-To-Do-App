@@ -1,0 +1,33 @@
+.heading-container {
+  position: absolute;
+  top: 50px;
+  left: 100px;
+  text-align: left;
+}
+
+.header {
+  font-size: 8rem;
+  margin: 0px;
+  letter-spacing: 20px;
+}
+
+.subheading {
+  font-size: 3rem;
+  margin: 0px;
+  letter-spacing: 10px;
+}
+
+.login-container {
+  position: absolute;
+  left: 50%;
+  text-align: center;
+  transform: translateX(
+    -50%
+  ); /*shifts back half the width to center*/
+  background-color: rgb(163, 161, 161);
+  font-size: 3rem;
+  width: 300px;
+  bottom: 150px;
+  padding: 10px;
+  border-radius: 35px;
+}

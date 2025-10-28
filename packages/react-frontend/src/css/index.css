@@ -1,5 +1,9 @@
+/*font for site -- feel free to add ideas of any diff fonts :)*/
+@import url("https://fonts.googleapis.com/css2?family=Gaegu&display=swap");
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Gaegu", sans-serif;
+  /* font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;*/
   line-height: 1.5;
   font-weight: 400;
 
@@ -23,6 +27,7 @@ a:hover {
 }
 
 body {
+  font-family: "Gaegu", sans-serif;
   margin: 0;
   display: flex;
   place-items: center;
