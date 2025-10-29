@@ -1,6 +1,6 @@
+// backend.js
 import express from "express";
 import cors from "cors";
-import jwt from "jsonwebtoken";
 
 const app = express();
 const port = 8000;
@@ -8,77 +8,43 @@ const port = 8000;
 app.use(express.json());
 app.use(cors());
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+// in-memory array for quick testing
+let tasks = [
+  { _id: 1, task: "Homework", date: "10/30" },
+  { _id: 2, task: "Wash Dishes", date: "10/29" },
+];
+let nextId = 3;
+
+// ---- TASKS API ----
+
+// GET all tasks
+app.get("/tasks", (req, res) => {
+  res.json({ tasks_list: tasks });
 });
 
-// to generate an access token
-function generateAccessToken(username) {
-  return new Promise((resolve, reject) => {
-    jwt.sign(
-      { username: username },
-      process.env.TOKEN_SECRET,
-      { expiresIn: "1d" },
-      (error, token) => {
-        if (error) reject(error);
-        else resolve(token);
-      }
-    );
-  });
-}
-
-// to authenticate user using jwt
-function authenticateUser(req, res, next) {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-  if (!token) {
-    res.status(401).end();
-  } else {
-    jwt.verify(token, process.env.TOKEN_SECRET,
-      (error, decoded) => {
-        if (decoded) { next(); }
-        else { res.status(401).end(); }
-      }
-    );
-  }
-}
-  
-// authenticate user
-app.post("/users", authenticateUser, (req, res) => {
-  const userToAdd = req.body;
-  Users.addUser(userToAdd).then((result) =>
-    res.status(201).send(result)
-  );
-});
-
-/*
-app.post("/login", (req, res) => {
-  const { username, password } = req.body;
-  // testing
-  if (username = "guest" && password = "123") {
-    const token = generateAccessToken(username);
-    res
-  }
-})*/
-
+// POST new task
 app.post("/tasks", (req, res) => {
-  //const taskToAdd = ...;
-  // for tasks
+  const task = req.body;
+  if (!task.task || !task.date) {
+    return res.status(400).json({ error: "Missing task or date" });
+  }
+  task._id = nextId++;
+  tasks.push(task);
+  res.status(201).json(task); // 201 so your front-end picks it up
 });
 
-app.delete("/tasks", (req, res) => {
-  // to delete tasks
+// DELETE task by id
+app.delete("/tasks/:id", (req, res) => {
+  const id = parseInt(req.params.id);
+  const index = tasks.findIndex((t) => t._id === id);
+  if (index === -1) return res.status(404).end();
+  tasks.splice(index, 1);
+  res.status(204).end();
 });
 
-app.post("/tasks/:subtasks", (req, res) => {
-  //const subtaskToAdd = ...;
-  // for subtasks within tasks
-});
-
-app.delete("/tasks/:subtasks", (req, res) => {
-  // to delete subtasks?
-});
+// ---- FUTURE: JWT + tasks ----
+// leave your jwt code commented until you need it
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`API listening on http://localhost:${port}`);
 });
