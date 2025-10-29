@@ -33,3 +33,11 @@ function addUser(user) {
 function deleteUserById(id) {
   return User.findByIdAndDelete(id);
 }
+
+// export to backend.js
+export default {
+  getUser,
+  addUser,
+  findUserById,
+  deleteUserById,
+};
