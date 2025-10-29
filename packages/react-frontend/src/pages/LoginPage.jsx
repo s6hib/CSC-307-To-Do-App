@@ -2,8 +2,17 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 import "../css/LoginPage.css";
+import React, { useState } from "react";
+function LoginPage(props) {
+  const [user, setUser] = useState({
+    username: "",
+    password: ""
+  });
 
-function LoginPage() {
+  function login() {
+    props.handleSubmit(user);
+    setUser({ username: "", password: "" });
+  }
   return (
     <>
       <div className="loginpage-login-container">
