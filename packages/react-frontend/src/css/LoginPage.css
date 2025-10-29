@@ -1,12 +1,9 @@
-.loginpage-loginContainer {
+.loginpage-login-container {
   position: flex;
-  top: 20%;
-  left: 30%;
 }
 
 .loginpage-username-password {
   display: flex;
-  flex-wrap: wrap;
   align-items: baseline;
   gap: 20px;
   font-size: 3rem;
