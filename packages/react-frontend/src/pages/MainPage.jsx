@@ -10,7 +10,7 @@ function MainPage() {
         <p className="mainpage-subheading">a TO-DO lissst</p>
       </div>
 
-      <Link to="/login" className="mainpage-login-box">
+      <Link to="/login" className="mainpage-button">
         login
       </Link>
     </>

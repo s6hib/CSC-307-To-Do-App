@@ -22,25 +22,35 @@
   font-size: 2rem;
 }
 
-.loginpage-login-box {
+.loginpage-buttons {
   position: absolute;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  left: 50%;
   text-align: center;
+  left: 50%;
   transform: translateX(
     -50%
   ); /*shifts back half the width to center*/
-  background-color: rgb(195, 193, 193);
+  gap: 16px;
+}
+
+.loginpage-button {
+  align-content: center;
   font-size: 3rem;
-  width: 10%;
-  height: 10%;
+  width: 400px;
+  height: 100px;
   padding: 0px;
   border-radius: 35px;
+  background-color: rgb(195, 193, 193);
 }
 
 input:focus {
   border-bottom: 1px solid black;
   outline: none;
+}
+
+.loginpage-button:visited {
+  color: black;
 }

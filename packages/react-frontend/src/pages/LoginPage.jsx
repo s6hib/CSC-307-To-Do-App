@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import "../css/LoginPage.css";
 
 function LoginPage() {
@@ -12,7 +14,15 @@ function LoginPage() {
           <p>password: </p>
           <input type="text" className="loginpage-input" />
         </div>
-        <button className="loginpage-login-box">login</button>
+        <div className="loginpage-buttons">
+          <button className="loginpage-button">login</button>
+          <Link
+            to="/createaccount"
+            className="loginpage-button"
+          >
+            create account
+          </Link>
+        </div>
       </div>
     </>
   );
