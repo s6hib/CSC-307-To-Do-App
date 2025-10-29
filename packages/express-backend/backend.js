@@ -2,6 +2,9 @@ import express from "express";
 import cors from "cors";
 import jwt from "jsonwebtoken";
 
+import login from "./controllers/authorization.js";
+import authenticateUser from "./middleware/authentication.js";
+
 const app = express();
 const port = 8000;
 
@@ -12,37 +15,8 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-// to generate an access token
-function generateAccessToken(username) {
-  return new Promise((resolve, reject) => {
-    jwt.sign(
-      { username: username },
-      process.env.TOKEN_SECRET,
-      { expiresIn: "1d" },
-      (error, token) => {
-        if (error) reject(error);
-        else resolve(token);
-      }
-    );
-  });
-}
+app.post("/api/login", authenticateUser, login);
 
-// to authenticate user using jwt
-function authenticateUser(req, res, next) {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-  if (!token) {
-    res.status(401).end();
-  } else {
-    jwt.verify(token, process.env.TOKEN_SECRET,
-      (error, decoded) => {
-        if (decoded) { next(); }
-        else { res.status(401).end(); }
-      }
-    );
-  }
-}
-  
 // authenticate user
 app.post("/users", authenticateUser, (req, res) => {
   const userToAdd = req.body;
@@ -80,5 +54,7 @@ app.delete("/tasks/:subtasks", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(
+    `Example app listening at http://localhost:${port}`
+  );
 });
