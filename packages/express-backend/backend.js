@@ -43,7 +43,6 @@ function authenticateUser(req, res, next) {
   }
 }
   
-  
 // authenticate user
 app.post("/users", authenticateUser, (req, res) => {
   const userToAdd = req.body;
@@ -51,6 +50,16 @@ app.post("/users", authenticateUser, (req, res) => {
     res.status(201).send(result)
   );
 });
+
+/*
+app.post("/login", (req, res) => {
+  const { username, password } = req.body;
+  // testing
+  if (username = "guest" && password = "123") {
+    const token = generateAccessToken(username);
+    res
+  }
+})*/
 
 app.post("/tasks", (req, res) => {
   //const taskToAdd = ...;
