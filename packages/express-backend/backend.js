@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import jwt from "jsonwebtoken";
 
-import login from "./controllers/authorization.js";
+import { login, signup } from "./controllers/authorization.js";
 import authenticateUser from "./middleware/authentication.js";
 
 const app = express();
@@ -16,14 +16,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/api/login", authenticateUser, login);
-
-// authenticate user
-app.post("/users", authenticateUser, (req, res) => {
-  const userToAdd = req.body;
-  Users.addUser(userToAdd).then((result) =>
-    res.status(201).send(result)
-  );
-});
+app.post("/api/signup", authenticateUser, signup);
 
 /*
 app.post("/login", (req, res) => {

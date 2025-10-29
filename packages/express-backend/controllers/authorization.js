@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 
+import { generateTokenAndSetCookie } from "../lib/utils/generateToken.js";
 import User from "../models/user.js";
 
 export const signup = async (req, res) => {
@@ -27,8 +27,21 @@ export const signup = async (req, res) => {
       username: username,
       password: hashedPassword
     });
+
+    if (newUser) {
+      generateTokenAndSetCookie(newUser._id, res);
+      await newUser.save();
+
+      res.status(201).json({
+        _id: newUser._id,
+        username: newUser.username
+      });
+    } else {
+      res.status(400).json({ error: "Invalid user data" });
+    }
   } catch (err) {
-    return;
+    console.log("Error in signup controller", err.message);
+    res.status(500).json({ error: "internal Server Error" });
   }
 };
 
@@ -50,14 +63,8 @@ export const login = async (req, res) => {
     }
 
     // to generate an access token
-    const token = jwt.sign(
-      { sub: user._id.toString(), username: user.username },
-      process.env.TOKEN_SECRET,
-      { expiresIn: "1d" }
-    );
-
+    generateTokenAndSetCookie(user._id, res);
     return res.json({
-      token,
       user: {
         id: user._id,
         username: user.username
