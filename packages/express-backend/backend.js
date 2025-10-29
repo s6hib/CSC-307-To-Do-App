@@ -1,6 +1,7 @@
 // backend.js
 import express from "express";
 import cors from "cors";
+import userServices from "./userServices";
 
 const app = express();
 const port = 8000;
@@ -41,6 +42,59 @@ app.delete("/tasks/:id", (req, res) => {
   tasks.splice(index, 1);
   res.status(204).end();
 });
+
+// CRUD relative to user db
+/*
+app.get("/users", (req, res) => {
+  const {username} = req.query;
+  userServices
+    .getUser(username)
+    .then((users) => {
+      res.status(200).json(users);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    })
+})
+
+app.get("/users:id", (req, res) => {
+  const id = req.params["id"];
+  userServices
+    .findUserById(id)
+    .then((user) => {
+      if (!user) res.status(404).send("User not found :(");
+      else res.status(200).json(user);
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    })
+});
+
+app.post("/users", (req, res) => {
+  const newUser = req.body;
+  userServices
+    .addUser(newUser)
+    .then((result) => {
+      res.status(201).json(result);
+    })
+    .catch((error) => {
+      res.status(400).send(error);
+    })
+});
+
+app.delete("/users/:id", (req, res) => {
+  const id = req.params["id"];
+  userServices
+    .deleteUserById(id)
+    .then((result) => {
+      if (!result) res.status(404).send("user not found");
+      else res.status(204).end();
+    })
+    .catch((error) => {
+      res.status(500).send(error);
+    })
+});
+*/
 
 // ---- FUTURE: JWT + tasks ----
 // leave your jwt code commented until you need it
