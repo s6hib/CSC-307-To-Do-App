@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Table from "./components/Table.jsx";  
 import Form from "./components/Form.jsx";    
+import Navbar from "./components/Navbar.jsx";
 
 const API_BASE = "http://localhost:8000";     
 
@@ -61,6 +62,7 @@ export default function FoldersPage() {
 
   return (
     <div className="container" style={{ padding: 16 }}>
+      <Navbar/>
       <h2>To-Do Folders</h2>
       <Table characterData={characters} removeCharacter={removeOneTask} />
       <Form handleSubmit={addTask} />

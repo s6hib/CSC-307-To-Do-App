@@ -1,6 +1,7 @@
 // backend.js
 import express from "express";
 import cors from "cors";
+
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import "dotenv/config";
@@ -8,6 +9,7 @@ import "dotenv/config";
 import { login, signup } from "./controllers/authorization.js";
 import { authenticateUser } from "./middleware/authentication.js";
 //import userServices from "./userServices";
+
 
 const app = express();
 const port = 8000;

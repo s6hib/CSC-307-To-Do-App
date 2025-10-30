@@ -45,6 +45,7 @@ export const signup = async (req, res) => {
   }
 };
 
+/*
 export const login = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -73,5 +74,39 @@ export const login = async (req, res) => {
   } catch (error) {
     console.log("Error in login controller", error.message);
     res.status(500).json({ error: "Internal Server Error " });
+  }
+};*/
+
+
+// testing plain text:P
+export const login = async (req, res) => {
+  try {
+    console.log("testing", req.body);
+
+    const { username, password } = req.body;
+    if (!username || !password) {
+      return res.status(400).json({ error: "Missing username or password" });
+    }
+
+    const user = await User.findOne({ username });
+    console.log("Result of User.findOne:", user);
+
+    if (!user) {
+      console.log("User not found in MongoDB:", username);
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const isPasswordCorrect = password === user.password;
+    console.log("password match:", isPasswordCorrect);
+
+    if (!isPasswordCorrect) {
+      return res.status(400).json({ error: "Invalid password" });
+    }
+
+    console.log("success", username);
+    res.json({ message: "Login success", user });
+  } catch (error) {
+    console.error("error :():", error);
+    res.status(500).json({ error: "Internal server error" });
   }
 };
