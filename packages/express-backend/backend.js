@@ -1,33 +1,71 @@
 // backend.js
 import express from "express";
 import cors from "cors";
-import userServices from "./userServices";
+import cookieParser from "cookie-parser";
+import mongoose from "mongoose";
+import "dotenv/config";
+
+import { login, signup } from "./controllers/authorization.js";
+import { authenticateUser } from "./middleware/authentication.js";
+//import userServices from "./userServices";
 
 const app = express();
 const port = 8000;
 
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true
+  })
+);
+app.use(cookieParser());
 
+const MONGO_URI =
+  process.env.MONGO_URI || "mongodb://127.0.0.1:27017/myapp";
+await mongoose.connect(MONGO_URI, {
+  serverSelectionTimeoutMS: 10000
+});
 // in-memory array for quick testing
 let tasks = [
   { _id: 1, task: "Homework", date: "10/30" },
-  { _id: 2, task: "Wash Dishes", date: "10/29" },
+  { _id: 2, task: "Wash Dishes", date: "10/29" }
 ];
 let nextId = 3;
-
-// ---- TASKS API ----
 
 // GET all tasks
 app.get("/tasks", (req, res) => {
   res.json({ tasks_list: tasks });
 });
+console.log("MongoDB connected");
+
+app.post("/api/login", login);
+app.post("/api/signup", signup);
+
+/*
+
+
+app.delete("/tasks", (req, res) => {
+  // to delete tasks
+});
+
+app.post("/tasks/:subtasks", (req, res) => {
+  //const subtaskToAdd = ...;
+  // for subtasks within tasks
+});
+
+app.delete("/tasks/:subtasks", (req, res) => {
+  // to delete subtasks?
+});
+*/
 
 // POST new task
 app.post("/tasks", (req, res) => {
   const task = req.body;
   if (!task.task || !task.date) {
-    return res.status(400).json({ error: "Missing task or date" });
+    return res
+      .status(400)
+      .json({ error: "Missing task or date" });
   }
   task._id = nextId++;
   tasks.push(task);
@@ -41,6 +79,12 @@ app.delete("/tasks/:id", (req, res) => {
   if (index === -1) return res.status(404).end();
   tasks.splice(index, 1);
   res.status(204).end();
+});
+
+app.listen(port, () => {
+  console.log(
+    `Example app listening at http://localhost:${port}`
+  );
 });
 
 // CRUD relative to user db
@@ -139,6 +183,3 @@ app.post("/users", authenticateUser, (req, res) => {
   );
 });
 */
-app.listen(port, () => {
-  console.log(`API listening on http://localhost:${port}`);
-});

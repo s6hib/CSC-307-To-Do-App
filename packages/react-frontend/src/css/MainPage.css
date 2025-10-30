@@ -17,7 +17,7 @@
   letter-spacing: 10px;
 }
 
-.mainpage-login-box {
+.mainpage-button {
   position: absolute;
   left: 50%;
   bottom: 5%;
@@ -32,6 +32,6 @@
   text-align: center;
 }
 
-.mainpage-login-box:visited {
+.mainpage-button:visited {
   color: black;
 }
