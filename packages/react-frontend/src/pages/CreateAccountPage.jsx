@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import "../css/LoginPage.css";
 
@@ -7,6 +8,7 @@ function CreateAccount() {
     username: "",
     password: ""
   });
+  const navigate = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -20,11 +22,14 @@ function CreateAccount() {
     const data = await res.json();
 
     if (!res.ok) {
-      console.error(data.message || "Signup failed");
+      console.error(
+        data.message || data.error || "Signup failed"
+      );
       return;
     }
 
     console.log("Account created");
+    navigate("/login");
   };
 
   return (

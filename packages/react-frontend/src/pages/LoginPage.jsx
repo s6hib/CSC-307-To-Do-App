@@ -79,11 +79,7 @@ function LoginPage() {
             />
           </div>
           <div className="loginpage-buttons">
-            <button
-              type="submit"
-              onClick={handleChange}
-              className="loginpage-button"
-            >
+            <button type="submit" className="loginpage-button">
               login
             </button>
 
