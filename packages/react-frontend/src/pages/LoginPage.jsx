@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 
 import "../css/LoginPage.css";
@@ -7,6 +7,7 @@ function LoginPage() {
     username: "",
     password: ""
   });
+  const navigate = useNavigate();
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -48,6 +49,7 @@ function LoginPage() {
     }
 
     setUser({ username: "", password: "" });
+    navigate("/dashboard");
   };
 
   return (

@@ -4,6 +4,7 @@ import "./css/App.css";
 import MainPage from "./pages/MainPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import CreateAccountPage from "./pages/CreateAccountPage.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         path="/createaccount"
         element={<CreateAccountPage />}
       />
+      <Route path="/dashboard" element={<Dashboard />} />
     </Routes>
   );
 }
