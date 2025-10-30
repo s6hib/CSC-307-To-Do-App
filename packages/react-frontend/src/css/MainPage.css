@@ -17,6 +17,21 @@
   letter-spacing: 10px;
 }
 
+.mainpage-logo-container {
+  position: absolute;
+  left: 50%;
+  bottom: 12.5%; 
+  transform: translateX(-50%);
+  text-align: center;
+}
+
+.mainpage-logo {
+  width: 450px;
+  height: auto;
+  display: block;
+  margin: 0 auto 0px auto;
+}
+
 .mainpage-button {
   position: absolute;
   left: 50%;
