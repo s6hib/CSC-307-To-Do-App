@@ -1,22 +1,33 @@
 import express from "express";
 import cors from "cors";
-import jwt from "jsonwebtoken";
+import cookieParser from "cookie-parser";
+import mongoose from "mongoose";
+import "dotenv/config";
 
 import { login, signup } from "./controllers/authorization.js";
-import authenticateUser from "./middleware/authentication.js";
+import { authenticateUser } from "./middleware/authentication.js";
 
 const app = express();
 const port = 8000;
 
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true
+  })
+);
+app.use(cookieParser());
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
+const MONGO_URI =
+  process.env.MONGO_URI || "mongodb://127.0.0.1:27017/myapp";
+await mongoose.connect(MONGO_URI, {
+  serverSelectionTimeoutMS: 10000
 });
+console.log("MongoDB connected");
 
-app.post("/api/login", authenticateUser, login);
-app.post("/api/signup", authenticateUser, signup);
+app.post("/api/login", login);
+app.post("/api/signup", signup);
 
 /*
 app.post("/login", (req, res) => {

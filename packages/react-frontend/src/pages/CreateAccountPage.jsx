@@ -1,40 +1,64 @@
+import { useState } from "react";
+
 import "../css/LoginPage.css";
 
 function CreateAccount() {
+  const [user, setUser] = useState({
+    username: "",
+    password: ""
+  });
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const res = await fetch("/api/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password })
+      credentials: "include",
+      body: JSON.stringify(user)
     });
 
     const data = await res.json();
 
     if (!res.ok) {
+      console.error(data.message || "Signup failed");
       return;
     }
+
+    console.log("Account created");
   };
 
   return (
-    <>
+    <form onSubmit={handleSubmit}>
       <div className="loginpage-login-container">
         <div className="loginpage-username-password">
           <p>username: </p>
-          <input type="text" className="loginpage-input" />
+          <input
+            type="text"
+            className="loginpage-input"
+            value={user.username}
+            onChange={(e) =>
+              setUser({ ...user, username: e.target.value })
+            }
+          />
         </div>
         <div className="loginpage-username-password">
           <p>password: </p>
-          <input type="text" className="loginpage-input" />
+          <input
+            type="password"
+            className="loginpage-input"
+            value={user.password}
+            onChange={(e) =>
+              setUser({ ...user, password: e.target.value })
+            }
+          />
         </div>
         <div className="loginpage-buttons">
-          <button className="loginpage-button">
+          <button type="submit" className="loginpage-button">
             add account
           </button>
         </div>
       </div>
-    </>
+    </form>
   );
 }
 

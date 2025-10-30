@@ -8,16 +8,16 @@ function LoginPage() {
     password: ""
   });
 
-  function handleChange(event) {
-    const { name, value } = event.target;
+  function handleChange(e) {
+    const { name, value } = e.target;
     setUser((prev) => ({
       ...prev,
       [name]: value
     }));
   }
 
-  const login = async (event) => {
-    event.preventDefault();
+  const login = async (e) => {
+    e.preventDefault();
 
     const token = localStorage.getItem("token");
 
