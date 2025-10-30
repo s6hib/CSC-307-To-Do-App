@@ -49,7 +49,7 @@ function LoginPage() {
     }
 
     setUser({ username: "", password: "" });
-    navigate("/dashboard");
+    navigate("/folders");
   };
 
   return (
