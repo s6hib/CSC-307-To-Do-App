@@ -5,6 +5,7 @@ import MainPage from "./pages/MainPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import CreateAccountPage from "./pages/CreateAccountPage.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
+import FoldersPage from "./pages/FoldersPage.jsx";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         element={<CreateAccountPage />}
       />
       <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/folders" element={<FoldersPage />} />
     </Routes>
   );
 }
