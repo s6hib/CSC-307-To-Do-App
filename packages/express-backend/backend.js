@@ -23,9 +23,9 @@ app.use(
 );
 app.use(cookieParser());
 
-const MONGO_URI =
-  process.env.MONGO_URI || "mongodb://127.0.0.1:27017/myapp";
-await mongoose.connect(MONGO_URI, {
+const MONGODB_URI =
+  process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/myapp";
+await mongoose.connect(MONGODB_URI, {
   serverSelectionTimeoutMS: 10000
 });
 // in-memory array for quick testing
