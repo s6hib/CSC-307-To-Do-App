@@ -12,7 +12,7 @@ const taskSchema = new mongoose.Schema(
             },
         },
         date: {
-            type: String, // switch to Date for filtering in the future
+            type: Date, // switch to Date for filtering in the future
             required: true,
         },
     },
