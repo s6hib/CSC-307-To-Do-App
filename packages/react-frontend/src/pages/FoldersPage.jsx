@@ -37,6 +37,25 @@ export default function FoldersPage() {
       .catch((err) => console.error("Add task error:", err));
   }
 
+  function updateTask(id, updates) {
+    //return fetch('${API_BASE}/tasks/${id}', {
+    return fetch (`${API_BASE}/tasks/${id}` ,{
+      method: "PUT",
+      headers: { "Content-Type": "application/json"},
+      body: JSON.stringify(updates),
+    })
+      .then((res) => (res.status === 200 ? res.json() : null))
+      .then((updatedTasks) => {
+        if (updatedTasks) {
+          //update task in state
+          setCharacters((prev) =>
+            prev.map((task) => (task._id === id ? updatedTasks : task )));
+
+        }
+      })
+      .catch((err) => console.error("Update task error:", err));
+  }
+
   // DELETE one (by index from table)
   function removeOneTask(index) {
     const _id = characters[index]?._id;
@@ -64,7 +83,7 @@ export default function FoldersPage() {
     <div className="container" style={{ padding: 16 }}>
       <Navbar/>
       <h2>To-Do Folders</h2>
-      <Table characterData={characters} removeCharacter={removeOneTask} />
+      <Table characterData={characters} removeCharacter={removeOneTask} updateTask={updateTask} />
       <Form handleSubmit={addTask} />
     </div>
   );

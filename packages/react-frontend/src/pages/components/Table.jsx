@@ -1,5 +1,5 @@
 //Table.jsx
-export default function Table({ characterData, removeCharacter }) {
+export default function Table({ characterData, removeCharacter, updateTask}) {
   return (
     <table>
       <thead>
@@ -11,6 +11,13 @@ export default function Table({ characterData, removeCharacter }) {
             <td>{row.task}</td>
             <td>{row.date}</td>
             <td>
+              {/* Edit Button */}
+              <button
+                onClick={() => {
+                  const newTask = prompt("Edit task:", row.task);
+                  if (newTask) updateTask(row._id, { task: newTask});
+                }}
+              >Edit</button>
               <button onClick={() => removeCharacter(i)}>Delete</button>
             </td>
           </tr>
