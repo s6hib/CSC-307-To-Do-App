@@ -51,6 +51,27 @@ export default function FoldersPage() {
       .catch((err) => console.error("Add task error:", err));
   }
 
+  function updateTask(id, updates) {
+    //return fetch('${API_BASE}/tasks/${id}', {
+    return fetch(`/api/tasks/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updates)
+    })
+      .then((res) => (res.status === 200 ? res.json() : null))
+      .then((updatedTasks) => {
+        if (updatedTasks) {
+          //update task in state
+          setTasks((prev) =>
+            prev.map((task) =>
+              task._id === id ? updatedTasks : task
+            )
+          );
+        }
+      })
+      .catch((err) => console.error("Update task error:", err));
+  }
+
   // DELETE one (by index from table)
   function removeOneTask(index) {
     const _id = tasks[index]?._id;

@@ -1,6 +1,11 @@
 //Table.jsx
-export default function Table({ taskData = [], removeTask }) {
+export default function Table({
+  taskData = [],
+  removeTask,
+  updateTask
+}) {
   const rows = Array.isArray(taskData) ? taskData : [];
+
   return (
     <table>
       <thead>
@@ -18,6 +23,19 @@ export default function Table({ taskData = [], removeTask }) {
             <td>
               <button onClick={() => removeTask(i)}>
                 Delete
+              </button>
+              {/* Edit Button */}
+              <button
+                onClick={() => {
+                  const newTask = prompt(
+                    "Edit task:",
+                    row.task
+                  );
+                  if (newTask)
+                    updateTask(row._id, { task: newTask });
+                }}
+              >
+                Edit
               </button>
             </td>
           </tr>
