@@ -11,7 +11,7 @@ export default function FoldersPage() {
 
   // READ all
   useEffect(() => {
-    fetch("/api/tasks")
+    fetch("/api/tasks", { credentials: "include" })
       .then((res) => {
         if (!res.ok) throw new Error(`${res.status}`);
         return res.json();
@@ -31,6 +31,7 @@ export default function FoldersPage() {
   function postTask(task) {
     return fetch("/api/tasks", {
       method: "POST",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(task)
     });
@@ -60,7 +61,10 @@ export default function FoldersPage() {
       return;
     }
 
-    fetch(`/api/tasks/${_id}`, { method: "DELETE" })
+    fetch(`/api/tasks/${_id}`, {
+      method: "DELETE",
+      credentials: "include"
+    })
       .then((res) => {
         if (res.status === 204) {
           setTasks((prev) =>

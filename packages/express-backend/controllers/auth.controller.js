@@ -51,12 +51,18 @@ export const login = async (req, res) => {
 
     const user = await User.findOne({ username });
 
+    if (!user) {
+      return res
+        .status(400)
+        .json({ error: "Invalid username or password" });
+    }
+
     const isPasswordCorrect = await bcrypt.compare(
       password,
       user.password
     );
 
-    if (!user || !isPasswordCorrect) {
+    if (!isPasswordCorrect) {
       return res
         .status(400)
         .json({ error: "Invalid username or password" });
@@ -64,7 +70,7 @@ export const login = async (req, res) => {
 
     // to generate an access token
     generateTokenAndSetCookie(user._id, res);
-    return res.json({
+    return res.status(200).json({
       user: {
         id: user._id,
         username: user.username

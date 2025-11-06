@@ -1,7 +1,6 @@
 // backend.js
 import express from "express";
 import cors from "cors";
-
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import "dotenv/config";
@@ -16,18 +15,21 @@ import {
   deleteTaskById,
   markDone
 } from "./controllers/task.controller.js";
+import { authenticateUser } from "./middleware/authentication.js";
 
 const app = express();
 const port = 8000;
 
-app.use(express.json());
 app.use(
   cors({
     origin: "http://localhost:5173",
-    credentials: true
+    credentials: true,
+    methods: ["GET", "POST", "DELETE", "PATCH"],
+    allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
 app.use(cookieParser());
+app.use(express.json());
 
 const MONGODB_URI =
   process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/myapp";
@@ -37,12 +39,12 @@ await mongoose.connect(MONGODB_URI, {
 
 console.log("MongoDB connected");
 
-app.get("/api/tasks", getAllTasks);
+app.get("/api/tasks", authenticateUser, getAllTasks);
 app.post("/api/login", login);
 app.post("/api/signup", signup);
-app.post("/api/tasks", addTask);
-app.post("/api/tasks/:id/done", markDone);
-app.delete("/api/tasks/:id", deleteTaskById);
+app.post("/api/tasks", authenticateUser, addTask);
+app.post("/api/tasks/:id/done", authenticateUser, markDone);
+app.delete("/api/tasks/:id", authenticateUser, deleteTaskById);
 
 app.listen(port, () => {
   console.log(

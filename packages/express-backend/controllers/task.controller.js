@@ -4,7 +4,9 @@ import "dotenv/config";
 // to find a collection of tasks
 export async function getAllTasks(req, res) {
   try {
-    const items = await Task.find({}).lean();
+    const items = await Task.find({
+      user: req.user._id
+    }).lean();
     return res.status(200).json({ tasks_list: items });
   } catch (err) {
     console.log("Couldn't fetch tasks");
@@ -28,7 +30,8 @@ export async function addTask(req, res) {
     const newTask = await Task.create({
       task,
       date,
-      markDone: false
+      markDone: false,
+      user: req.user._id
     });
     return res.status(200).json(newTask);
   } catch (err) {
