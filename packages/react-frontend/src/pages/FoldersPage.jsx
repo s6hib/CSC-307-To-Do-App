@@ -52,7 +52,6 @@ export default function FoldersPage() {
   }
 
   function updateTask(id, updates) {
-    //return fetch('${API_BASE}/tasks/${id}', {
     return fetch(`/api/tasks/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -104,7 +103,11 @@ export default function FoldersPage() {
     <div className="container" style={{ padding: 16 }}>
       <Navbar />
       <h2>To-Do Folders</h2>
-      <Table taskData={tasks} removeTask={removeOneTask} />
+      <Table
+        taskData={tasks}
+        removeTask={removeOneTask}
+        updateTask={updateTask}
+      />
       <Form handleSubmit={addTask} />
     </div>
   );

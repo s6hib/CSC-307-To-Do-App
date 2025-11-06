@@ -31,16 +31,11 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
-try {
-  await mongoose.connect(MONGO_URI, {
-    serverSelectionTimeoutMS: 10000
-  });
-  console.log("MongoDB connected");
-} catch (err) {
-  console.warn(
-    " MongoDB not running — continuing with in-memory tasks."
-  );
-}
+const MONGODB_URI =
+  process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/myapp";
+await mongoose.connect(MONGODB_URI, {
+  serverSelectionTimeoutMS: 10000
+});
 
 console.log("MongoDB connected");
 

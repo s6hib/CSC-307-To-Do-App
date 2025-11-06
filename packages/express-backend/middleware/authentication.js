@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken";
 
-// to authenticate user using jwt
 export function authenticateUser(req, res, next) {
   const bearer =
     req.headers.authorization?.match(/^Bearer\s+(.+)$/i);
