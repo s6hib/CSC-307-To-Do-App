@@ -5,7 +5,7 @@ export default function Form({ handleSubmit }) {
   const [task, setTask] = useState("");
   const [date, setDate] = useState("");
 
-  function submit(e) {
+  async function submit(e) {
     e.preventDefault();
     if (!task.trim() || !date.trim()) return;
     handleSubmit({ task, date });
@@ -15,8 +15,18 @@ export default function Form({ handleSubmit }) {
 
   return (
     <form onSubmit={submit} style={{ marginTop: 12 }}>
-      <input placeholder="Task" value={task} onChange={(e)=>setTask(e.target.value)} />
-      <input placeholder="Date" value={date} onChange={(e)=>setDate(e.target.value)} />
+      <input
+        placeholder="Task"
+        value={task}
+        onChange={(e) => setTask(e.target.value)}
+        required
+      />
+      <input
+        placeholder="Date"
+        value={date}
+        onChange={(e) => setDate(e.target.value)}
+        required
+      />
       <button type="submit">Add</button>
     </form>
   );

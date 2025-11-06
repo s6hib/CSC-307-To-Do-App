@@ -13,7 +13,8 @@ import {
 import {
   getAllTasks,
   addTask,
-  deleteTaskById
+  deleteTaskById,
+  markDone
 } from "./controllers/task.controller.js";
 
 const app = express();
@@ -33,35 +34,15 @@ const MONGODB_URI =
 await mongoose.connect(MONGODB_URI, {
   serverSelectionTimeoutMS: 10000
 });
-// in-memory array for quick testing
-let tasks = [
-  { _id: 1, task: "Homework", date: "10/30" },
-  { _id: 2, task: "Wash Dishes", date: "10/29" }
-];
-let nextId = 3;
 
-// GET all tasks
-// app.get("/api/tasks", (req, res) => {
-//   res.json({ tasks_list: tasks });
-// });
 console.log("MongoDB connected");
 
 app.get("/api/tasks", getAllTasks);
 app.post("/api/login", login);
 app.post("/api/signup", signup);
 app.post("/api/tasks", addTask);
+app.post("/api/tasks/:id/done", markDone);
 app.delete("/api/tasks/:id", deleteTaskById);
-
-/*
-// DELETE task by id
-app.delete("/tasks/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  const index = tasks.findIndex((t) => t._id === id);
-  if (index === -1) return res.status(404).end();
-  tasks.splice(index, 1);
-  res.status(204).end();
-});
-*/
 
 app.listen(port, () => {
   console.log(

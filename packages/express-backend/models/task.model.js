@@ -17,12 +17,13 @@ const taskSchema = new mongoose.Schema(
       type: String, // switch to Date for filtering in the future
       required: true
     },
-    status: {
+    done: {
       type: Boolean,
-      required: true
+      default: false,
+      index: true
     }
   },
-  { collection: "tasks_list" }
+  { timestamps: true, collection: "tasks_list" }
 );
 
 const Task = mongoose.model("Task", taskSchema);

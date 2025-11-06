@@ -1,17 +1,24 @@
 //Table.jsx
-export default function Table({ characterData, removeCharacter }) {
+export default function Table({ taskData = [], removeTask }) {
+  const rows = Array.isArray(taskData) ? taskData : [];
   return (
     <table>
       <thead>
-        <tr><th>Task</th><th>Date</th><th>Actions</th></tr>
+        <tr>
+          <th>Task</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
       </thead>
       <tbody>
-        {characterData.map((row, i) => (
+        {rows.map((row, i) => (
           <tr key={row._id ?? `${row.task}-${i}`}>
             <td>{row.task}</td>
             <td>{row.date}</td>
             <td>
-              <button onClick={() => removeCharacter(i)}>Delete</button>
+              <button onClick={() => removeTask(i)}>
+                Delete
+              </button>
             </td>
           </tr>
         ))}
