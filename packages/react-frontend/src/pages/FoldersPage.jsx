@@ -1,56 +1,92 @@
 import { useEffect, useState } from "react";
-import Table from "./components/Table.jsx";  
-import Form from "./components/Form.jsx";    
+import Table from "./components/Table.jsx";
+import Form from "./components/Form.jsx";
 import Navbar from "./components/Navbar.jsx";
 
-const API_BASE = "http://localhost:8000";     
-
 export default function FoldersPage() {
-  const [characters, setCharacters] = useState([
-    { task: "Homework", date: "10/30" },
-    { task: "Wash Dishes", date: "10/29" },
-  ]);
+  const [tasks, setTasks] = useState([]);
 
   // READ all
   useEffect(() => {
-    fetch(`${API_BASE}/tasks`)
-      .then((res) => res.json())
-      .then((json) => setCharacters(json?.tasks_list ?? []))
+    fetch("/api/tasks", { credentials: "include" })
+      .then((res) => {
+        if (!res.ok) throw new Error(`${res.status}`);
+        return res.json();
+      })
+      .then((json) => {
+        const list = Array.isArray(json)
+          ? json
+          : Array.isArray(json?.tasks_list)
+            ? json.tasks_list
+            : [];
+        setTasks(list);
+      })
       .catch((err) => console.error("Fetch tasks error:", err));
   }, []);
 
   // CREATE one
   function postTask(task) {
-    return fetch(`${API_BASE}/tasks`, {
+    return fetch("/api/tasks", {
       method: "POST",
+      credentials: "include",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(task),
+      body: JSON.stringify(task)
     });
   }
 
-  function addTask(task) {
-    postTask(task)
-      .then((res) => (res.status === 201 ? res.json() : null))
-      .then((created) => {
-        if (created) setCharacters((prev) => [...prev, created]);
+  async function addTask(task) {
+    return postTask(task)
+      .then((res) => {
+        if (res.status === 201 || res.status === 200)
+          return res.json();
+        throw new Error(`${res.status}`);
+      })
+      .then((json) => {
+        const created = json?.tasks ?? json;
+        if (created) setTasks((prev) => [...prev, created]);
       })
       .catch((err) => console.error("Add task error:", err));
   }
 
+  async function updateTask(id, updates) {
+    return fetch(`/api/tasks/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updates)
+    })
+      .then((res) => (res.status === 200 ? res.json() : null))
+      .then((updatedTasks) => {
+        if (updatedTasks) {
+          //update task in state
+          setTasks((prev) =>
+            prev.map((task) =>
+              task._id === id ? updatedTasks : task
+            )
+          );
+        }
+      })
+      .catch((err) => console.error("Update task error:", err));
+  }
+
   // DELETE one (by index from table)
   function removeOneTask(index) {
-    const _id = characters[index]?._id;
+    const _id = tasks[index]?._id;
 
     // If seed row has no _id yet, just remove locally
     if (!_id) {
-      setCharacters((prev) => prev.filter((_, i) => i !== index));
+      setTasks((prev) => prev.filter((_, i) => i !== index));
       return;
     }
 
-    fetch(`${API_BASE}/tasks/${_id}`, { method: "DELETE" })
+    fetch(`/api/tasks/${_id}`, {
+      method: "DELETE",
+      credentials: "include"
+    })
       .then((res) => {
         if (res.status === 204) {
-          setCharacters((prev) => prev.filter((_, i) => i !== index));
+          setTasks((prev) =>
+            prev.filter((_, i) => i !== index)
+          );
         } else if (res.status === 404) {
           console.log("Task not found on backend (404).");
         } else {
@@ -62,9 +98,13 @@ export default function FoldersPage() {
 
   return (
     <div className="container" style={{ padding: 16 }}>
-      <Navbar/>
+      <Navbar />
       <h2>To-Do Folders</h2>
-      <Table characterData={characters} removeCharacter={removeOneTask} />
+      <Table
+        taskData={tasks}
+        removeTask={removeOneTask}
+        updateTask={updateTask}
+      />
       <Form handleSubmit={addTask} />
     </div>
   );
