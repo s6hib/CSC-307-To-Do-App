@@ -4,7 +4,6 @@ import "./css/App.css";
 import MainPage from "./pages/MainPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import CreateAccountPage from "./pages/CreateAccountPage.jsx";
-import Dashboard from "./pages/Dashboard.jsx";
 import FoldersPage from "./pages/FoldersPage.jsx";
 
 function App() {
@@ -16,7 +15,6 @@ function App() {
         path="/createaccount"
         element={<CreateAccountPage />}
       />
-      <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/folders" element={<FoldersPage />} />
     </Routes>
   );

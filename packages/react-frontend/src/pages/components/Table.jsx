@@ -1,4 +1,5 @@
-//Table.jsx
+import "../../css/Table.css";
+
 export default function Table({
   taskData = [],
   removeTask,
@@ -7,7 +8,7 @@ export default function Table({
   const rows = Array.isArray(taskData) ? taskData : [];
 
   return (
-    <table>
+    <table className="table">
       <thead>
         <tr>
           <th>Task</th>

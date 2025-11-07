@@ -99,7 +99,6 @@ export default function FoldersPage() {
   return (
     <div className="container" style={{ padding: 16 }}>
       <Navbar />
-      <h2>To-Do Folders</h2>
       <Table
         taskData={tasks}
         removeTask={removeOneTask}

@@ -2,7 +2,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #222;
+  background-color: rgb(212, 144, 251);
   color: white;
   padding: 10px 20px;
   position: fixed;
@@ -12,12 +12,19 @@
   z-index: 1000;
 }
 
+.navbar-title {
+  margin: 0;
+  font-size: 3rem;
+  color: rgb(173, 39, 194);
+}
+
 /* logout button */
 .logout-button {
   background-color: #f55;
+  margin-right: 40px;
   color: white;
+  font-size: 20px;
   border: none;
-  padding: 6px 12px;
   border-radius: 6px;
   cursor: pointer;
   font-weight: 500;
@@ -25,4 +32,12 @@
 
 .logout-button:hover {
   background-color: #d33;
+}
+
+.navbar-subheader {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 5rem;
 }
