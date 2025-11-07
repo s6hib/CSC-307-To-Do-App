@@ -13,6 +13,7 @@ import {
   getAllTasks,
   addTask,
   deleteTaskById,
+  updateTask,
   markDone
 } from "./controllers/task.controller.js";
 import { authenticateUser } from "./middleware/authentication.js";
@@ -47,17 +48,7 @@ app.post("/api/tasks/:id/done", authenticateUser, markDone);
 app.delete("/api/tasks/:id", authenticateUser, deleteTaskById);
 
 //UPDATE task by id (edit name/date or mark completed)
-app.put("/tasks/:id", (req, res) => {
-  const id = parseInt(req.params.id);
-  const index = tasks.findIndex((t) => t._id == id);
-  if (index === -1)
-    return res.status(404).json({ error: "Task not found" });
-
-  const updates = req.body;
-  //merge new data into existing task
-  tasks[index] = { ...tasks[index], ...updates };
-  res.status(200).json(tasks[index]);
-});
+app.put("/api/tasks/:id", authenticateUser, updateTask);
 
 app.listen(port, () => {
   console.log(

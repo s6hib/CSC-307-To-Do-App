@@ -4,10 +4,7 @@ import Form from "./components/Form.jsx";
 import Navbar from "./components/Navbar.jsx";
 
 export default function FoldersPage() {
-  const [tasks, setTasks] = useState([
-    { task: "Homework", date: "10/30" },
-    { task: "Wash Dishes", date: "10/29" }
-  ]);
+  const [tasks, setTasks] = useState([]);
 
   // READ all
   useEffect(() => {
@@ -51,7 +48,7 @@ export default function FoldersPage() {
       .catch((err) => console.error("Add task error:", err));
   }
 
-  function updateTask(id, updates) {
+  async function updateTask(id, updates) {
     return fetch(`/api/tasks/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
