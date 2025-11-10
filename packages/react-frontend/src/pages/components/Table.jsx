@@ -19,7 +19,14 @@ export default function Table({
         {rows.map((row, i) => (
           <tr key={row._id ?? `${row.task}-${i}`}>
             <td>{row.task}</td>
-            <td>{row.date}</td>
+            <td>
+              {/* formats date as ex: Jan 17, 2005 */}
+              {new Date(row.date).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric"
+              })}
+            </td>
             <td>
               <button onClick={() => removeTask(i)}>
                 Delete
