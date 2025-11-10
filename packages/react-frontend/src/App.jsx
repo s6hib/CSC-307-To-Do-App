@@ -5,6 +5,7 @@ import MainPage from "./pages/MainPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import CreateAccountPage from "./pages/CreateAccountPage.jsx";
 import FoldersPage from "./pages/FoldersPage.jsx";
+import DeletedTasksPage from "./pages/DeletedTasksPage.jsx";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         element={<CreateAccountPage />}
       />
       <Route path="/folders" element={<FoldersPage />} />
+      <Route path="/deleted-tasks" element={<DeletedTasksPage />} />
     </Routes>
   );
 }
