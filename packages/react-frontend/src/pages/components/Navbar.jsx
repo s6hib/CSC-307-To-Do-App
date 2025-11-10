@@ -11,11 +11,11 @@ export default function Navbar() {
     <nav className="navbar">
       <div>
         <Link to="/folders">
-          🗂️To-Do App
+          🗂️ To-Do App
         </Link>
         {" | "}
         <Link to="/deleted-tasks">
-          🗑️Deleted Tasks
+          🗑️ Archive
         </Link>
       </div>
       <div>
