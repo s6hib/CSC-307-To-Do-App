@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 
 import "../../css/Navbar.css";
+import logo from "../../assets/adderlogo.png";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -14,7 +15,12 @@ export default function Navbar() {
       <nav className="navbar">
         <div>
           <Link to="/folders" className="navbar-title">
-            🗂️To-Do App
+            <h1>To-Do App</h1>
+            <img
+              src={logo}
+              alt="Adder logo"
+              className="navbar-logo"
+            />
           </Link>
         </div>
         <div>
@@ -28,7 +34,6 @@ export default function Navbar() {
           </Link>
         </div>
       </nav>
-      <h2 className="navbar-subheader">To-Do Folders</h2>
     </>
   );
 }

@@ -1,10 +1,21 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Outlet } from "react-router-dom";
 
 import "./css/App.css";
 import MainPage from "./pages/MainPage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import CreateAccountPage from "./pages/CreateAccountPage.jsx";
 import FoldersPage from "./pages/FoldersPage.jsx";
+import Navbar from "./pages/components/Navbar.jsx";
+import TasksPage from "./pages/TasksPage.jsx";
+
+function WithNavbar() {
+  return (
+    <>
+      <Navbar />
+      <Outlet />
+    </>
+  );
+}
 
 function App() {
   return (
@@ -15,7 +26,10 @@ function App() {
         path="/createaccount"
         element={<CreateAccountPage />}
       />
-      <Route path="/folders" element={<FoldersPage />} />
+      <Route element={<WithNavbar />}>
+        <Route path="/folders" element={<FoldersPage />} />
+        <Route path="/tasks" element={<TasksPage />} />
+      </Route>
     </Routes>
   );
 }
