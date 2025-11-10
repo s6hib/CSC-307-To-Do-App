@@ -6,7 +6,8 @@ import "dotenv/config";
 export async function getAllTasks(req, res) {
   try {
     const items = await Task.find({
-      user: req.user._id
+      user: req.user._id,
+      deleted: false
     }).lean();
     return res.status(200).json({ tasks_list: items });
   } catch (err) {
@@ -51,10 +52,11 @@ export async function deleteTaskById(req, res) {
       return res.status(400).json({ error: "Invalid Id" });
     }
 
-    const deleted = await Task.findByIdAndDelete({
-      _id: id,
-      user: req.user._id
-    });
+    const deleted = await Task.findOneAndUpdate(
+      { _id: id, user: req.user._id },
+      { $set: { deleted: true } },
+      { new: true }
+    ).lean();
     if (!deleted)
       return res.status(404).json({ error: "Task not found" });
     return res.status(204).end();
@@ -133,11 +135,53 @@ export const markDone = async (req, res) => {
   }
 };
 
+// get deleted tasks
+export async function getDeletedTasks(req, res) {
+  try {
+    const items = await Task.find({
+      user: req.user._id,
+      deleted: true
+    }).lean();
+    return res.status(200).json({ tasks_list: items });
+  } catch (err) {
+    console.log("Couldn't fetch deleted tasks");
+    return res
+      .status(500)
+      .json({ error: "Internal Server Error" });
+  }
+}
+
+// restore deleted task
+export async function restoreTask(req, res) {
+  try {
+    const { id } = req.params;
+    if (!mongoose.isValidObjectId(id)) {
+      return res.status(400).json({ error: "Invalid Id" });
+    }
+
+    const restored = await Task.findOneAndUpdate(
+      { _id: id, user: req.user._id },
+      { $set: { deleted: false } },
+      { new: true }
+    ).lean();
+    if (!restored)
+      return res.status(404).json({ error: "Task not found" });
+    return res.status(200).json(restored);
+  } catch (err) {
+    console.log("Restore task failed");
+    return res
+      .status(500)
+      .json({ error: "Internal Server Error" });
+  }
+}
+
 // export to backend.js
 export default {
   getAllTasks,
   addTask,
   deleteTaskById,
   updateTask,
-  markDone
+  markDone,
+  getDeletedTasks,
+  restoreTask
 };

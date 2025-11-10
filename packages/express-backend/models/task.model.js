@@ -22,6 +22,11 @@ const taskSchema = new mongoose.Schema(
       default: false,
       index: true
     },
+    deleted: { // deleted field (Boolean, default flase) to track soft deletes
+      type: Boolean,
+      default: false,
+      index: true
+    },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",

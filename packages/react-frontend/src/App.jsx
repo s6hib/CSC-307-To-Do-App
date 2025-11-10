@@ -7,6 +7,7 @@ import CreateAccountPage from "./pages/CreateAccountPage.jsx";
 import FoldersPage from "./pages/FoldersPage.jsx";
 import Navbar from "./pages/components/Navbar.jsx";
 import TasksPage from "./pages/TasksPage.jsx";
+import DeletedTasksPage from "./pages/DeletedTasksPage.jsx";
 
 function WithNavbar() {
   return (
@@ -29,6 +30,10 @@ function App() {
       <Route element={<WithNavbar />}>
         <Route path="/folders" element={<FoldersPage />} />
         <Route path="/tasks" element={<TasksPage />} />
+        <Route
+          path="/deleted-tasks"
+          element={<DeletedTasksPage />}
+        />
       </Route>
     </Routes>
   );
