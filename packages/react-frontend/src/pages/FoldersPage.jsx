@@ -5,6 +5,7 @@ import Navbar from "./components/Navbar.jsx";
 
 export default function FoldersPage() {
   const [tasks, setTasks] = useState([]);
+  const [sortTask, setSortTask] = useState(true);
 
   // READ all
   useEffect(() => {
@@ -96,10 +97,24 @@ export default function FoldersPage() {
       .catch((err) => console.error("Delete error:", err));
   }
 
+  // function to filter/sort by the due date
+  function sortByDate() {
+    const sortedList = [...tasks].sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return sortTask ? dateA - dateB : dateB - dateA;
+    });
+    
+    setTasks(sortedList);
+    setSortTask(!sortTask);
+  }
+
   return (
     <div className="container" style={{ padding: 16 }}>
       <Navbar />
       <h2>To-Do Folders</h2>
+      <button onClick={sortByDate} style={{ marginBottom: 12}}>
+        Sort by {sortTask ? "Closest" : "Furthest"} Date </button>
       <Table
         taskData={tasks}
         removeTask={removeOneTask}

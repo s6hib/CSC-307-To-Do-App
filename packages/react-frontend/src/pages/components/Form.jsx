@@ -8,7 +8,8 @@ export default function Form({ handleSubmit }) {
   async function submit(e) {
     e.preventDefault();
     if (!task.trim() || !date.trim()) return;
-    handleSubmit({ task, date });
+    const formatDate = new Date(date);
+    handleSubmit({ task, date: formatDate }); // to match the data type Date
     setTask("");
     setDate("");
   }
@@ -22,6 +23,7 @@ export default function Form({ handleSubmit }) {
         required
       />
       <input
+        type="date" // for calendar input!
         placeholder="Date"
         value={date}
         onChange={(e) => setDate(e.target.value)}
