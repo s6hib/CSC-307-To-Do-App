@@ -24,6 +24,7 @@ function LoginPage() {
 
     const res = await fetch("/api/login", {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`
@@ -79,10 +80,7 @@ function LoginPage() {
             />
           </div>
           <div className="loginpage-buttons">
-            <button
-              type="submit"
-              className="loginpage-button"
-            >
+            <button type="submit" className="loginpage-button">
               login
             </button>
 

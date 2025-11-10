@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage.jsx";
 import CreateAccountPage from "./pages/CreateAccountPage.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import FoldersPage from "./pages/FoldersPage.jsx";
+import DeletedTasksPage from "./pages/DeletedTasksPage.jsx";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
       />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/folders" element={<FoldersPage />} />
+      <Route path="/deleted-tasks" element={<DeletedTasksPage />} />
     </Routes>
   );
 }
