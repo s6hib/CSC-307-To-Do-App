@@ -1,4 +1,4 @@
-.navbar {
+.navbar-left {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -10,6 +10,13 @@
   left: 0;
   width: 100%;
   z-index: 100;
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .navbar-title {
@@ -45,4 +52,8 @@
   width: 100px;
   height: auto;
   display: block;
+}
+
+.navbar-trashcan {
+  width: 60px;
 }

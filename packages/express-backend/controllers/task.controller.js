@@ -107,7 +107,7 @@ export const markDone = async (req, res) => {
       return res.status(400).json({ error: "Invalid Id" });
     }
 
-    const result = await Task.findOneAndUpdate(
+    const updated = await Task.findOneAndUpdate(
       { _id: id, user: req.user._id, done: false },
       { $set: { done: true } },
       { new: true }

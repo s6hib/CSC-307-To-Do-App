@@ -27,7 +27,7 @@ app.use(
   cors({
     origin: "http://localhost:5173",
     credentials: true,
-    methods: ["GET", "POST", "DELETE", "PATCH"],
+    methods: ["GET", "POST", "DELETE", "PATCH", "PUT"],
     allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
@@ -43,16 +43,25 @@ await mongoose.connect(MONGODB_URI, {
 console.log("MongoDB connected");
 
 app.get("/api/tasks", authenticateUser, getAllTasks);
-app.get("/api/tasks/deleted", authenticateUser, getDeletedTasks);
+app.get(
+  "/api/tasks/deleted",
+  authenticateUser,
+  getDeletedTasks
+);
 app.post("/api/login", login);
 app.post("/api/signup", signup);
 app.post("/api/tasks", authenticateUser, addTask);
 app.post("/api/tasks/:id/done", authenticateUser, markDone);
-app.post("/api/tasks/:id/restore", authenticateUser, restoreTask);
+app.post(
+  "/api/tasks/:id/restore",
+  authenticateUser,
+  restoreTask
+);
 app.delete("/api/tasks/:id", authenticateUser, deleteTaskById);
 
 //UPDATE task by id (edit name/date or mark completed)
 app.put("/api/tasks/:id", authenticateUser, updateTask);
+app.patch("/api/tasks/:id", authenticateUser, updateTask);
 
 app.listen(port, () => {
   console.log(

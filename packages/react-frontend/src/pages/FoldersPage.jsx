@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import folderPng from "../assets/folders.png";
 import "../css/FoldersPage.css";
 
@@ -11,7 +13,7 @@ function FolderPage() {
             <img
               className="icon"
               src={folderPng}
-              alt=""
+              alt="Folder Icon"
               draggable="false"
             />
           </div>
@@ -22,7 +24,7 @@ function FolderPage() {
             <img
               className="icon"
               src={folderPng}
-              alt=""
+              alt="Folder Icon"
               draggable="false"
             />
           </div>

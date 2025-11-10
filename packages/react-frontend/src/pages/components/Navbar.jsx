@@ -1,7 +1,8 @@
 import { Link, useNavigate } from "react-router-dom";
 
 import "../../css/Navbar.css";
-import logo from "../../assets/adderlogo.png";
+import adderLogo from "../../assets/adderlogo.png";
+import trashcanLogo from "../../assets/trashcan.png";
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -12,18 +13,25 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="navbar">
+      <nav className="navbar-left">
         <div>
           <Link to="/folders" className="navbar-title">
             <h1>To-Do App</h1>
             <img
-              src={logo}
+              src={adderLogo}
               alt="Adder logo"
               className="navbar-logo"
             />
           </Link>
         </div>
-        <div>
+        <div className="navbar-right">
+          <Link to="/deleted-tasks">
+            <img
+              src={trashcanLogo}
+              alt="Trashcan logo"
+              className="navbar-trashcan"
+            />
+          </Link>
           <Link to="/login">
             <button
               onClick={handleLogout}

@@ -101,8 +101,9 @@ export default function FoldersPage() {
         taskData={tasks}
         removeTask={removeOneTask}
         updateTask={updateTask}
+        addTask={addTask}
       />
-      <Form handleSubmit={addTask} />
+      {/*<Form handleSubmit={addTask} /> */}
     </div>
   );
 }
