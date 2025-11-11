@@ -49,7 +49,7 @@ export default function Form({ handleSubmit, onCancel }) {
         </div>
         <input
           placeholder="mm/dd"
-          type="text"
+          type="text" //change this to date if wanting the year
           inputMode="numeric"
           value={date}
           onChange={onDateChange}

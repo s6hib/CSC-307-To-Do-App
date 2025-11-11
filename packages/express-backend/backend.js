@@ -7,7 +7,8 @@ import "dotenv/config";
 
 import {
   login,
-  signup
+  signup,
+  logout
 } from "./controllers/auth.controller.js";
 import {
   getAllTasks,
@@ -42,12 +43,21 @@ await mongoose.connect(MONGODB_URI, {
 
 console.log("MongoDB connected");
 
+// GET METHOD
 app.get("/api/tasks", authenticateUser, getAllTasks);
 app.get(
   "/api/tasks/deleted",
   authenticateUser,
   getDeletedTasks
 );
+app.get("/api/auth/status", authenticateUser, (req, res) => {
+  res.json({
+    ok: true,
+    user: { id: req.user._id, username: req.user.username }
+  });
+});
+
+// POST METHOD
 app.post("/api/login", login);
 app.post("/api/signup", signup);
 app.post("/api/tasks", authenticateUser, addTask);
@@ -57,9 +67,12 @@ app.post(
   authenticateUser,
   restoreTask
 );
+app.post("/api/logout", authenticateUser, logout);
+
+// DELETE METHOD
 app.delete("/api/tasks/:id", authenticateUser, deleteTaskById);
 
-//UPDATE task by id (edit name/date or mark completed)
+// PUT/PATCH METHOD
 app.put("/api/tasks/:id", authenticateUser, updateTask);
 app.patch("/api/tasks/:id", authenticateUser, updateTask);
 

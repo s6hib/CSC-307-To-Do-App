@@ -81,3 +81,13 @@ export const login = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error " });
   }
 };
+
+export const logout = async (req, res) => {
+  res.clearCookie("token", {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: false,
+    path: "/"
+  });
+  return res.status(200).json({ ok: true });
+};

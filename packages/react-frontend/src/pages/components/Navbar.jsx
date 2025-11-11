@@ -6,9 +6,17 @@ import trashcanLogo from "../../assets/trashcan.png";
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/logout", {
+        method: "POST",
+        credentials: "include"
+      });
+    } catch {
+      return;
+    }
     localStorage.removeItem("token");
-    navigate("/login"); // go back to login when u logout
+    navigate("/login", { replace: true });
   };
 
   return (
