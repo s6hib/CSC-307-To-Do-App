@@ -7,9 +7,19 @@ export default function Form({ handleSubmit, onCancel }) {
   const [task, setTask] = useState("");
   const [date, setDate] = useState("");
 
+  function onDateChange(e) {
+    let v = e.target.value.replace(/\D/g, "").slice(0, 4);
+    if (v.length >= 3) v = v.slice(0, 2) + "/" + v.slice(2);
+    setDate(v);
+  }
   async function submit(e) {
     e.preventDefault();
-    if (!task.trim() || !date.trim()) return;
+
+    if (
+      !task.trim() ||
+      !/^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])$/.test(date)
+    )
+      return console.log("Date Invalid Format");
     handleSubmit({ task, date });
     setTask("");
     setDate("");
@@ -38,19 +48,21 @@ export default function Form({ handleSubmit, onCancel }) {
           />
         </div>
         <input
-          placeholder="Date"
-          type="date"
+          placeholder="mm/dd"
+          type="text"
+          inputMode="numeric"
           value={date}
-          onChange={(e) => setDate(e.target.value)}
+          onChange={onDateChange}
           required
           className="due-input"
         />
-      </div>
-      <div className="form-buttons">
-        <button type="submit">Add</button>
-        <button type="button" onClick={cancel}>
-          Cancel
-        </button>
+
+        <div className="form-buttons">
+          <button type="submit">Add</button>
+          <button type="button" onClick={cancel}>
+            Cancel
+          </button>
+        </div>
       </div>
     </form>
   );
