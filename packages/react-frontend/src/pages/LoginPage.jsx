@@ -1,8 +1,10 @@
 import { Link, useNavigate } from "react-router-dom";
-import React, { useState } from "react";
+import { useState } from "react";
 
 import "../css/LoginPage.css";
+import { useToast } from "./components/ToastProvider.jsx";
 function LoginPage() {
+  const { show } = useToast();
   const [user, setUser] = useState({
     username: "",
     password: ""
@@ -37,6 +39,8 @@ function LoginPage() {
     console.log("Status code: ", res.status);
 
     if (!res.ok) {
+      console.log(show("Invalid username or password"));
+
       throw new Error("Invalid username or password");
     }
 
@@ -44,12 +48,13 @@ function LoginPage() {
     localStorage.setItem("token", data.token);
 
     if (!data.user) {
-      console.error("No user returned from backend");
+      console.log("No user found");
       alert("Login failed: No user info received");
       return;
     }
 
     setUser({ username: "", password: "" });
+    console.log(show("Logged in successfully", "success"));
     navigate("/folders");
   };
 

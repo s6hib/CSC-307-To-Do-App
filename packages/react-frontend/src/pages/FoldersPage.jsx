@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import folderPng from "../assets/folders.png";
 import "../css/FoldersPage.css";
 

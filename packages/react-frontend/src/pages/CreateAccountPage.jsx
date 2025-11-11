@@ -2,8 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import "../css/LoginPage.css";
+import { useToast } from "./components/ToastProvider.jsx";
 
 function CreateAccount() {
+  const { show } = useToast();
   const [user, setUser] = useState({
     username: "",
     password: ""
@@ -25,10 +27,11 @@ function CreateAccount() {
       console.error(
         data.message || data.error || "Signup failed"
       );
+      console.log(show("Signup failed"));
       return;
     }
 
-    console.log("Account created");
+    console.log(show("Account created", "success"));
     navigate("/login");
   };
 

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import Table from "./components/Table.jsx";
-import Form from "./components/Form.jsx";
+import { useToast } from "./components/ToastProvider.jsx";
 
 export default function FoldersPage() {
+  const { show } = useToast();
   const [tasks, setTasks] = useState([]);
 
   // READ all
@@ -43,10 +44,12 @@ export default function FoldersPage() {
       .then((json) => {
         const created = json?.tasks ?? json;
         if (created) setTasks((prev) => [...prev, created]);
+        console.log(show("Task created", "success"));
       })
       .catch((err) => console.error("Add task error:", err));
   }
 
+  // UPDATE one
   async function updateTask(id, updates) {
     return fetch(`/api/tasks/${id}`, {
       method: "PUT",
@@ -56,12 +59,12 @@ export default function FoldersPage() {
       .then((res) => (res.status === 200 ? res.json() : null))
       .then((updatedTasks) => {
         if (updatedTasks) {
-          //update task in state
           setTasks((prev) =>
             prev.map((task) =>
               task._id === id ? updatedTasks : task
             )
           );
+          console.log(show("Task updated", "success"));
         }
       })
       .catch((err) => console.error("Update task error:", err));
@@ -86,6 +89,7 @@ export default function FoldersPage() {
           setTasks((prev) =>
             prev.filter((_, i) => i !== index)
           );
+          console.log(show("Task deleted", "success"));
         } else if (res.status === 404) {
           console.log("Task not found on backend (404).");
         } else {
@@ -101,6 +105,7 @@ export default function FoldersPage() {
         taskData={tasks}
         removeTask={removeOneTask}
         updateTask={updateTask}
+        title="unnamed"
         addTask={addTask}
       />
       {/*<Form handleSubmit={addTask} /> */}
