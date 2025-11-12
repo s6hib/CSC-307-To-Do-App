@@ -14,15 +14,19 @@ export default function FolderTasksPage() {
   //Fetch folder info and tasks
   useEffect(() => {
     Promise.all([
-      fetch(`/api/folders/${folderId}/tasks`, { credentials: "include" }),
+      fetch(`/api/folders/${folderId}/tasks`, {
+        credentials: "include"
+      }),
       fetch("/api/folders", { credentials: "include" })
     ])
-      .then(([tasksRes, foldersRes]) => 
+      .then(([tasksRes, foldersRes]) =>
         Promise.all([tasksRes.json(), foldersRes.json()])
       )
       .then(([tasksData, foldersData]) => {
         setTasks(Array.isArray(tasksData) ? tasksData : []);
-        const currentFolder = foldersData.find(f => f._id === folderId);
+        const currentFolder = foldersData.find(
+          (f) => f._id === folderId
+        );
         setFolder(currentFolder);
         setLoading(false);
       })
@@ -74,7 +78,9 @@ export default function FolderTasksPage() {
 
       if (res.status === 200) {
         const updated = await res.json();
-        setTasks(tasks.map((t) => (t._id === taskId ? updated : t)));
+        setTasks(
+          tasks.map((t) => (t._id === taskId ? updated : t))
+        );
       }
     } catch (err) {
       console.error("Toggle task error:", err);
@@ -112,7 +118,9 @@ export default function FolderTasksPage() {
 
       if (res.status === 200) {
         const updated = await res.json();
-        setTasks(tasks.map((t) => (t._id === taskId ? updated : t)));
+        setTasks(
+          tasks.map((t) => (t._id === taskId ? updated : t))
+        );
       }
     } catch (err) {
       console.error("Edit task error:", err);
@@ -145,7 +153,9 @@ export default function FolderTasksPage() {
       <div className="container" style={{ padding: 16 }}>
         <Navbar />
         <p>Folder not found</p>
-        <button onClick={() => navigate("/folders")}>Back to Folders</button>
+        <button onClick={() => navigate("/folders")}>
+          Back to Folders
+        </button>
       </div>
     );
   }
@@ -174,7 +184,9 @@ export default function FolderTasksPage() {
       </button>
 
       {/* Folder Title */}
-      <h2 style={{ fontSize: "28px", marginBottom: "20px" }}>{folder.name}</h2>
+      <h2 style={{ fontSize: "28px", marginBottom: "20px" }}>
+        {folder.name}
+      </h2>
 
       {/* Sort Button */}
       <button
@@ -193,25 +205,60 @@ export default function FolderTasksPage() {
       </button>
 
       {/* Tasks Table */}
-      <div style={{
-        backgroundColor: "white",
-        borderRadius: "8px",
-        padding: "20px",
-        marginBottom: "20px",
-        boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
-      }}>
+      <div
+        style={{
+          backgroundColor: "white",
+          borderRadius: "8px",
+          padding: "20px",
+          marginBottom: "20px",
+          boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
+        }}
+      >
         {tasks.length === 0 ? (
           <p style={{ textAlign: "center", color: "#999" }}>
             No tasks yet. Add one below!
           </p>
         ) : (
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+          <table
+            style={{
+              width: "100%",
+              borderCollapse: "collapse"
+            }}
+          >
             <thead>
               <tr style={{ borderBottom: "2px solid #eee" }}>
-                <th style={{ padding: "12px", textAlign: "left", width: "40px" }}>Done</th>
-                <th style={{ padding: "12px", textAlign: "left" }}>Task</th>
-                <th style={{ padding: "12px", textAlign: "left", width: "120px" }}>Due Date</th>
-                <th style={{ padding: "12px", textAlign: "center", width: "120px" }}>Actions</th>
+                <th
+                  style={{
+                    padding: "12px",
+                    textAlign: "left",
+                    width: "40px"
+                  }}
+                >
+                  Done
+                </th>
+                <th
+                  style={{ padding: "12px", textAlign: "left" }}
+                >
+                  Task
+                </th>
+                <th
+                  style={{
+                    padding: "12px",
+                    textAlign: "left",
+                    width: "120px"
+                  }}
+                >
+                  Due Date
+                </th>
+                <th
+                  style={{
+                    padding: "12px",
+                    textAlign: "center",
+                    width: "120px"
+                  }}
+                >
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -220,14 +267,18 @@ export default function FolderTasksPage() {
                   key={task._id}
                   style={{
                     borderBottom: "1px solid #eee",
-                    backgroundColor: task.done ? "#f9f9f9" : "white"
+                    backgroundColor: task.done
+                      ? "#f9f9f9"
+                      : "white"
                   }}
                 >
                   <td style={{ padding: "12px" }}>
                     <input
                       type="checkbox"
                       checked={task.done}
-                      onChange={() => toggleTask(task._id, task.done)}
+                      onChange={() =>
+                        toggleTask(task._id, task.done)
+                      }
                       style={{
                         width: "18px",
                         height: "18px",
@@ -238,22 +289,61 @@ export default function FolderTasksPage() {
                   <td
                     style={{
                       padding: "12px",
-                      textDecoration: task.done ? "line-through" : "none",
+                      textDecoration: task.done
+                        ? "line-through"
+                        : "none",
                       color: task.done ? "#999" : "black",
                       cursor: "pointer"
                     }}
-                    onClick={() => editTask(task._id, task.task)}
+                    onClick={() =>
+                      editTask(task._id, task.task)
+                    }
                   >
                     {task.task}
                   </td>
-                  <td style={{ padding: "12px", fontSize: "14px", color: "#666" }}>
-                    {new Date(task.date).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric"
-                    })}
+                  <td
+                    style={{
+                      padding: "12px",
+                      fontSize: "14px",
+                      color: "#666"
+                    }}
+                  >
+                    {new Date(task.date).toLocaleDateString(
+                      "en-US",
+                      {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric"
+                      }
+                    )}
                   </td>
-                  <td style={{ padding: "12px", textAlign: "center" }}>
+
+                  <td
+                    style={{
+                      padding: "12px"
+                    }}
+                  >
+                    <button
+                      onClick={() => editTask(task._id)}
+                      style={{
+                        background: "#ffcccc",
+                        border: "1px solid #ff9999",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                        color: "#d32f2f",
+                        padding: "4px 12px",
+                        fontSize: "14px"
+                      }}
+                      title="Edit"
+                    >
+                      Edit
+                    </button>
+                  </td>
+                  <td
+                    style={{
+                      padding: "12px"
+                    }}
+                  >
                     <button
                       onClick={() => deleteTask(task._id)}
                       style={{
@@ -278,17 +368,32 @@ export default function FolderTasksPage() {
       </div>
 
       {/* Add Task Form */}
-      <div style={{
-        backgroundColor: "white",
-        padding: "20px",
-        borderRadius: "8px",
-        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-        marginBottom: "20px"
-      }}>
-        <h3 style={{ marginTop: 0, fontSize: "18px", marginBottom: "16px" }}>
+      <div
+        style={{
+          backgroundColor: "white",
+          padding: "20px",
+          borderRadius: "8px",
+          boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
+          marginBottom: "20px"
+        }}
+      >
+        <h3
+          style={{
+            marginTop: 0,
+            fontSize: "18px",
+            marginBottom: "16px"
+          }}
+        >
           Add New Task
         </h3>
-        <div style={{ display: "flex", gap: "12px", marginBottom: "12px", flexWrap: "wrap" }}>
+        <div
+          style={{
+            display: "flex",
+            gap: "12px",
+            marginBottom: "12px",
+            flexWrap: "wrap"
+          }}
+        >
           <input
             type="text"
             placeholder="Task description"
