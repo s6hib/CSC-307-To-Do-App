@@ -4,10 +4,18 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import "dotenv/config";
+import {
+  getAllFolders,
+  createFolder,
+  deleteFolderById,
+  updateFolder,
+  getFolderTasks
+} from "./controllers/folder.controller.js";
 
 import {
   login,
-  signup
+  signup,
+  logout
 } from "./controllers/auth.controller.js";
 import {
   getAllTasks,
@@ -27,7 +35,8 @@ app.use(
   cors({
     origin: "http://localhost:5173",
     credentials: true,
-    methods: ["GET", "POST", "DELETE", "PATCH"],
+    methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
+
     allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
@@ -42,17 +51,51 @@ await mongoose.connect(MONGODB_URI, {
 
 console.log("MongoDB connected");
 
+// GET METHOD
 app.get("/api/tasks", authenticateUser, getAllTasks);
-app.get("/api/tasks/deleted", authenticateUser, getDeletedTasks);
+app.get(
+  "/api/tasks/deleted",
+  authenticateUser,
+  getDeletedTasks
+);
+app.get("/api/auth/status", authenticateUser, (req, res) => {
+  res.json({
+    ok: true,
+    user: { id: req.user._id, username: req.user.username }
+  });
+});
+
+// POST METHOD
 app.post("/api/login", login);
 app.post("/api/signup", signup);
 app.post("/api/tasks", authenticateUser, addTask);
 app.post("/api/tasks/:id/done", authenticateUser, markDone);
-app.post("/api/tasks/:id/restore", authenticateUser, restoreTask);
-app.delete("/api/tasks/:id", authenticateUser, deleteTaskById);
+app.post(
+  "/api/tasks/:id/restore",
+  authenticateUser,
+  restoreTask
+);
+app.post("/api/logout", authenticateUser, logout);
 
-//UPDATE task by id (edit name/date or mark completed)
+// DELETE METHOD
+app.delete("/api/tasks/:id", authenticateUser, deleteTaskById);
+app.get("/api/folders", authenticateUser, getAllFolders);
+app.get(
+  "/api/folders/:id/tasks",
+  authenticateUser,
+  getFolderTasks
+);
+app.post("/api/folders", authenticateUser, createFolder);
+app.put("/api/folders/:id", authenticateUser, updateFolder);
+app.delete(
+  "/api/folders/:id",
+  authenticateUser,
+  deleteFolderById
+);
+
+// PUT/PATCH METHOD
 app.put("/api/tasks/:id", authenticateUser, updateTask);
+app.patch("/api/tasks/:id", authenticateUser, updateTask);
 
 app.listen(port, () => {
   console.log(

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import logo from "../../adderlogo.png";
+import logo from "../assets/adderlogo.png";
 import "../css/MainPage.css";
 
 function MainPage() {
@@ -11,7 +11,11 @@ function MainPage() {
       </div>
 
       <div className="mainpage-logo-container">
-        <img src={logo} alt="Adder logo" className="mainpage-logo" />
+        <img
+          src={logo}
+          alt="Adder logo"
+          className="mainpage-logo"
+        />
       </div>
       <Link to="/login" className="mainpage-button">
         login
