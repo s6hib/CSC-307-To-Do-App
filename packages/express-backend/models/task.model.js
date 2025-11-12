@@ -13,8 +13,14 @@ const taskSchema = new mongoose.Schema(
           );
       }
     },
+    folder: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Folder",
+      required: false, 
+      index: true
+    },
     date: {
-      type: Date, // switched the type from String to Date
+      type: Date, 
       required: true
     },
     done: {
@@ -22,7 +28,7 @@ const taskSchema = new mongoose.Schema(
       default: false,
       index: true
     },
-    deleted: { // deleted field (Boolean, default flase) to track soft deletes
+    deleted: { 
       type: Boolean,
       default: false,
       index: true

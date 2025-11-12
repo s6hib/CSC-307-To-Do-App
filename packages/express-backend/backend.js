@@ -4,6 +4,13 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import mongoose from "mongoose";
 import "dotenv/config";
+import {
+  getAllFolders,
+  createFolder,
+  deleteFolderById,
+  updateFolder,
+  getFolderTasks
+} from "./controllers/folder.controller.js";
 
 import {
   login,
@@ -28,7 +35,8 @@ app.use(
   cors({
     origin: "http://localhost:5173",
     credentials: true,
-    methods: ["GET", "POST", "DELETE", "PATCH", "PUT"],
+    methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
+
     allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
@@ -71,6 +79,19 @@ app.post("/api/logout", authenticateUser, logout);
 
 // DELETE METHOD
 app.delete("/api/tasks/:id", authenticateUser, deleteTaskById);
+app.get("/api/folders", authenticateUser, getAllFolders);
+app.get(
+  "/api/folders/:id/tasks",
+  authenticateUser,
+  getFolderTasks
+);
+app.post("/api/folders", authenticateUser, createFolder);
+app.put("/api/folders/:id", authenticateUser, updateFolder);
+app.delete(
+  "/api/folders/:id",
+  authenticateUser,
+  deleteFolderById
+);
 
 // PUT/PATCH METHOD
 app.put("/api/tasks/:id", authenticateUser, updateTask);

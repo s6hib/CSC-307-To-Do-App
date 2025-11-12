@@ -12,6 +12,7 @@ import CreateAccountPage from "./pages/CreateAccountPage.jsx";
 import FoldersPage from "./pages/FoldersPage.jsx";
 import Navbar from "./pages/components/Navbar.jsx";
 import TasksPage from "./pages/TasksPage.jsx";
+import FolderTasksPage from "./pages/FolderTasksPage.jsx";
 import DeletedTasksPage from "./pages/DeletedTasksPage.jsx";
 import RequireAuth from "./pages/components/RequireAuth.jsx";
 import { ToastProvider } from "./pages/components/ToastProvider.jsx";
@@ -40,6 +41,10 @@ function App() {
         <Route element={<WithNavbar />}>
           <Route element={<RequireAuth />}>
             <Route path="/folders" element={<FoldersPage />} />
+            <Route
+              path="/folders/:folderId/tasks"
+              element={<FolderTasksPage />}
+            />
             <Route path="/tasks" element={<TasksPage />} />
             <Route
               path="/deleted-tasks"

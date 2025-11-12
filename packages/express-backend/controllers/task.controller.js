@@ -18,11 +18,13 @@ export async function getAllTasks(req, res) {
   }
 }
 
-// add task
+//add task
 export async function addTask(req, res) {
   try {
     const task = req.body?.task?.trim();
     const date = req.body?.date?.trim();
+    const folder = req.body?.folder; // ADD THIS LINE
+    
     if (!task || !date) {
       return res
         .status(400)
@@ -32,6 +34,7 @@ export async function addTask(req, res) {
     const newTask = await Task.create({
       task,
       date,
+      folder, // ADD THIS LINE
       done: false,
       user: req.user._id
     });
@@ -44,7 +47,7 @@ export async function addTask(req, res) {
   }
 }
 
-// delete task via id
+//delete task via id
 export async function deleteTaskById(req, res) {
   try {
     const { id } = req.params;
@@ -135,7 +138,7 @@ export const markDone = async (req, res) => {
   }
 };
 
-// get deleted tasks
+//get deleted tasks
 export async function getDeletedTasks(req, res) {
   try {
     const items = await Task.find({
