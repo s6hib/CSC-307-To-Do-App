@@ -65,7 +65,13 @@ export default function DeletedTasksPage() {
           {tasks.map((row, i) => (
             <tr key={row._id ?? `${row.task}-${i}`}>
               <td>{row.task}</td>
-              <td>{row.date}</td>
+              <td>
+                {new Date(row.date).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric"
+                })}
+              </td>
               <td>
                 <button onClick={() => restoreOneTask(i)}>
                   Restore

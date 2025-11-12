@@ -15,12 +15,15 @@ export default function Form({ handleSubmit, onCancel }) {
   async function submit(e) {
     e.preventDefault();
 
-    if (
-      !task.trim() ||
-      !/^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])$/.test(date)
-    )
-      return console.log("Date Invalid Format");
-    handleSubmit({ task, date });
+    // if (
+    //   !task.trim() ||
+    //   !/^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])$/.test(date)
+    // )
+    //   return console.log("Date Invalid Format");
+    // handleSubmit({ task, date });
+    if (!task.trim() || !date.trim()) return;
+    const formatDate = new Date(date);
+    handleSubmit({ task, date: formatDate }); // to match the data type Date
     setTask("");
     setDate("");
   }
@@ -32,6 +35,7 @@ export default function Form({ handleSubmit, onCancel }) {
   }
 
   return (
+<<<<<<< HEAD
     <form
       onSubmit={submit}
       style={{ marginTop: 12 }}

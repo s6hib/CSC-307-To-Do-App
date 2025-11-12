@@ -48,7 +48,11 @@ export default function Table({
 
             {/* due date on the right */}
             <div className="due">
-              {row.date ? `due: ${row.date}` : ""}
+              {new Date(row.date).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric"
+              })}{" "}
             </div>
 
             <button

@@ -14,7 +14,7 @@ const taskSchema = new mongoose.Schema(
       }
     },
     date: {
-      type: String, // switch to Date for filtering in the future
+      type: Date, // switched the type from String to Date
       required: true
     },
     done: {
