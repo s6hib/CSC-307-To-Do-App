@@ -199,6 +199,13 @@ export default function FolderTasksPage() {
     );
   }
 
+  // check if smt is overdue
+  function overdue(date) {
+    const newDate = new Date(date);
+    const now = new Date();
+    return newDate < now;
+  }
+
   return (
     <div className="container" style={{ padding: 16 }}>
       <Navbar />
@@ -337,8 +344,14 @@ export default function FolderTasksPage() {
                       padding: "12px",
                       textDecoration: task.done
                         ? "line-through"
+                        : overdue(task.date)
+                        ? "underline" // underline tasks if overdue!
                         : "none",
-                      color: task.done ? "#999" : "black",
+                      color: task.done
+                        ? "#999"
+                        : overdue(task.date)
+                        ? "#d32f2f" // makes task red if overdue!
+                        : "black",
                       cursor: "pointer"
                     }}
                     onClick={() =>
