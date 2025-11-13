@@ -127,23 +127,56 @@ export default function FolderTasksPage() {
     }
   }
 
-  // to sort tasks w/ a dropdown menu
+  // to sort tasks w/ a dropdown menu - automatically set to asc aka closest date
+  // automatically set to asc dates so users are able to prioritize those tasks
   const [sortOption, setSortOption] = useState("asc");
-
+  // sorts task based on whatever option the user chooses
   function sortTasks(option) {
-    const sorted = [...tasks].sort((a, b) => {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const nextWeek = new Date(today);
+    nextWeek.setDate(nextWeek.getDate() + 7);
+  
+    if (option === "today") { // user selects 'due today'
+      return tasks.filter(t => {
+        const date = new Date(t.date);
+        return (date >= today) && (date < tomorrow);
+      });
+    }
+  
+    if (option === "tomorrow") { // user selects 'due tmr'
+      const temp = new Date(tomorrow);
+      temp.setDate(temp.getDate() + 1);
+      return tasks.filter(t => {
+        const date = new Date(t.date);
+        return (date >= tomorrow) && (date < temp);
+      });
+    }
+  
+    if (option === "week") { // user selects 'due next wk'
+      return tasks.filter(t => {
+        const date = new Date(t.date);
+        return (date >= today) && (date <= nextWeek);
+      });
+    }
+  
+    if (option === "all") return [...tasks]; // user selects 'show all tasks' => in turn, it displays all tasks asc
+  
+    // asc/desc
+    return [...tasks].sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
       return option === "asc" ? dateA - dateB : dateB - dateA;
     });
-    setTasks(sorted);
-  }
-
+  }  
+  
   function handleSortChange(e) {
     const option = e.target.value;
     setSortOption(option);
-    sortTasks(option);
   }
+  const displayedTasks = sortTasks(sortOption);
 
   if (loading) {
     return (
@@ -211,6 +244,10 @@ export default function FolderTasksPage() {
       >
         <option value="asc">Closest Date</option>
         <option value="desc">Furthest Date</option>
+        <option value="today">Due Today</option>
+        <option value="tomorrow">Due Tomorrow</option>
+        <option value="week">Due This Week</option>
+        <option value="all">Show All Tasks</option>
       </select>
 
       {/* Tasks Table */}
@@ -223,7 +260,7 @@ export default function FolderTasksPage() {
           boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
         }}
       >
-        {tasks.length === 0 ? (
+        {displayedTasks.length === 0 ? (
           <p style={{ textAlign: "center", color: "#999" }}>
             No tasks yet. Add one below!
           </p>
@@ -271,7 +308,7 @@ export default function FolderTasksPage() {
               </tr>
             </thead>
             <tbody>
-              {tasks.map((task) => (
+              {displayedTasks.map((task) => (
                 <tr
                   key={task._id}
                   style={{
