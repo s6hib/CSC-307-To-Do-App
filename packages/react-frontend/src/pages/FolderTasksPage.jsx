@@ -163,7 +163,13 @@ export default function FolderTasksPage() {
     }
   
     if (option === "all") return [...tasks]; // user selects 'show all tasks' => in turn, it displays all tasks asc
-  
+    
+    if (option === "overdue") {
+      return tasks.filter(t => {
+        const date = new Date(t.date);
+        return date < today;
+      });
+    }
     // asc/desc
     return [...tasks].sort((a, b) => {
       const dateA = new Date(a.date);
@@ -254,7 +260,8 @@ export default function FolderTasksPage() {
         <option value="today">Due Today</option>
         <option value="tomorrow">Due Tomorrow</option>
         <option value="week">Due This Week</option>
-        <option value="all">Show All Tasks</option>
+        <option value="all">All Tasks</option>
+        <option value="overdue">Overdue Tasks</option>
       </select>
 
       {/* Tasks Table */}
