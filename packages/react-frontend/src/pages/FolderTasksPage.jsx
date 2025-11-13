@@ -127,16 +127,22 @@ export default function FolderTasksPage() {
     }
   }
 
-  //Sort tasks by date
-  const [sortAsc, setSortAsc] = useState(true);
-  function sortByDate() {
+  // to sort tasks w/ a dropdown menu
+  const [sortOption, setSortOption] = useState("asc");
+
+  function sortTasks(option) {
     const sorted = [...tasks].sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
-      return sortAsc ? dateA - dateB : dateB - dateA;
+      return option === "asc" ? dateA - dateB : dateB - dateA;
     });
     setTasks(sorted);
-    setSortAsc(!sortAsc);
+  }
+
+  function handleSortChange(e) {
+    const option = e.target.value;
+    setSortOption(option);
+    sortTasks(option);
   }
 
   if (loading) {
@@ -188,21 +194,24 @@ export default function FolderTasksPage() {
         {folder.name}
       </h2>
 
-      {/* Sort Button */}
-      <button
-        onClick={sortByDate}
+      {/* Dropdown Menu */}
+      <select
+        value={sortOption}
+        onChange={handleSortChange}
         style={{
-          padding: "8px 16px",
-          backgroundColor: "#a8d5a8",
-          border: "none",
-          borderRadius: "4px",
-          cursor: "pointer",
+          fontFamily: "Gaegu",
+          padding: "8px 12px",
           marginBottom: "16px",
-          fontSize: "14px"
+          borderRadius: "4px",
+          border: "1px solid #ccc",
+          fontSize: "14px",
+          cursor: "pointer",
+          backgroundColor: "#ddd"
         }}
       >
-        Sort by {sortAsc ? "Closest" : "Furthest"} Date
-      </button>
+        <option value="asc">Closest Date</option>
+        <option value="desc">Furthest Date</option>
+      </select>
 
       {/* Tasks Table */}
       <div
