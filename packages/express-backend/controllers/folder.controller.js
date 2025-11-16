@@ -5,7 +5,9 @@ import mongoose from "mongoose";
 //Get all folders for authenticated user
 export async function getAllFolders(req, res) {
   try {
-    const folders = await Folder.find({ user: req.user._id }).sort({ createdAt: 1 });
+    const folders = await Folder.find({
+      user: req.user._id
+    }).sort({ createdAt: 1 });
     res.status(200).json(folders);
   } catch (error) {
     console.error("Error fetching folders:", error);
@@ -17,9 +19,11 @@ export async function getAllFolders(req, res) {
 export async function createFolder(req, res) {
   try {
     const { name, color } = req.body;
-    
+
     if (!name || name.trim().length === 0) {
-      return res.status(400).json({ message: "Folder name is required" });
+      return res
+        .status(400)
+        .json({ message: "Folder name is required" });
     }
 
     const folder = new Folder({
@@ -40,14 +44,16 @@ export async function createFolder(req, res) {
 export async function deleteFolderById(req, res) {
   try {
     const { id } = req.params;
-    
+
     const folder = await Folder.findOne({
       _id: id,
       user: req.user._id
     });
 
     if (!folder) {
-      return res.status(404).json({ message: "Folder not found" });
+      return res
+        .status(404)
+        .json({ message: "Folder not found" });
     }
 
     //Soft delete all tasks
@@ -58,7 +64,7 @@ export async function deleteFolderById(req, res) {
 
     //Delete  folder
     await Folder.deleteOne({ _id: id });
-    
+
     res.status(204).send();
   } catch (error) {
     console.error("Error deleting folder:", error);
@@ -79,7 +85,9 @@ export async function updateFolder(req, res) {
     );
 
     if (!folder) {
-      return res.status(404).json({ message: "Folder not found" });
+      return res
+        .status(404)
+        .json({ message: "Folder not found" });
     }
 
     res.status(200).json(folder);
@@ -93,7 +101,7 @@ export async function updateFolder(req, res) {
 export async function getFolderTasks(req, res) {
   try {
     const { id } = req.params;
-    
+
     //Verify folder belongs to user
     const folder = await Folder.findOne({
       _id: id,
@@ -101,7 +109,9 @@ export async function getFolderTasks(req, res) {
     });
 
     if (!folder) {
-      return res.status(404).json({ message: "Folder not found" });
+      return res
+        .status(404)
+        .json({ message: "Folder not found" });
     }
 
     const tasks = await Task.find({

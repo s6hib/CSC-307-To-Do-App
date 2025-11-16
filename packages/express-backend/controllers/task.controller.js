@@ -24,7 +24,7 @@ export async function addTask(req, res) {
     const task = req.body?.task?.trim();
     const date = req.body?.date?.trim();
     const folder = req.body?.folder; // ADD THIS LINE
-    
+
     if (!task || !date) {
       return res
         .status(400)
