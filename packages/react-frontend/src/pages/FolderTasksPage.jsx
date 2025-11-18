@@ -14,10 +14,16 @@ export default function FolderTasksPage() {
   //Fetch folder info and tasks
   useEffect(() => {
     Promise.all([
-      fetch(`https://adder-backend.azurewebsites.net/api/folders/${folderId}/tasks`, {
-        credentials: "include"
-      }),
-      fetch("https://adder-backend.azurewebsites.net/api/folders", { credentials: "include" })
+      fetch(
+        `https://adder-backend.azurewebsites.net/api/folders/${folderId}/tasks`,
+        {
+          credentials: "include"
+        }
+      ),
+      fetch(
+        "https://adder-backend.azurewebsites.net/api/folders",
+        { credentials: "include" }
+      )
     ])
       .then(([tasksRes, foldersRes]) =>
         Promise.all([tasksRes.json(), foldersRes.json()])
@@ -44,16 +50,19 @@ export default function FolderTasksPage() {
     }
 
     try {
-      const res = await fetch("https://adder-backend.azurewebsites.net/api/tasks", {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          task: newTaskText,
-          date: newTaskDate,
-          folder: folderId
-        })
-      });
+      const res = await fetch(
+        "https://adder-backend.azurewebsites.net/api/tasks",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            task: newTaskText,
+            date: newTaskDate,
+            folder: folderId
+          })
+        }
+      );
 
       if (res.status === 201 || res.status === 200) {
         const newTask = await res.json();
@@ -69,12 +78,15 @@ export default function FolderTasksPage() {
   //Toggle task completion
   async function toggleTask(taskId, currentDone) {
     try {
-      const res = await fetch(`https://adder-backend.azurewebsites.net/api/tasks/${taskId}`, {
-        method: "PUT",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ done: !currentDone })
-      });
+      const res = await fetch(
+        `https://adder-backend.azurewebsites.net/api/tasks/${taskId}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ done: !currentDone })
+        }
+      );
 
       if (res.status === 200) {
         const updated = await res.json();
@@ -90,10 +102,13 @@ export default function FolderTasksPage() {
   //Delete a task
   async function deleteTask(taskId) {
     try {
-      const res = await fetch(`https://adder-backend.azurewebsites.net/api/tasks/${taskId}`, {
-        method: "DELETE",
-        credentials: "include"
-      });
+      const res = await fetch(
+        `https://adder-backend.azurewebsites.net/api/tasks/${taskId}`,
+        {
+          method: "DELETE",
+          credentials: "include"
+        }
+      );
 
       if (res.status === 204) {
         setTasks(tasks.filter((t) => t._id !== taskId));
@@ -109,12 +124,15 @@ export default function FolderTasksPage() {
     if (!newText || newText === currentText) return;
 
     try {
-      const res = await fetch(`https://adder-backend.azurewebsites.net/api/tasks/${taskId}`, {
-        method: "PUT",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ task: newText })
-      });
+      const res = await fetch(
+        `https://adder-backend.azurewebsites.net/api/tasks/${taskId}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ task: newText })
+        }
+      );
 
       if (res.status === 200) {
         const updated = await res.json();

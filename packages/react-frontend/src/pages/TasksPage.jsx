@@ -9,7 +9,9 @@ export default function FoldersPage() {
 
   // READ all
   useEffect(() => {
-    fetch("https://adder-backend.azurewebsites.net/api/tasks", { credentials: "include" })
+    fetch("https://adder-backend.azurewebsites.net/api/tasks", {
+      credentials: "include"
+    })
       .then((res) => {
         if (!res.ok) throw new Error(`${res.status}`);
         return res.json();
@@ -27,12 +29,15 @@ export default function FoldersPage() {
 
   // CREATE one
   function postTask(task) {
-    return fetch("https://adder-backend.azurewebsites.net/api/tasks", {
-      method: "POST",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(task)
-    });
+    return fetch(
+      "https://adder-backend.azurewebsites.net/api/tasks",
+      {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(task)
+      }
+    );
   }
 
   async function addTask(task) {
@@ -52,11 +57,14 @@ export default function FoldersPage() {
 
   // UPDATE one
   async function updateTask(id, updates) {
-    return fetch(`https://adder-backend.azurewebsites.net/api/tasks/${id}`, {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updates)
-    })
+    return fetch(
+      `https://adder-backend.azurewebsites.net/api/tasks/${id}`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updates)
+      }
+    )
       .then((res) => (res.status === 200 ? res.json() : null))
       .then((updatedTasks) => {
         if (updatedTasks) {
@@ -81,10 +89,13 @@ export default function FoldersPage() {
       return;
     }
 
-    fetch(`https://adder-backend.azurewebsites.net/api/tasks/${_id}`, {
-      method: "DELETE",
-      credentials: "include"
-    })
+    fetch(
+      `https://adder-backend.azurewebsites.net/api/tasks/${_id}`,
+      {
+        method: "DELETE",
+        credentials: "include"
+      }
+    )
       .then((res) => {
         if (res.status === 204) {
           setTasks((prev) =>
