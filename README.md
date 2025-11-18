@@ -1,6 +1,7 @@
 # CSC-307-To-Do-App
 
 ## Getting Started: Install Dependencies
+
 ```bash
 cd packages/react-frontend
 npm install
@@ -8,7 +9,7 @@ cd ../express-backend
 npm install
 ```
 
-*Installing Prettier and ESLint extensions for VS Code is recommended.*
+_Installing Prettier and ESLint extensions for VS Code is recommended._
 
 ## Contributing: Code Styles
 
