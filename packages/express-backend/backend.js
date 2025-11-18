@@ -33,7 +33,7 @@ const port = 8000;
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173", "https://nice-glacier-0ec51b010.3.azurestaticapps.net"],
     credentials: true,
     methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
 
