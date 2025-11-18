@@ -14,10 +14,10 @@ export default function FolderTasksPage() {
   //Fetch folder info and tasks
   useEffect(() => {
     Promise.all([
-      fetch(`/api/folders/${folderId}/tasks`, {
+      fetch(`https://adder-backend.azurewebsites.net/api/folders/${folderId}/tasks`, {
         credentials: "include"
       }),
-      fetch("/api/folders", { credentials: "include" })
+      fetch("https://adder-backend.azurewebsites.net/api/folders", { credentials: "include" })
     ])
       .then(([tasksRes, foldersRes]) =>
         Promise.all([tasksRes.json(), foldersRes.json()])
@@ -44,7 +44,7 @@ export default function FolderTasksPage() {
     }
 
     try {
-      const res = await fetch("/api/tasks", {
+      const res = await fetch("https://adder-backend.azurewebsites.net/api/tasks", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -69,7 +69,7 @@ export default function FolderTasksPage() {
   //Toggle task completion
   async function toggleTask(taskId, currentDone) {
     try {
-      const res = await fetch(`/api/tasks/${taskId}`, {
+      const res = await fetch(`https://adder-backend.azurewebsites.net/api/tasks/${taskId}`, {
         method: "PUT",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -90,7 +90,7 @@ export default function FolderTasksPage() {
   //Delete a task
   async function deleteTask(taskId) {
     try {
-      const res = await fetch(`/api/tasks/${taskId}`, {
+      const res = await fetch(`https://adder-backend.azurewebsites.net/api/tasks/${taskId}`, {
         method: "DELETE",
         credentials: "include"
       });
@@ -109,7 +109,7 @@ export default function FolderTasksPage() {
     if (!newText || newText === currentText) return;
 
     try {
-      const res = await fetch(`/api/tasks/${taskId}`, {
+      const res = await fetch(`https://adder-backend.azurewebsites.net/api/tasks/${taskId}`, {
         method: "PUT",
         credentials: "include",
         headers: { "Content-Type": "application/json" },

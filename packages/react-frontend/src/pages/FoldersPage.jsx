@@ -14,7 +14,7 @@ export default function FoldersPage() {
 
   //Fetch all folders
   useEffect(() => {
-    fetch("/api/folders", { credentials: "include" })
+    fetch("https://adder-backend.azurewebsites.net/api/folders", { credentials: "include" })
       .then((res) => {
         if (!res.ok) throw new Error(`${res.status}`);
         return res.json();
@@ -34,7 +34,7 @@ export default function FoldersPage() {
     if (!newFolderName.trim()) return;
 
     try {
-      const res = await fetch("/api/folders", {
+      const res = await fetch("https://adder-backend.azurewebsites.net/api/folders", {
         method: "POST",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
@@ -67,7 +67,7 @@ export default function FoldersPage() {
       return;
 
     try {
-      const res = await fetch(`/api/folders/${id}`, {
+      const res = await fetch(`https://adder-backend.azurewebsites.net/api/folders/${id}`, {
         method: "DELETE",
         credentials: "include"
       });

@@ -9,7 +9,7 @@ export default function FoldersPage() {
 
   // READ all
   useEffect(() => {
-    fetch("/api/tasks", { credentials: "include" })
+    fetch("https://adder-backend.azurewebsites.net/api/tasks", { credentials: "include" })
       .then((res) => {
         if (!res.ok) throw new Error(`${res.status}`);
         return res.json();
@@ -27,7 +27,7 @@ export default function FoldersPage() {
 
   // CREATE one
   function postTask(task) {
-    return fetch("/api/tasks", {
+    return fetch("https://adder-backend.azurewebsites.net/api/tasks", {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
@@ -52,7 +52,7 @@ export default function FoldersPage() {
 
   // UPDATE one
   async function updateTask(id, updates) {
-    return fetch(`/api/tasks/${id}`, {
+    return fetch(`https://adder-backend.azurewebsites.net/api/tasks/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(updates)
@@ -81,7 +81,7 @@ export default function FoldersPage() {
       return;
     }
 
-    fetch(`/api/tasks/${_id}`, {
+    fetch(`https://adder-backend.azurewebsites.net/api/tasks/${_id}`, {
       method: "DELETE",
       credentials: "include"
     })

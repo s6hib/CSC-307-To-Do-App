@@ -14,7 +14,7 @@ function CreateAccount() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch("/api/signup", {
+    const res = await fetch("https://adder-backend.azurewebsites.net/api/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",

@@ -12,7 +12,7 @@ export default function RequireAuth() {
   const warned = useRef(false);
 
   useEffect(() => {
-    fetch("/api/auth/status", { credentials: "include" })
+    fetch("https://adder-backend.azurewebsites.net/api/auth/status", { credentials: "include" })
       .then((r) => setState({ loading: false, ok: r.ok }))
       .catch(() => setState({ loading: false, ok: false }));
   }, []);

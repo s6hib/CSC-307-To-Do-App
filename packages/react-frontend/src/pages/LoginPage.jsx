@@ -24,7 +24,7 @@ function LoginPage() {
 
     const token = localStorage.getItem("token");
 
-    const res = await fetch("/api/login", {
+    const res = await fetch("https://adder-backend.azurewebsites.net/api/login", {
       method: "POST",
       credentials: "include",
       headers: {
