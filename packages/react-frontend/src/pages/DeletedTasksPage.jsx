@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar.jsx";
+import { useToast } from "./components/ToastProvider.jsx";
 
 export default function DeletedTasksPage() {
   const [tasks, setTasks] = useState([]);
+  const { show } = useToast();
 
   // READ deleted tasks
   useEffect(() => {
@@ -42,6 +44,7 @@ export default function DeletedTasksPage() {
           setTasks((prev) =>
             prev.filter((_, i) => i !== index)
           );
+          console.log(show("Task restored", "success"));
         } else {
           console.log("Unexpected status:", res.status);
         }
@@ -66,11 +69,14 @@ export default function DeletedTasksPage() {
             <tr key={row._id ?? `${row.task}-${i}`}>
               <td>{row.task}</td>
               <td>
-                {new Date(row.date).toLocaleDateString("en-US", {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric"
-                })}
+                {new Date(row.date).toLocaleDateString(
+                  "en-US",
+                  {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric"
+                  }
+                )}
               </td>
               <td>
                 <button onClick={() => restoreOneTask(i)}>

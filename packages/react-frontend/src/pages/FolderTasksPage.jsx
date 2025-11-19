@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
+import { useToast } from "./components/ToastProvider.jsx";
 
 export default function FolderTasksPage() {
   const { folderId } = useParams();
@@ -10,6 +11,7 @@ export default function FolderTasksPage() {
   const [newTaskText, setNewTaskText] = useState("");
   const [newTaskDate, setNewTaskDate] = useState("");
   const [loading, setLoading] = useState(true);
+  const { show } = useToast();
 
   //Fetch folder info and tasks
   useEffect(() => {
@@ -60,6 +62,7 @@ export default function FolderTasksPage() {
         setTasks([...tasks, newTask.tasks || newTask]);
         setNewTaskText("");
         setNewTaskDate("");
+        console.log(show("Task created", "success"));
       }
     } catch (err) {
       console.error("Add task error:", err);
@@ -97,6 +100,7 @@ export default function FolderTasksPage() {
 
       if (res.status === 204) {
         setTasks(tasks.filter((t) => t._id !== taskId));
+        console.log(show("Task deleted", "success"));
       }
     } catch (err) {
       console.error("Delete task error:", err);
@@ -121,6 +125,7 @@ export default function FolderTasksPage() {
         setTasks(
           tasks.map((t) => (t._id === taskId ? updated : t))
         );
+        console.log(show("Task updated", "success"));
       }
     } catch (err) {
       console.error("Edit task error:", err);
@@ -133,39 +138,46 @@ export default function FolderTasksPage() {
   // sorts task based on whatever option the user chooses
   function sortTasks(option) {
     const now = new Date();
-    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const today = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    );
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
     const nextWeek = new Date(today);
     nextWeek.setDate(nextWeek.getDate() + 7);
-  
-    if (option === "today") { // user selects 'due today'
-      return tasks.filter(t => {
+
+    if (option === "today") {
+      // user selects 'due today'
+      return tasks.filter((t) => {
         const date = new Date(t.date);
-        return (date >= today) && (date < tomorrow);
+        return date >= today && date < tomorrow;
       });
     }
-  
-    if (option === "tomorrow") { // user selects 'due tmr'
+
+    if (option === "tomorrow") {
+      // user selects 'due tmr'
       const temp = new Date(tomorrow);
       temp.setDate(temp.getDate() + 1);
-      return tasks.filter(t => {
+      return tasks.filter((t) => {
         const date = new Date(t.date);
-        return (date >= tomorrow) && (date < temp);
+        return date >= tomorrow && date < temp;
       });
     }
-  
-    if (option === "week") { // user selects 'due next wk'
-      return tasks.filter(t => {
+
+    if (option === "week") {
+      // user selects 'due next wk'
+      return tasks.filter((t) => {
         const date = new Date(t.date);
-        return (date >= today) && (date <= nextWeek);
+        return date >= today && date <= nextWeek;
       });
     }
-  
+
     if (option === "all") return [...tasks]; // user selects 'show all tasks' => in turn, it displays all tasks asc
-    
+
     if (option === "overdue") {
-      return tasks.filter(t => {
+      return tasks.filter((t) => {
         const date = new Date(t.date);
         return date < today;
       });
@@ -176,8 +188,8 @@ export default function FolderTasksPage() {
       const dateB = new Date(b.date);
       return option === "asc" ? dateA - dateB : dateB - dateA;
     });
-  }  
-  
+  }
+
   function handleSortChange(e) {
     const option = e.target.value;
     setSortOption(option);
@@ -352,13 +364,13 @@ export default function FolderTasksPage() {
                       textDecoration: task.done
                         ? "line-through"
                         : overdue(task.date)
-                        ? "underline" // underline tasks if overdue!
-                        : "none",
+                          ? "underline" // underline tasks if overdue!
+                          : "none",
                       color: task.done
                         ? "#999"
                         : overdue(task.date)
-                        ? "#d32f2f" // makes task red if overdue!
-                        : "black",
+                          ? "#d32f2f" // makes task red if overdue!
+                          : "black",
                       cursor: "pointer"
                     }}
                     onClick={() =>
