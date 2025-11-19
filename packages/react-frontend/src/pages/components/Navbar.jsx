@@ -8,10 +8,13 @@ export default function Navbar() {
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
-      await fetch("/api/logout", {
-        method: "POST",
-        credentials: "include"
-      });
+      await fetch(
+        "https://adder-backend.azurewebsites.net/api/logout",
+        {
+          method: "POST",
+          credentials: "include"
+        }
+      );
     } catch {
       return;
     }

@@ -14,10 +14,16 @@ export default function FolderTasksPage() {
   //Fetch folder info and tasks
   useEffect(() => {
     Promise.all([
-      fetch(`/api/folders/${folderId}/tasks`, {
-        credentials: "include"
-      }),
-      fetch("/api/folders", { credentials: "include" })
+      fetch(
+        `https://adder-backend.azurewebsites.net/api/folders/${folderId}/tasks`,
+        {
+          credentials: "include"
+        }
+      ),
+      fetch(
+        "https://adder-backend.azurewebsites.net/api/folders",
+        { credentials: "include" }
+      )
     ])
       .then(([tasksRes, foldersRes]) =>
         Promise.all([tasksRes.json(), foldersRes.json()])
@@ -44,16 +50,19 @@ export default function FolderTasksPage() {
     }
 
     try {
-      const res = await fetch("/api/tasks", {
-        method: "POST",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          task: newTaskText,
-          date: newTaskDate,
-          folder: folderId
-        })
-      });
+      const res = await fetch(
+        "https://adder-backend.azurewebsites.net/api/tasks",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            task: newTaskText,
+            date: newTaskDate,
+            folder: folderId
+          })
+        }
+      );
 
       if (res.status === 201 || res.status === 200) {
         const newTask = await res.json();
@@ -69,12 +78,15 @@ export default function FolderTasksPage() {
   //Toggle task completion
   async function toggleTask(taskId, currentDone) {
     try {
-      const res = await fetch(`/api/tasks/${taskId}`, {
-        method: "PUT",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ done: !currentDone })
-      });
+      const res = await fetch(
+        `https://adder-backend.azurewebsites.net/api/tasks/${taskId}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ done: !currentDone })
+        }
+      );
 
       if (res.status === 200) {
         const updated = await res.json();
@@ -90,10 +102,13 @@ export default function FolderTasksPage() {
   //Delete a task
   async function deleteTask(taskId) {
     try {
-      const res = await fetch(`/api/tasks/${taskId}`, {
-        method: "DELETE",
-        credentials: "include"
-      });
+      const res = await fetch(
+        `https://adder-backend.azurewebsites.net/api/tasks/${taskId}`,
+        {
+          method: "DELETE",
+          credentials: "include"
+        }
+      );
 
       if (res.status === 204) {
         setTasks(tasks.filter((t) => t._id !== taskId));
@@ -109,12 +124,15 @@ export default function FolderTasksPage() {
     if (!newText || newText === currentText) return;
 
     try {
-      const res = await fetch(`/api/tasks/${taskId}`, {
-        method: "PUT",
-        credentials: "include",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ task: newText })
-      });
+      const res = await fetch(
+        `https://adder-backend.azurewebsites.net/api/tasks/${taskId}`,
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ task: newText })
+        }
+      );
 
       if (res.status === 200) {
         const updated = await res.json();
@@ -127,17 +145,69 @@ export default function FolderTasksPage() {
     }
   }
 
-  //Sort tasks by date
-  const [sortAsc, setSortAsc] = useState(true);
-  function sortByDate() {
-    const sorted = [...tasks].sort((a, b) => {
+  // to sort tasks w/ a dropdown menu - automatically set to asc aka closest date
+  // automatically set to asc dates so users are able to prioritize those tasks
+  const [sortOption, setSortOption] = useState("asc");
+  // sorts task based on whatever option the user chooses
+  function sortTasks(option) {
+    const now = new Date();
+    const today = new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate()
+    );
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const nextWeek = new Date(today);
+    nextWeek.setDate(nextWeek.getDate() + 7);
+
+    if (option === "today") {
+      // user selects 'due today'
+      return tasks.filter((t) => {
+        const date = new Date(t.date);
+        return date >= today && date < tomorrow;
+      });
+    }
+
+    if (option === "tomorrow") {
+      // user selects 'due tmr'
+      const temp = new Date(tomorrow);
+      temp.setDate(temp.getDate() + 1);
+      return tasks.filter((t) => {
+        const date = new Date(t.date);
+        return date >= tomorrow && date < temp;
+      });
+    }
+
+    if (option === "week") {
+      // user selects 'due next wk'
+      return tasks.filter((t) => {
+        const date = new Date(t.date);
+        return date >= today && date <= nextWeek;
+      });
+    }
+
+    if (option === "all") return [...tasks]; // user selects 'show all tasks' => in turn, it displays all tasks asc
+
+    if (option === "overdue") {
+      return tasks.filter((t) => {
+        const date = new Date(t.date);
+        return date < today;
+      });
+    }
+    // asc/desc
+    return [...tasks].sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
-      return sortAsc ? dateA - dateB : dateB - dateA;
+      return option === "asc" ? dateA - dateB : dateB - dateA;
     });
-    setTasks(sorted);
-    setSortAsc(!sortAsc);
   }
+
+  function handleSortChange(e) {
+    const option = e.target.value;
+    setSortOption(option);
+  }
+  const displayedTasks = sortTasks(sortOption);
 
   if (loading) {
     return (
@@ -158,6 +228,13 @@ export default function FolderTasksPage() {
         </button>
       </div>
     );
+  }
+
+  // check if smt is overdue
+  function overdue(date) {
+    const newDate = new Date(date);
+    const now = new Date();
+    return newDate < now;
   }
 
   return (
@@ -188,21 +265,29 @@ export default function FolderTasksPage() {
         {folder.name}
       </h2>
 
-      {/* Sort Button */}
-      <button
-        onClick={sortByDate}
+      {/* Dropdown Menu */}
+      <select
+        value={sortOption}
+        onChange={handleSortChange}
         style={{
-          padding: "8px 16px",
-          backgroundColor: "#a8d5a8",
-          border: "none",
-          borderRadius: "4px",
-          cursor: "pointer",
+          fontFamily: "Gaegu",
+          padding: "8px 12px",
           marginBottom: "16px",
-          fontSize: "14px"
+          borderRadius: "4px",
+          border: "1px solid #ccc",
+          fontSize: "14px",
+          cursor: "pointer",
+          backgroundColor: "#ddd"
         }}
       >
-        Sort by {sortAsc ? "Closest" : "Furthest"} Date
-      </button>
+        <option value="asc">Closest Date</option>
+        <option value="desc">Furthest Date</option>
+        <option value="today">Due Today</option>
+        <option value="tomorrow">Due Tomorrow</option>
+        <option value="week">Due This Week</option>
+        <option value="all">All Tasks</option>
+        <option value="overdue">Overdue Tasks</option>
+      </select>
 
       {/* Tasks Table */}
       <div
@@ -214,7 +299,7 @@ export default function FolderTasksPage() {
           boxShadow: "0 2px 4px rgba(0,0,0,0.1)"
         }}
       >
-        {tasks.length === 0 ? (
+        {displayedTasks.length === 0 ? (
           <p style={{ textAlign: "center", color: "#999" }}>
             No tasks yet. Add one below!
           </p>
@@ -262,7 +347,7 @@ export default function FolderTasksPage() {
               </tr>
             </thead>
             <tbody>
-              {tasks.map((task) => (
+              {displayedTasks.map((task) => (
                 <tr
                   key={task._id}
                   style={{
@@ -291,8 +376,14 @@ export default function FolderTasksPage() {
                       padding: "12px",
                       textDecoration: task.done
                         ? "line-through"
-                        : "none",
-                      color: task.done ? "#999" : "black",
+                        : overdue(task.date)
+                          ? "underline" // underline tasks if overdue!
+                          : "none",
+                      color: task.done
+                        ? "#999"
+                        : overdue(task.date)
+                          ? "#d32f2f" // makes task red if overdue!
+                          : "black",
                       cursor: "pointer"
                     }}
                     onClick={() =>

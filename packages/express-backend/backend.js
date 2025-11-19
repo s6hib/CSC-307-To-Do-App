@@ -33,7 +33,10 @@ const port = 8000;
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://nice-glacier-0ec51b010.3.azurestaticapps.net"
+    ],
     credentials: true,
     methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
 
@@ -97,8 +100,6 @@ app.delete(
 app.put("/api/tasks/:id", authenticateUser, updateTask);
 app.patch("/api/tasks/:id", authenticateUser, updateTask);
 
-app.listen(port, () => {
-  console.log(
-    `Example app listening at http://localhost:${port}`
-  );
+app.listen(process.env.PORT || port, () => {
+  console.log("REST API is listening.");
 });

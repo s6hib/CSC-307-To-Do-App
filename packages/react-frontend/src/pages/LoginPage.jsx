@@ -24,15 +24,18 @@ function LoginPage() {
 
     const token = localStorage.getItem("token");
 
-    const res = await fetch("/api/login", {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify(user)
-    });
+    const res = await fetch(
+      "https://adder-backend.azurewebsites.net/api/login",
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(user)
+      }
+    );
 
     const text = await res.text();
     console.log("Raw response text: ", text);
