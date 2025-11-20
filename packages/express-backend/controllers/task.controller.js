@@ -203,6 +203,7 @@ export default {
   getAllTasks,
   addTask,
   deleteTaskById,
+  hardDeleteTaskById,
   updateTask,
   markDone,
   getDeletedTasks,
