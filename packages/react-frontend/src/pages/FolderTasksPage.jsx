@@ -150,12 +150,7 @@ export default function FolderTasksPage() {
   const [sortOption, setSortOption] = useState("asc");
   // sorts task based on whatever option the user chooses
   function sortTasks(option) {
-    const now = new Date();
-    const today = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate()
-    );
+    const today = new Date();
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
     const nextWeek = new Date(today);
