@@ -70,7 +70,8 @@ export default function DeletedTasksPage() {
           credentials: "include"
         }
       );
-      if (res.status == 200) { // change to 204 after testing
+      if (res.status == 200) {
+        // change to 204 after testing
         setTasks(tasks.filter((t) => t._id !== task._id));
       } else {
         console.log("delete failed");

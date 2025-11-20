@@ -76,18 +76,25 @@ export async function hardDeleteTaskById(req, res) {
   try {
     const id = req.params.id;
     if (!mongoose.isValidObjectId(id)) {
-      return res.status(400).json({ error: "invalid id!"});
+      return res.status(400).json({ error: "invalid id!" });
     }
-    const deletedTask = await Task.findOneAndDelete(
-      {_id: id,
+    const deletedTask = await Task.findOneAndDelete({
+      _id: id,
       user: req.user._id,
-      deleted: true}
-    );
-    if (!deletedTask) return res.status(404).json({ error: "task not found !"});
-    return res.status(200).send("task permanently deleted successfully"); //reminder to change to 204 after testing
+      deleted: true
+    });
+    if (!deletedTask)
+      return res
+        .status(404)
+        .json({ error: "task not found !" });
+    return res
+      .status(200)
+      .send("task permanently deleted successfully"); //reminder to change to 204 after testing
   } catch (err) {
     console.log("hard delete failed.");
-    return res.status(500).json({error: "internal server error"});
+    return res
+      .status(500)
+      .json({ error: "internal server error" });
   }
 }
 
