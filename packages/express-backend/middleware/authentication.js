@@ -1,10 +1,12 @@
 import jwt from "jsonwebtoken";
 
 export function authenticateUser(req, res, next) {
-  const bearer =
-    req.headers.authorization?.match(/^Bearer\s+(.+)$/i);
+  // const bearer =
+  //   req.headers.authorization?.match(/^Bearer\s+(.+)$/i);
 
-  const token = req.cookies?.token || bearer?.[1];
+  // const token = req.cookies?.token || bearer?.[1];
+
+  const token = req.cookies?.token;
 
   if (!token) {
     return res.status(401).end();

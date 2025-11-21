@@ -8,11 +8,12 @@
   z-index: 9999;
 }
 
+/*Error*/
 .toast {
   padding: 10px 14px;
   border-radius: 6px;
   border: 1px solid #f5c2c7;
-  background: #fde2e4; /* error default */
+  background: #fde2e4;
   color: #6b111b;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
   font-size: 14px;

@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar.jsx";
+import { useToast } from "./components/ToastProvider.jsx";
 
 export default function DeletedTasksPage() {
   const [tasks, setTasks] = useState([]);
+  const { show } = useToast();
 
   // READ deleted tasks
   useEffect(() => {
@@ -48,6 +50,7 @@ export default function DeletedTasksPage() {
           setTasks((prev) =>
             prev.filter((_, i) => i !== index)
           );
+          console.log(show("Task restored", "success"));
         } else {
           console.log("Unexpected status:", res.status);
         }

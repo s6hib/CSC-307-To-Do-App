@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
+import { useToast } from "./components/ToastProvider.jsx";
 
 export default function FolderTasksPage() {
   const { folderId } = useParams();
@@ -10,6 +11,7 @@ export default function FolderTasksPage() {
   const [newTaskText, setNewTaskText] = useState("");
   const [newTaskDate, setNewTaskDate] = useState("");
   const [loading, setLoading] = useState(true);
+  const { show } = useToast();
 
   //Fetch folder info and tasks
   useEffect(() => {
@@ -69,6 +71,7 @@ export default function FolderTasksPage() {
         setTasks([...tasks, newTask.tasks || newTask]);
         setNewTaskText("");
         setNewTaskDate("");
+        console.log(show("Task created", "success"));
       }
     } catch (err) {
       console.error("Add task error:", err);
@@ -112,6 +115,7 @@ export default function FolderTasksPage() {
 
       if (res.status === 204) {
         setTasks(tasks.filter((t) => t._id !== taskId));
+        console.log(show("Task deleted", "success"));
       }
     } catch (err) {
       console.error("Delete task error:", err);
@@ -139,6 +143,7 @@ export default function FolderTasksPage() {
         setTasks(
           tasks.map((t) => (t._id === taskId ? updated : t))
         );
+        console.log(show("Task updated", "success"));
       }
     } catch (err) {
       console.error("Edit task error:", err);
