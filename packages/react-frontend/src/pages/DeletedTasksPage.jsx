@@ -112,8 +112,7 @@ export default function DeletedTasksPage() {
                   Restore
                 </button>
               </td>
-              <td>
-              </td>
+              <td></td>
             </tr>
           ))}
         </tbody>
