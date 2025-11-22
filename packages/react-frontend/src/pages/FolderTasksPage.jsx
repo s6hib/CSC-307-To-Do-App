@@ -192,9 +192,11 @@ export default function FolderTasksPage() {
       console.error("Edit task error:", err);
     }
   }
-
+  // to sort tasks w/ a dropdown menu - automatically set to asc aka closest date
+  // automatically set to asc dates so users are able to prioritize those tasks
   const [sortOption, setSortOption] = useState("asc");
   
+  // sorts task based on whatever option the user chooses
   function sortTasks(option) {
     const now = new Date();
     const today = new Date(
@@ -208,6 +210,7 @@ export default function FolderTasksPage() {
     nextWeek.setDate(nextWeek.getDate() + 7);
 
     if (option === "today") {
+      // user selects 'due today
       return tasks.filter((t) => {
         const date = new Date(t.date);
         return date >= today && date < tomorrow;
@@ -215,6 +218,7 @@ export default function FolderTasksPage() {
     }
 
     if (option === "tomorrow") {
+      // user selects 'due tmr'
       const temp = new Date(tomorrow);
       temp.setDate(temp.getDate() + 1);
       return tasks.filter((t) => {
@@ -224,13 +228,14 @@ export default function FolderTasksPage() {
     }
 
     if (option === "week") {
+      // user selects 'due next wk'
       return tasks.filter((t) => {
         const date = new Date(t.date);
         return date >= today && date <= nextWeek;
       });
     }
 
-    if (option === "all") return [...tasks];
+    if (option === "all") return [...tasks]; // user selects 'show all tasks' => in turn, it displays all tasks asc
 
     if (option === "overdue") {
       return tasks.filter((t) => {
@@ -238,7 +243,7 @@ export default function FolderTasksPage() {
         return date < today;
       });
     }
-    
+    // asc/desc
     return [...tasks].sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
@@ -273,7 +278,7 @@ export default function FolderTasksPage() {
       </div>
     );
   }
-
+  // check if smt is overdue
   function overdue(date) {
     const newDate = new Date(date);
     const now = new Date();
@@ -422,12 +427,12 @@ export default function FolderTasksPage() {
                       padding: "12px",
                       textDecoration: task.done
                         ? "line-through"
-                        : overdue(task.date)
+                        : overdue(task.date) // underline tasks if overdue!
                           ? "underline"
                           : "none",
                       color: task.done
                         ? "#999"
-                        : overdue(task.date)
+                        : overdue(task.date) // makes task red if overdue!
                           ? "#d32f2f"
                           : "black",
                       cursor: "pointer"
