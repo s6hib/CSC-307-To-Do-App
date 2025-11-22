@@ -16,11 +16,11 @@ const taskSchema = new mongoose.Schema(
     folder: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Folder",
-      required: false, 
+      required: false,
       index: true
     },
     date: {
-      type: Date, 
+      type: Date,
       required: true
     },
     done: {
@@ -28,7 +28,7 @@ const taskSchema = new mongoose.Schema(
       default: false,
       index: true
     },
-    deleted: { 
+    deleted: {
       type: Boolean,
       default: false,
       index: true
@@ -38,6 +38,11 @@ const taskSchema = new mongoose.Schema(
       ref: "User",
       required: true,
       index: true
+    },
+    repeat: {
+      type: String,
+      enum: ['none', 'daily', 'weekly'],
+      default: 'none'
     }
   },
   { timestamps: true, collection: "tasks_list" }

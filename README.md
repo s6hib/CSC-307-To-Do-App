@@ -1,6 +1,10 @@
 # CSC-307-To-Do-App
 
+## Deployment Info
+[Frontend](https://nice-glacier-0ec51b010.3.azurestaticapps.net/) </br>
+[Backend](adder-backend.azurewebsites.net)
 ## Getting Started: Install Dependencies
+
 ```bash
 cd packages/react-frontend
 npm install
@@ -8,7 +12,7 @@ cd ../express-backend
 npm install
 ```
 
-*Installing Prettier and ESLint extensions for VS Code is recommended.*
+_Installing Prettier and ESLint extensions for VS Code is recommended._
 
 ## Contributing: Code Styles
 

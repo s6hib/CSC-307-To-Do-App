@@ -20,7 +20,7 @@
 .mainpage-logo-container {
   position: absolute;
   left: 50%;
-  bottom: 12.5%; 
+  bottom: 12.5%;
   transform: translateX(-50%);
   text-align: center;
 }

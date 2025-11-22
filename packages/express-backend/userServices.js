@@ -6,8 +6,8 @@ mongoose.set("debug", true);
 mongoose
   .connect("mongodb://localhost:27017/users", {
     useNewUrlParser: true,
-    useUnifiedTopology: true, 
-  }) 
+    useUnifiedTopology: true
+  })
   .catch((error) => console.log(error));
 
 // to find a specific user by username
@@ -39,5 +39,5 @@ export default {
   getUser,
   addUser,
   findUserById,
-  deleteUserById,
+  deleteUserById
 };

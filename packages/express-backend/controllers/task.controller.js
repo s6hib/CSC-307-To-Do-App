@@ -23,8 +23,9 @@ export async function addTask(req, res) {
   try {
     const task = req.body?.task?.trim();
     const date = req.body?.date?.trim();
-    const folder = req.body?.folder; // ADD THIS LINE
-    
+    const folder = req.body?.folder; 
+    const repeat = req.body?.repeat || 'none';
+
     if (!task || !date) {
       return res
         .status(400)
@@ -34,7 +35,8 @@ export async function addTask(req, res) {
     const newTask = await Task.create({
       task,
       date,
-      folder, // ADD THIS LINE
+      folder,
+      repeat,
       done: false,
       user: req.user._id
     });

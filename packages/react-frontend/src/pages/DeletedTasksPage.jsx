@@ -8,7 +8,10 @@ export default function DeletedTasksPage() {
 
   // READ deleted tasks
   useEffect(() => {
-    fetch("/api/tasks/deleted", { credentials: "include" })
+    fetch(
+      "https://adder-backend.azurewebsites.net/api/tasks/deleted",
+      { credentials: "include" }
+    )
       .then((res) => {
         if (!res.ok) throw new Error(`${res.status}`);
         return res.json();
@@ -35,10 +38,13 @@ export default function DeletedTasksPage() {
       return;
     }
 
-    fetch(`/api/tasks/${_id}/restore`, {
-      method: "POST",
-      credentials: "include"
-    })
+    fetch(
+      `https://adder-backend.azurewebsites.net/api/tasks/${_id}/restore`,
+      {
+        method: "POST",
+        credentials: "include"
+      }
+    )
       .then((res) => {
         if (res.status === 200) {
           setTasks((prev) =>
