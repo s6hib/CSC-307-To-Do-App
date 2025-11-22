@@ -21,7 +21,7 @@ import {
   getAllTasks,
   addTask,
   deleteTaskById,
-  hardDeleteTaskById,
+  //hardDeleteTaskById,
   updateTask,
   markDone,
   getDeletedTasks,
@@ -83,11 +83,11 @@ app.post("/api/logout", authenticateUser, logout);
 
 // DELETE METHOD
 app.delete("/api/tasks/:id", authenticateUser, deleteTaskById);
-app.delete(
+/*app.delete(
   "/api/tasks/:id/remove",
   authenticateUser,
   hardDeleteTaskById
-);
+);*/
 app.get("/api/folders", authenticateUser, getAllFolders);
 app.get(
   "/api/folders/:id/tasks",

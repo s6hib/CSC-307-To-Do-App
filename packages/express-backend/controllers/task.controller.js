@@ -50,7 +50,7 @@ export async function addTask(req, res) {
 //delete task via id
 export async function deleteTaskById(req, res) {
   try {
-    const { id } = req.params["id"];
+    const { id } = req.params;
     if (!mongoose.isValidObjectId(id)) {
       return res.status(400).json({ error: "Invalid Id" });
     }
@@ -72,7 +72,7 @@ export async function deleteTaskById(req, res) {
 }
 
 // to permanently delete task via id (above only soft deletes 4 the archive)
-export async function hardDeleteTaskById(req, res) {
+/*export async function hardDeleteTaskById(req, res) {
   try {
     const id = req.params.id;
     if (!mongoose.isValidObjectId(id)) {
@@ -96,7 +96,7 @@ export async function hardDeleteTaskById(req, res) {
       .status(500)
       .json({ error: "internal server error" });
   }
-}
+}*/
 
 export async function updateTask(req, res) {
   try {
@@ -210,7 +210,7 @@ export default {
   getAllTasks,
   addTask,
   deleteTaskById,
-  hardDeleteTaskById,
+  //hardDeleteTaskById,
   updateTask,
   markDone,
   getDeletedTasks,
