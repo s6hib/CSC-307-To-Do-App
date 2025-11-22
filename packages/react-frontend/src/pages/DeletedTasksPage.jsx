@@ -56,7 +56,7 @@ export default function DeletedTasksPage() {
   }
 
   // delete a task (permanently deleted!)
-  async function deleteOne(index) {
+  /*async function deleteOne(index) {
     const task = tasks[index];
     if (!task) {
       console.log("task not available");
@@ -79,7 +79,7 @@ export default function DeletedTasksPage() {
     } catch (err) {
       console.log(err);
     }
-  }
+  }*/
 
   return (
     <div className="container" style={{ padding: 16 }}>
