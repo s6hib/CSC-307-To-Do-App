@@ -397,6 +397,7 @@ export default function FolderTasksPage() {
                     {new Date(task.date).toLocaleDateString(
                       "en-US",
                       {
+                        timeZone: "UTC",
                         year: "numeric",
                         month: "short",
                         day: "numeric"
