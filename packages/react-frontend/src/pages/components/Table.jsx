@@ -49,7 +49,7 @@ export default function Table({
             {/* due date on the right */}
             <div className="due">
               {new Date(row.date).toLocaleDateString("en-US", {
-                timeZone: "America/Los_Angeles",
+                timeZone: "UTC",
                 year: "numeric",
                 month: "short",
                 day: "numeric"
