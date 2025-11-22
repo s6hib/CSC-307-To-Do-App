@@ -113,9 +113,6 @@ export default function DeletedTasksPage() {
                 </button>
               </td>
               <td>
-                <button onClick={() => deleteOneTask(i)}>
-                  Delete
-                </button>
               </td>
             </tr>
           ))}
