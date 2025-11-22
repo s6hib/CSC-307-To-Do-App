@@ -9,6 +9,7 @@ export default function FolderTasksPage() {
   const [tasks, setTasks] = useState([]);
   const [newTaskText, setNewTaskText] = useState("");
   const [newTaskDate, setNewTaskDate] = useState("");
+  const [newTaskRepeat, setNewTaskRepeat] = useState("none"); //repeat option
   const [loading, setLoading] = useState(true);
 
   //Fetch folder info and tasks
@@ -59,7 +60,8 @@ export default function FolderTasksPage() {
           body: JSON.stringify({
             task: newTaskText,
             date: newTaskDate,
-            folder: folderId
+            folder: folderId,
+            repeat: newTaskRepeat //send repeat option
           })
         }
       );
@@ -69,6 +71,7 @@ export default function FolderTasksPage() {
         setTasks([...tasks, newTask.tasks || newTask]);
         setNewTaskText("");
         setNewTaskDate("");
+        setNewTaskRepeat("none"); //reset repeat option
       }
     } catch (err) {
       console.error("Add task error:", err);
@@ -76,8 +79,31 @@ export default function FolderTasksPage() {
   }
 
   //Toggle task completion
-  async function toggleTask(taskId, currentDone) {
+  async function toggleTask(taskId, currentDone, task) {
+    console.log("Task object:", task);
+    console.log("Repeat type:", task.repeat);
     try {
+      //if marking done and task is repeating, create next occurrence
+      if (!currentDone && task.repeat && task.repeat !== "none") {
+        const nextDate = calculateNextDate(task.date, task.repeat);
+        
+        //create new task for next occurrence
+        await fetch(
+          "https://adder-backend.azurewebsites.net/api/tasks",
+          {
+            method: "POST",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              task: task.task,
+              date: nextDate,
+              folder: folderId,
+              repeat: task.repeat
+            })
+          }
+        );
+      }
+
       const res = await fetch(
         `https://adder-backend.azurewebsites.net/api/tasks/${taskId}`,
         {
@@ -93,10 +119,32 @@ export default function FolderTasksPage() {
         setTasks(
           tasks.map((t) => (t._id === taskId ? updated : t))
         );
+        
+        //refresh tasks
+        if (!currentDone && task.repeat && task.repeat !== "none") {
+          const tasksRes = await fetch(
+            `https://adder-backend.azurewebsites.net/api/folders/${folderId}/tasks`,
+            { credentials: "include" }
+          );
+          const tasksData = await tasksRes.json();
+          setTasks(Array.isArray(tasksData) ? tasksData : []);
+        }
       }
     } catch (err) {
       console.error("Toggle task error:", err);
     }
+  }
+
+  function calculateNextDate(currentDate, repeatType) {
+    const date = new Date(currentDate);
+    
+    if (repeatType === "daily") {
+      date.setDate(date.getDate() + 1);
+    } else if (repeatType === "weekly") {
+      date.setDate(date.getDate() + 7);
+    }
+    
+    return date.toISOString().split('T')[0];
   }
 
   //Delete a task
@@ -145,10 +193,8 @@ export default function FolderTasksPage() {
     }
   }
 
-  // to sort tasks w/ a dropdown menu - automatically set to asc aka closest date
-  // automatically set to asc dates so users are able to prioritize those tasks
   const [sortOption, setSortOption] = useState("asc");
-  // sorts task based on whatever option the user chooses
+  
   function sortTasks(option) {
     const now = new Date();
     const today = new Date(
@@ -162,7 +208,6 @@ export default function FolderTasksPage() {
     nextWeek.setDate(nextWeek.getDate() + 7);
 
     if (option === "today") {
-      // user selects 'due today'
       return tasks.filter((t) => {
         const date = new Date(t.date);
         return date >= today && date < tomorrow;
@@ -170,7 +215,6 @@ export default function FolderTasksPage() {
     }
 
     if (option === "tomorrow") {
-      // user selects 'due tmr'
       const temp = new Date(tomorrow);
       temp.setDate(temp.getDate() + 1);
       return tasks.filter((t) => {
@@ -180,14 +224,13 @@ export default function FolderTasksPage() {
     }
 
     if (option === "week") {
-      // user selects 'due next wk'
       return tasks.filter((t) => {
         const date = new Date(t.date);
         return date >= today && date <= nextWeek;
       });
     }
 
-    if (option === "all") return [...tasks]; // user selects 'show all tasks' => in turn, it displays all tasks asc
+    if (option === "all") return [...tasks];
 
     if (option === "overdue") {
       return tasks.filter((t) => {
@@ -195,7 +238,7 @@ export default function FolderTasksPage() {
         return date < today;
       });
     }
-    // asc/desc
+    
     return [...tasks].sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
@@ -207,6 +250,7 @@ export default function FolderTasksPage() {
     const option = e.target.value;
     setSortOption(option);
   }
+  
   const displayedTasks = sortTasks(sortOption);
 
   if (loading) {
@@ -230,18 +274,23 @@ export default function FolderTasksPage() {
     );
   }
 
-  // check if smt is overdue
   function overdue(date) {
     const newDate = new Date(date);
     const now = new Date();
     return newDate < now;
   }
 
+  //Temporary repeat icon
+  function getRepeatIcon(repeatType) {
+    if (repeatType === "daily") return "🔄";
+    if (repeatType === "weekly") return "📅";
+    return "";
+  }
+
   return (
     <div className="container" style={{ padding: 16 }}>
       <Navbar />
 
-      {/* Back Button */}
       <button
         onClick={() => navigate("/folders")}
         style={{
@@ -260,12 +309,10 @@ export default function FolderTasksPage() {
         ← Back to Folders
       </button>
 
-      {/* Folder Title */}
       <h2 style={{ fontSize: "28px", marginBottom: "20px" }}>
         {folder.name}
       </h2>
 
-      {/* Dropdown Menu */}
       <select
         value={sortOption}
         onChange={handleSortChange}
@@ -289,7 +336,6 @@ export default function FolderTasksPage() {
         <option value="overdue">Overdue Tasks</option>
       </select>
 
-      {/* Tasks Table */}
       <div
         style={{
           backgroundColor: "white",
@@ -362,7 +408,7 @@ export default function FolderTasksPage() {
                       type="checkbox"
                       checked={task.done}
                       onChange={() =>
-                        toggleTask(task._id, task.done)
+                        toggleTask(task._id, task.done, task)
                       }
                       style={{
                         width: "18px",
@@ -377,12 +423,12 @@ export default function FolderTasksPage() {
                       textDecoration: task.done
                         ? "line-through"
                         : overdue(task.date)
-                          ? "underline" // underline tasks if overdue!
+                          ? "underline"
                           : "none",
                       color: task.done
                         ? "#999"
                         : overdue(task.date)
-                          ? "#d32f2f" // makes task red if overdue!
+                          ? "#d32f2f"
                           : "black",
                       cursor: "pointer"
                     }}
@@ -390,7 +436,17 @@ export default function FolderTasksPage() {
                       editTask(task._id, task.task)
                     }
                   >
-                    {task.task}
+                    {getRepeatIcon(task.repeat)} {task.task}
+                    {task.repeat && task.repeat !== "none" && (
+                      <span style={{ 
+                        fontSize: "12px", 
+                        color: "#666",
+                        marginLeft: "8px",
+                        fontStyle: "italic"
+                      }}>
+                        ({task.repeat})
+                      </span>
+                    )}
                   </td>
                   <td
                     style={{
@@ -415,7 +471,7 @@ export default function FolderTasksPage() {
                     }}
                   >
                     <button
-                      onClick={() => editTask(task._id)}
+                      onClick={() => editTask(task._id, task.task)}
                       style={{
                         background: "#ffcccc",
                         border: "1px solid #ff9999",
@@ -423,18 +479,13 @@ export default function FolderTasksPage() {
                         cursor: "pointer",
                         color: "#d32f2f",
                         padding: "4px 12px",
-                        fontSize: "14px"
+                        fontSize: "14px",
+                        marginRight: "8px"
                       }}
                       title="Edit"
                     >
                       Edit
                     </button>
-                  </td>
-                  <td
-                    style={{
-                      padding: "12px"
-                    }}
-                  >
                     <button
                       onClick={() => deleteTask(task._id)}
                       style={{
@@ -511,6 +562,21 @@ export default function FolderTasksPage() {
               fontSize: "14px"
             }}
           />
+          <select
+            value={newTaskRepeat}
+            onChange={(e) => setNewTaskRepeat(e.target.value)}
+            style={{
+              padding: "10px",
+              border: "1px solid #ddd",
+              borderRadius: "4px",
+              fontSize: "14px",
+              cursor: "pointer"
+            }}
+          >
+            <option value="none">No Repeat</option>
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+          </select>
           <button
             onClick={addTask}
             style={{
@@ -528,7 +594,6 @@ export default function FolderTasksPage() {
         </div>
       </div>
 
-      {/* View Deleted Tasks Link */}
       <button
         onClick={() => navigate("/deleted-tasks")}
         style={{
