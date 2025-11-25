@@ -4,7 +4,7 @@ import { MemoryRouter } from "react-router-dom";
 
 import App from "../App.jsx";
 
-const renderApp = (route = "/login") =>
+const renderApp = (route = "/createaccount") =>
   render(
     <MemoryRouter initialEntries={[route]}>
       <App />
@@ -12,15 +12,12 @@ const renderApp = (route = "/login") =>
   );
 const user = userEvent.setup();
 
-test("login page layout", () => {
+test("signup page layout", () => {
   renderApp();
   expect(screen.getByText(/username/i)).toBeInTheDocument();
   expect(screen.getByText(/password/i)).toBeInTheDocument();
   expect(
-    screen.getByRole("button", { name: /login/i })
-  ).toBeInTheDocument();
-  expect(
-    screen.getByText(/create account/i)
+    screen.getByRole("button", { name: /add account/i })
   ).toBeInTheDocument();
 });
 
@@ -32,12 +29,4 @@ test("type in input", async () => {
   await user.type(passwordInput, "seansean");
   expect(usernameInput).toHaveValue("sean");
   expect(passwordInput).toHaveValue("seansean");
-});
-
-test("rerouting test", async () => {
-  renderApp();
-  await user.click(screen.getByText(/create account/i));
-  expect(
-    await screen.findByText(/add account/i)
-  ).toBeInTheDocument();
 });

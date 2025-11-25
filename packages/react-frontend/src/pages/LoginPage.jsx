@@ -70,6 +70,7 @@ function LoginPage() {
             <input
               type="text"
               name="username"
+              aria-label="username"
               className="loginpage-input"
               value={user.username}
               onChange={handleChange}
@@ -81,6 +82,7 @@ function LoginPage() {
             <input
               type="password"
               name="password"
+              aria-label="password"
               className="loginpage-input"
               value={user.password}
               onChange={handleChange}
