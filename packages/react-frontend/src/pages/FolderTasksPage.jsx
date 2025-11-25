@@ -492,6 +492,7 @@ export default function FolderTasksPage() {
         >
           <input
             type="text"
+            aria-label="task description"
             placeholder="Task description"
             value={newTaskText}
             onChange={(e) => setNewTaskText(e.target.value)}
@@ -507,6 +508,7 @@ export default function FolderTasksPage() {
           />
           <input
             type="date"
+            aria-label="date"
             value={newTaskDate}
             onChange={(e) => setNewTaskDate(e.target.value)}
             style={{

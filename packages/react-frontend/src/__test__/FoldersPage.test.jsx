@@ -54,7 +54,6 @@ test("folder page layout", async () => {
 });
 
 test("click create new folder", async () => {
-  const user = userEvent.setup();
   renderApp();
 
   //waits until it finds the button
@@ -78,7 +77,6 @@ test("click create new folder", async () => {
 });
 
 test("click cancel", async () => {
-  const user = userEvent.setup();
   renderApp();
 
   //waits until it finds the button
@@ -97,7 +95,6 @@ test("click cancel", async () => {
 });
 
 test("type in input", async () => {
-  const user = userEvent.setup();
   renderApp();
 
   //waits until it finds the button
