@@ -45,6 +45,7 @@ function CreateAccount() {
           <p>username: </p>
           <input
             type="text"
+            aria-label="username"
             className="loginpage-input"
             value={user.username}
             onChange={(e) =>
@@ -56,6 +57,7 @@ function CreateAccount() {
           <p>password: </p>
           <input
             type="password"
+            aria-label="password"
             className="loginpage-input"
             value={user.password}
             onChange={(e) =>

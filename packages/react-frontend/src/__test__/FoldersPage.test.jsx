@@ -12,19 +12,101 @@ const renderApp = (route = "/folders") =>
   );
 const user = userEvent.setup();
 
-test("login page layout", () => {
+test("unauthorized user is sent to login", async () => {
+  //ok: false
+  fetch.mockResolvedValueOnce({
+    ok: false,
+    json: async () => ({})
+  });
   renderApp();
-  expect(screen.getByText(/adder/i)).toBeInTheDocument();
+
+  //expects to go back to the login page
+  expect(
+    await screen.findByRole("button", { name: /login/i })
+  ).toBeInTheDocument();
+});
+
+test("folder page layout", async () => {
+  renderApp();
+
+  //navbar
+  expect(
+    await screen.findByText(/To-Do App/i)
+  ).toBeInTheDocument();
+  expect(
+    screen.getByAltText(/adder logo/i)
+  ).toBeInTheDocument();
+  expect(
+    screen.getByAltText(/Trashcan logo/i)
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole("button", { name: /logout/i })
+  ).toBeInTheDocument();
+
+  //main screen
+  expect(await screen.findByText(/adder/i)).toBeInTheDocument();
   expect(
     screen.getByText(/a To-DO lissst/i)
   ).toBeInTheDocument();
   expect(
     screen.getByText(/to-do folders/i)
   ).toBeInTheDocument();
+});
+
+test("click create new folder", async () => {
+  const user = userEvent.setup();
+  renderApp();
+
+  //waits until it finds the button
+  const newFolder = await screen.findByText(/new folder/i);
+  expect(newFolder).toBeInTheDocument();
+  await user.click(newFolder);
+
+  //form that appears
   expect(
-    screen.getByRole("button", { name: /login/i })
+    screen.getByText(/create new folder/i)
   ).toBeInTheDocument();
   expect(
-    screen.getByText(/create account/i)
+    screen.getByPlaceholderText(/folder name/i)
   ).toBeInTheDocument();
+  expect(
+    screen.getByRole("button", { name: /\+ create/i })
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole("button", { name: /cancel/i })
+  ).toBeInTheDocument();
+});
+
+test("click cancel", async () => {
+  const user = userEvent.setup();
+  renderApp();
+
+  //waits until it finds the button
+  const newFolder = await screen.findByText(/new folder/i);
+  expect(newFolder).toBeInTheDocument();
+  await user.click(newFolder);
+
+  //clicks cancel
+  await user.click(
+    screen.getByRole("button", { name: /cancel/i })
+  );
+  expect(
+    screen.queryByText(/create new folder/i)
+  ).not.toBeInTheDocument();
+  expect(screen.getByText(/new folder/i)).toBeInTheDocument();
+});
+
+test("type in input", async () => {
+  const user = userEvent.setup();
+  renderApp();
+
+  //waits until it finds the button
+  const newFolder = await screen.findByText(/new folder/i);
+  expect(newFolder).toBeInTheDocument();
+  await user.click(newFolder);
+
+  const folderNameInput =
+    screen.getByPlaceholderText(/folder name/i);
+  await user.type(folderNameInput, "folder");
+  expect(folderNameInput).toHaveValue("folder");
 });
