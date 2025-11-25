@@ -11,7 +11,6 @@ import LoginPage from "./pages/LoginPage.jsx";
 import CreateAccountPage from "./pages/CreateAccountPage.jsx";
 import FoldersPage from "./pages/FoldersPage.jsx";
 import Navbar from "./pages/components/Navbar.jsx";
-import TasksPage from "./pages/TasksPage.jsx";
 import FolderTasksPage from "./pages/FolderTasksPage.jsx";
 import DeletedTasksPage from "./pages/DeletedTasksPage.jsx";
 import RequireAuth from "./pages/components/RequireAuth.jsx";
@@ -45,7 +44,6 @@ function App() {
               path="/folders/:folderId/tasks"
               element={<FolderTasksPage />}
             />
-            <Route path="/tasks" element={<TasksPage />} />
             <Route
               path="/deleted-tasks"
               element={<DeletedTasksPage />}
