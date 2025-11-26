@@ -10,7 +10,6 @@ const renderApp = (route = "/login") =>
       <App />
     </MemoryRouter>
   );
-const user = userEvent.setup();
 
 test("login page layout", () => {
   renderApp();
@@ -25,6 +24,7 @@ test("login page layout", () => {
 });
 
 test("type in input", async () => {
+  const user = userEvent.setup();
   renderApp();
   const usernameInput = screen.getByLabelText(/username/i);
   const passwordInput = screen.getByLabelText(/password/i);
@@ -35,6 +35,7 @@ test("type in input", async () => {
 });
 
 test("rerouting test", async () => {
+  const user = userEvent.setup();
   renderApp();
   await user.click(screen.getByText(/create account/i));
   expect(

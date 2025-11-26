@@ -10,7 +10,6 @@ const renderApp = (route = "/createaccount") =>
       <App />
     </MemoryRouter>
   );
-const user = userEvent.setup();
 
 test("signup page layout", () => {
   renderApp();
@@ -22,6 +21,7 @@ test("signup page layout", () => {
 });
 
 test("type in input", async () => {
+  const user = userEvent.setup();
   renderApp();
   const usernameInput = screen.getByLabelText(/username/i);
   const passwordInput = screen.getByLabelText(/password/i);

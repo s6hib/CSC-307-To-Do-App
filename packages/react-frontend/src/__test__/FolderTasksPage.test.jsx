@@ -17,6 +17,10 @@ const renderFolderTasks = (route = "/folders/123") =>
           path="/folders/:folderId"
           element={<FolderTasksPage />}
         />
+        <Route
+          path="/folders"
+          element={<div>Folders page</div>}
+        />
       </Routes>
     </MemoryRouter>
   );
@@ -44,8 +48,6 @@ const mockId1234 = () => {
   });
   renderFolderTasks();
 };
-
-const user = userEvent.setup();
 
 test("non-existing folder", async () => {
   //notice FolderTasksPage.jsx has two fetch requests.
@@ -114,4 +116,59 @@ test("task page layout", async () => {
       name: /view recently deleted/i
     })
   ).toBeInTheDocument();
+});
+
+test("click back to folders", async () => {
+  mockId123();
+  const user = userEvent.setup();
+  await screen.findByText(/csc 307/i);
+  await user.click(
+    screen.getByRole("button", { name: /← back to folders/i })
+  );
+
+  expect(
+    await screen.findByText(/folders page/i)
+  ).toBeInTheDocument();
+});
+
+test("add new task", async () => {
+  const user = userEvent.setup();
+  fetch
+    .mockResolvedValueOnce({
+      ok: true,
+      json: async () => []
+    })
+    .mockResolvedValueOnce({
+      ok: true,
+      json: async () => [{ _id: "123", name: "CSC 307" }]
+    })
+    //POST method when addTask() is called
+    .mockResolvedValueOnce({
+      ok: true,
+      status: 201,
+      json: async () => ({
+        _id: "123",
+        task: "Testing",
+        date: "2025-12-13",
+        done: false
+      })
+    });
+  renderFolderTasks();
+  await screen.findByText(/csc 307/i);
+  await user.type(
+    screen.getByLabelText(/task description/i),
+    "Testing"
+  );
+  await user.type(screen.getByLabelText(/date/i), "2025-12-13");
+  await user.click(
+    screen.getByRole("button", { name: /\+ add task/i })
+  );
+
+  expect(
+    await screen.findByText(/testing/i)
+  ).toBeInTheDocument();
+  expect(screen.getByText(/done/i)).toBeInTheDocument();
+  expect(screen.getByText("Task")).toBeInTheDocument();
+  expect(screen.getByText(/due date/i)).toBeInTheDocument();
+  expect(screen.getByText(/actions/i)).toBeInTheDocument();
 });

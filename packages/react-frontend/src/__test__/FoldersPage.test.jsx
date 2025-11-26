@@ -10,7 +10,6 @@ const renderApp = (route = "/folders") =>
       <App />
     </MemoryRouter>
   );
-const user = userEvent.setup();
 
 test("unauthorized user is sent to login", async () => {
   //ok: false
@@ -31,13 +30,13 @@ test("folder page layout", async () => {
 
   //navbar
   expect(
-    await screen.findByText(/To-Do App/i)
+    await screen.findByText(/to-do App/i)
   ).toBeInTheDocument();
   expect(
     screen.getByAltText(/adder logo/i)
   ).toBeInTheDocument();
   expect(
-    screen.getByAltText(/Trashcan logo/i)
+    screen.getByAltText(/trashcan logo/i)
   ).toBeInTheDocument();
   expect(
     screen.getByRole("button", { name: /logout/i })
@@ -46,7 +45,7 @@ test("folder page layout", async () => {
   //main screen
   expect(await screen.findByText(/adder/i)).toBeInTheDocument();
   expect(
-    screen.getByText(/a To-DO lissst/i)
+    screen.getByText(/a to-do lissst/i)
   ).toBeInTheDocument();
   expect(
     screen.getByText(/to-do folders/i)
@@ -54,6 +53,7 @@ test("folder page layout", async () => {
 });
 
 test("click create new folder", async () => {
+  const user = userEvent.setup();
   renderApp();
 
   //waits until it finds the button
@@ -77,6 +77,7 @@ test("click create new folder", async () => {
 });
 
 test("click cancel", async () => {
+  const user = userEvent.setup();
   renderApp();
 
   //waits until it finds the button
@@ -95,6 +96,7 @@ test("click cancel", async () => {
 });
 
 test("type in input", async () => {
+  const user = userEvent.setup();
   renderApp();
 
   //waits until it finds the button
