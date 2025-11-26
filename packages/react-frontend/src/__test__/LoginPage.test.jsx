@@ -34,7 +34,7 @@ test("type in input", async () => {
   expect(passwordInput).toHaveValue("seansean");
 });
 
-test("rerouting test", async () => {
+test("reroute to create account page", async () => {
   const user = userEvent.setup();
   renderApp();
   await user.click(screen.getByText(/create account/i));

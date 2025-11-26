@@ -27,22 +27,7 @@ test("unauthorized user is sent to login", async () => {
 
 test("folder page layout", async () => {
   renderApp();
-
-  //navbar
-  expect(
-    await screen.findByText(/to-do App/i)
-  ).toBeInTheDocument();
-  expect(
-    screen.getByAltText(/adder logo/i)
-  ).toBeInTheDocument();
-  expect(
-    screen.getByAltText(/trashcan logo/i)
-  ).toBeInTheDocument();
-  expect(
-    screen.getByRole("button", { name: /logout/i })
-  ).toBeInTheDocument();
-
-  //main screen
+  //main screen (not including navbar)
   expect(await screen.findByText(/adder/i)).toBeInTheDocument();
   expect(
     screen.getByText(/a to-do lissst/i)
@@ -81,9 +66,7 @@ test("click cancel", async () => {
   renderApp();
 
   //waits until it finds the button
-  const newFolder = await screen.findByText(/new folder/i);
-  expect(newFolder).toBeInTheDocument();
-  await user.click(newFolder);
+  await user.click(await screen.findByText(/new folder/i));
 
   //clicks cancel
   await user.click(

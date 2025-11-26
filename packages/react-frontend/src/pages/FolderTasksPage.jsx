@@ -71,7 +71,7 @@ export default function FolderTasksPage() {
         setTasks([...tasks, newTask.tasks || newTask]);
         setNewTaskText("");
         setNewTaskDate("");
-        console.log(show("Task created", "success"));
+        show("Task created", "success");
       }
     } catch (err) {
       console.error("Add task error:", err);
@@ -115,7 +115,7 @@ export default function FolderTasksPage() {
 
       if (res.status === 204) {
         setTasks(tasks.filter((t) => t._id !== taskId));
-        console.log(show("Task deleted", "success"));
+        show("Task deleted", "success");
       }
     } catch (err) {
       console.error("Delete task error:", err);
@@ -143,7 +143,7 @@ export default function FolderTasksPage() {
         setTasks(
           tasks.map((t) => (t._id === taskId ? updated : t))
         );
-        console.log(show("Task updated", "success"));
+        show("Task updated", "success");
       }
     } catch (err) {
       console.error("Edit task error:", err);

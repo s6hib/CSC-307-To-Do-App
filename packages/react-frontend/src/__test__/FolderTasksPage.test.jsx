@@ -118,7 +118,7 @@ test("task page layout", async () => {
   ).toBeInTheDocument();
 });
 
-test("click back to folders", async () => {
+test("reroute to folders page", async () => {
   mockId123();
   const user = userEvent.setup();
   await screen.findByText(/csc 307/i);
