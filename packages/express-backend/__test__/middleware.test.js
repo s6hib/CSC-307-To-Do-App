@@ -1,14 +1,12 @@
 import request from "supertest";
 import app from "../app.js";
 
-test("GET /api/folder without auth should return 401", async () => {
+test("/api/folder without auth should return 401", async () => {
   const res = await request(app).get("/api/folders");
   expect(res.statusCode).toBe(401);
 });
 
-test("GET /api/auth/status returns user info when logged in", async () => {
-  const agent = request.agent(app);
-
+test("/api/auth/status returns user info when logged in", async () => {
   const username = "testing3";
   const password = "testing3";
 

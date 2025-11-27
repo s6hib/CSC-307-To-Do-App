@@ -9,7 +9,6 @@ beforeAll(async () => {
   await mongoose.connect(uri, {
     serverSelectionTimeoutMS: 10000
   });
-  console.log("connected");
 });
 
 afterAll(async () => {
