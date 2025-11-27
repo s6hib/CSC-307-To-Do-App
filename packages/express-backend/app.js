@@ -16,7 +16,6 @@ import {
   logout
 } from "./controllers/auth.controller.js";
 import {
-  getAllTasks,
   addTask,
   deleteTaskById,
   updateTask,
@@ -43,12 +42,12 @@ app.use(
 app.use(cookieParser());
 app.use(express.json());
 
+//testing
 app.get("/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
 // GET METHOD
-app.get("/api/tasks", authenticateUser, getAllTasks);
 app.get(
   "/api/tasks/deleted",
   authenticateUser,

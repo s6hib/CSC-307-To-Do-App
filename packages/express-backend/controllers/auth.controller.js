@@ -29,7 +29,7 @@ export const signup = async (req, res) => {
     });
 
     if (newUser) {
-      generateTokenAndSetCookie(newUser._id, res);
+      generateTokenAndSetCookie(newUser, res);
       await newUser.save();
 
       res.status(201).json({
@@ -68,8 +68,13 @@ export const login = async (req, res) => {
         .json({ error: "Invalid username or password" });
     }
 
+    const oldUser = new User({
+      id: user._id,
+      username: username
+    });
+
     // to generate an access token
-    generateTokenAndSetCookie(user._id, res);
+    generateTokenAndSetCookie(oldUser, res);
     return res.status(200).json({
       user: {
         id: user._id,

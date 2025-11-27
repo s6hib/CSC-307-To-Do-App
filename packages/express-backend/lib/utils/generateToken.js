@@ -1,11 +1,15 @@
 import jwt from "jsonwebtoken";
 
-export const generateTokenAndSetCookie = (userId, res) => {
-  const SECRET =
-    process.env.TOKEN_SECRET || "super_duper_secret_key";
-  const token = jwt.sign({ sub: userId }, SECRET, {
-    expiresIn: "15d"
-  });
+export const generateTokenAndSetCookie = (user, res) => {
+  const SECRET = process.env.JWT_SECRET;
+  console.log("What is the username? : ", user.username);
+  const token = jwt.sign(
+    { id: user._id, username: user.username },
+    SECRET,
+    {
+      expiresIn: "15d"
+    }
+  );
 
   res.cookie("token", token, {
     maxAge: 15 * 24 * 60 * 60 * 1000,
