@@ -29,6 +29,27 @@ beforeEach(() => {
   global.fetch = jest.fn();
 });
 
+test("status 500", async () => {
+  fetch.mockResolvedValueOnce({
+    ok: false,
+    status: 500,
+    json: async () => ({})
+  });
+  const errorSpy = jest
+    .spyOn(console, "error")
+    .mockImplementation(() => {});
+  renderApp();
+
+  await waitFor(() => {
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+  });
+  expect(errorSpy).toHaveBeenCalled();
+  expect(errorSpy.mock.calls[0][0]).toBe(
+    "Fetch deleted tasks error: "
+  );
+  errorSpy.mockRestore();
+});
+
 test("deleted page layout", async () => {
   fetch.mockResolvedValueOnce({
     ok: true,

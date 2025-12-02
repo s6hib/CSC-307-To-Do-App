@@ -64,6 +64,25 @@ const mockId1234 = () => {
   renderFolderTasks();
 };
 
+test("status 500", async () => {
+  fetch.mockResolvedValueOnce({
+    ok: false,
+    status: 500,
+    json: async () => ({})
+  });
+  const errorSpy = jest
+    .spyOn(console, "error")
+    .mockImplementation(() => {});
+  renderFolderTasks();
+
+  await waitFor(() => {
+    expect(global.fetch).toHaveBeenCalledTimes(2);
+  });
+  expect(errorSpy).toHaveBeenCalled();
+  expect(errorSpy.mock.calls[0][0]).toBe("Fetch error:");
+  errorSpy.mockRestore();
+});
+
 test("non-existing folder", async () => {
   //notice FolderTasksPage.jsx has two fetch requests.
   //fetch tasks in specific folder

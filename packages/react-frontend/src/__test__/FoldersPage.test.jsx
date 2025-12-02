@@ -27,19 +27,26 @@ jest.mock("react-router-dom", () => ({
   useNavigate: () => mockNavigate
 }));
 
-// test("unauthorized user is sent to login", async () => {
-//   //ok: false
-//   fetch.mockResolvedValueOnce({
-//     ok: false,
-//     json: async () => ({})
-//   });
-//   renderApp();
+test("status 500", async () => {
+  fetch.mockResolvedValueOnce({
+    ok: false,
+    status: 500,
+    json: async () => ({})
+  });
+  const errorSpy = jest
+    .spyOn(console, "error")
+    .mockImplementation(() => {});
+  renderApp();
 
-//   //expects to go back to the login page
-//   expect(
-//     await screen.findByText(/login page/i)
-//   ).toBeInTheDocument();
-// });
+  await waitFor(() => {
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+  });
+  expect(errorSpy).toHaveBeenCalled();
+  expect(errorSpy.mock.calls[0][0]).toBe(
+    "Fetch folders error:"
+  );
+  errorSpy.mockRestore();
+});
 
 test("shows loading state before folders load", async () => {
   fetch.mockResolvedValueOnce({

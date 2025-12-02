@@ -25,7 +25,7 @@ export default function DeletedTasksPage() {
         setTasks(list);
       })
       .catch((err) =>
-        console.error("Fetch deleted tasks error:", err)
+        console.error("Fetch deleted tasks error: ", err)
       );
   }, []);
 
