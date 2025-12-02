@@ -7,6 +7,23 @@ export const signup = async (req, res) => {
   try {
     const { username, password } = req.body;
 
+    if (!username && !password) {
+      return res
+        .status(400)
+        .json({ error: "Username and password is required" });
+    }
+
+    if (!username) {
+      return res
+        .status(400)
+        .json({ error: "Username is required" });
+    }
+    if (!password) {
+      return res
+        .status(400)
+        .json({ error: "Password is required" });
+    }
+
     const existingUser = await User.findOne({ username });
     if (existingUser) {
       return res
@@ -15,9 +32,9 @@ export const signup = async (req, res) => {
     }
 
     if (password.length < 6) {
-      return res
-        .status(400)
-        .json({ error: "Password must be at least 6 chars " });
+      return res.status(400).json({
+        error: "Password must be at least 6 characters"
+      });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -41,7 +58,7 @@ export const signup = async (req, res) => {
     }
   } catch (err) {
     console.log("Error in signup controller", err.message);
-    res.status(500).json({ error: "internal Server Error" });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -83,7 +100,7 @@ export const login = async (req, res) => {
     });
   } catch (error) {
     console.log("Error in login controller", error.message);
-    res.status(500).json({ error: "Internal Server Error " });
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 

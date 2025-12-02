@@ -14,8 +14,28 @@ function CreateAccount() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    //Following checkpoints are created for frontend test cases testing purposes and is replicated in the backend too
+    const { username, password } = user;
+    if (!username && !password) {
+      show("Username and password is required");
+      return;
+    }
+    if (!username) {
+      show("Username is required");
+      return;
+    }
+    if (!password) {
+      show("Password is required");
+      return;
+    }
+    if (password.length < 6) {
+      show("Password must be at least 6 characters");
+      return;
+    }
+
     const res = await fetch(
-      "https://adder-backend.azurewebsites.net/api/signup",
+      //"https://adder-backend.azurewebsites.net/api/signup",
+      "/api/signup",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -24,17 +44,14 @@ function CreateAccount() {
       }
     );
 
-    const data = await res.json();
-
     if (!res.ok) {
-      console.error(
-        data.message || data.error || "Signup failed"
-      );
-      console.log(show("Signup failed"));
+      const data = await res.json();
+      const err = data.error || data.message || "Signup failed";
+      show(err);
       return;
     }
 
-    console.log(show("Account created", "success"));
+    show("Account created", "success");
     navigate("/login");
   };
 

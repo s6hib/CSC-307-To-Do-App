@@ -1,15 +1,28 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, Routes, Route } from "react-router-dom";
 
-import App from "../App.jsx";
+import CreateAccountPage from "../pages/CreateAccountPage.jsx";
+
+const mockShow = jest.fn();
+jest.mock("../pages/components/ToastProvider.jsx", () => ({
+  useToast: () => ({ show: mockShow })
+}));
 
 const renderApp = (route = "/createaccount") =>
   render(
     <MemoryRouter initialEntries={[route]}>
-      <App />
+      <Routes>
+        <Route
+          path="/createaccount"
+          element={<CreateAccountPage />}
+        />
+      </Routes>
     </MemoryRouter>
   );
+beforeEach(() => {
+  mockShow.mockClear();
+});
 
 test("signup page layout", () => {
   renderApp();
@@ -29,4 +42,82 @@ test("type in input", async () => {
   await user.type(passwordInput, "seansean");
   expect(usernameInput).toHaveValue("sean");
   expect(passwordInput).toHaveValue("seansean");
+});
+
+test("submit nothing gives error", async () => {
+  const user = userEvent.setup();
+  renderApp();
+  const submitButton = screen.getByRole("button", {
+    name: /add account/i
+  });
+  await user.click(submitButton);
+  expect(mockShow).toHaveBeenCalledWith(
+    "Username and password is required"
+  );
+});
+
+test("submit no username gives error", async () => {
+  const user = userEvent.setup();
+  renderApp();
+  await user.type(
+    screen.getByLabelText(/password/i),
+    "abcdefg"
+  );
+  const submitButton = screen.getByRole("button", {
+    name: /add account/i
+  });
+  await user.click(submitButton);
+  expect(mockShow).toHaveBeenCalledWith("Username is required");
+});
+
+test("submit no password gives error", async () => {
+  const user = userEvent.setup();
+  renderApp();
+  await user.type(
+    screen.getByLabelText(/username/i),
+    "abcdefg"
+  );
+  const submitButton = screen.getByRole("button", {
+    name: /add account/i
+  });
+  await user.click(submitButton);
+  expect(mockShow).toHaveBeenCalledWith("Password is required");
+});
+
+test("submit password less than 6 characters gives error", async () => {
+  const user = userEvent.setup();
+  renderApp();
+  await user.type(
+    screen.getByLabelText(/username/i),
+    "abcdefg"
+  );
+  await user.type(screen.getByLabelText(/password/i), "abcd");
+  const submitButton = screen.getByRole("button", {
+    name: /add account/i
+  });
+  await user.click(submitButton);
+  expect(mockShow).toHaveBeenCalledWith(
+    "Password must be at least 6 characters"
+  );
+});
+
+test("submit taken username gives error", async () => {
+  const user = userEvent.setup();
+  global.fetch = jest.fn().mockResolvedValue({
+    ok: false,
+    json: async () => ({ error: "Username already taken" })
+  });
+  renderApp();
+  await user.type(screen.getByLabelText(/username/i), "sean");
+  await user.type(
+    screen.getByLabelText(/password/i),
+    "abcdefg"
+  );
+  const submitButton = screen.getByRole("button", {
+    name: /add account/i
+  });
+  await user.click(submitButton);
+  expect(mockShow).toHaveBeenCalledWith(
+    "Username already taken"
+  );
 });
