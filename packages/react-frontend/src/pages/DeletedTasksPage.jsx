@@ -50,7 +50,7 @@ export default function DeletedTasksPage() {
           setTasks((prev) =>
             prev.filter((_, i) => i !== index)
           );
-          console.log(show("Task restored", "success"));
+          show("Task restored", "success");
         } else {
           console.log("Unexpected status:", res.status);
         }

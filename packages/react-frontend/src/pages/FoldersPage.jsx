@@ -16,6 +16,7 @@ export default function FoldersPage() {
   useEffect(() => {
     fetch(
       "https://adder-backend.azurewebsites.net/api/folders",
+      //"/api/folders",
       { credentials: "include" }
     )
       .then((res) => {

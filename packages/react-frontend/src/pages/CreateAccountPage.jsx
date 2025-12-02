@@ -34,8 +34,8 @@ function CreateAccount() {
     }
 
     const res = await fetch(
-      //"https://adder-backend.azurewebsites.net/api/signup",
-      "/api/signup",
+      "https://adder-backend.azurewebsites.net/api/signup",
+      //"/api/signup",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
