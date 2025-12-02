@@ -70,14 +70,13 @@ export default function DeletedTasksPage() {
           credentials: "include"
         }
       );
-      if (res.status == 200) {
-        // change to 204 after testing
+      if (res.status == 204) {
         setTasks(tasks.filter((t) => t._id !== task._id));
       } else {
-        console.log("delete failed");
+        console.log("delete failed:", res.status, body);
       }
     } catch (err) {
-      console.log(err);
+      console.log("hd error: ", err);
     }
   }*/
 
@@ -112,7 +111,11 @@ export default function DeletedTasksPage() {
                   Restore
                 </button>
               </td>
-              <td></td>
+              <td>
+                <button onClick={() => deleteOne(i)}>
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

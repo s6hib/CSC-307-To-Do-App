@@ -144,7 +144,7 @@ export default function FolderTasksPage() {
       console.error("Edit task error:", err);
     }
   }
-  
+
   // to sort tasks w/ a dropdown menu - automatically set to asc aka closest date
   // automatically set to asc dates so users are able to prioritize those tasks
   const [sortOption, setSortOption] = useState("asc");
@@ -152,7 +152,7 @@ export default function FolderTasksPage() {
   function sortTasks(option) {
     const day = new Date();
     const today = new Date(day);
-    today.setDate(today.getDate() - 1)
+    today.setDate(today.getDate() - 1);
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
     const nextWeek = new Date(today);
