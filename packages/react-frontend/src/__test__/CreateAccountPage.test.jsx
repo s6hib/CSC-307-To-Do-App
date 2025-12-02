@@ -51,6 +51,7 @@ test("submit nothing gives error", async () => {
     name: /add account/i
   });
   await user.click(submitButton);
+  //toast
   expect(mockShow).toHaveBeenCalledWith(
     "Username and password is required"
   );

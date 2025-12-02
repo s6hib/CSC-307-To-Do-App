@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1764653245974" clover="3.2.0">
-  <project timestamp="1764653245974" name="All files">
-    <metrics statements="269" coveredstatements="198" conditionals="128" coveredconditionals="82" methods="90" coveredmethods="66" elements="487" coveredelements="346" complexity="0" loc="269" ncloc="269" packages="3" files="10" classes="10"/>
+<coverage generated="1764704171272" clover="3.2.0">
+  <project timestamp="1764704171272" name="All files">
+    <metrics statements="267" coveredstatements="211" conditionals="128" coveredconditionals="85" methods="90" coveredmethods="67" elements="485" coveredelements="363" complexity="0" loc="267" ncloc="267" packages="3" files="10" classes="10"/>
     <package name="src">
       <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
       <file name="App.jsx" path="/Users/sean/School/CSC/CSC 307/Group Project/CSC-307-To-Do-App/packages/react-frontend/src/App.jsx">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
         <line num="20" count="3" type="stmt"/>
-        <line num="31" count="7" type="stmt"/>
+        <line num="31" count="4" type="stmt"/>
       </file>
     </package>
     <package name="src.pages">
-      <metrics statements="233" coveredstatements="172" conditionals="115" coveredconditionals="75" methods="73" coveredmethods="56"/>
+      <metrics statements="231" coveredstatements="185" conditionals="115" coveredconditionals="78" methods="73" coveredmethods="57"/>
       <file name="CreateAccountPage.jsx" path="/Users/sean/School/CSC/CSC 307/Group Project/CSC-307-To-Do-App/packages/react-frontend/src/pages/CreateAccountPage.jsx">
         <metrics statements="29" coveredstatements="27" conditionals="15" coveredconditionals="12" methods="4" coveredmethods="4"/>
-        <line num="8" count="56" type="stmt"/>
-        <line num="9" count="56" type="stmt"/>
-        <line num="13" count="56" type="stmt"/>
-        <line num="14" count="56" type="stmt"/>
+        <line num="8" count="55" type="stmt"/>
+        <line num="9" count="55" type="stmt"/>
+        <line num="13" count="55" type="stmt"/>
+        <line num="14" count="55" type="stmt"/>
         <line num="15" count="5" type="stmt"/>
         <line num="18" count="5" type="stmt"/>
         <line num="19" count="5" type="cond" truecount="4" falsecount="0"/>
@@ -40,7 +40,7 @@
         <line num="51" count="1" type="stmt"/>
         <line num="54" count="0" type="stmt"/>
         <line num="55" count="0" type="stmt"/>
-        <line num="58" count="56" type="stmt"/>
+        <line num="58" count="55" type="stmt"/>
         <line num="69" count="22" type="stmt"/>
         <line num="81" count="26" type="stmt"/>
       </file>
@@ -232,32 +232,30 @@
         <line num="304" count="1" type="stmt"/>
       </file>
       <file name="LoginPage.jsx" path="/Users/sean/School/CSC/CSC 307/Group Project/CSC-307-To-Do-App/packages/react-frontend/src/pages/LoginPage.jsx">
-        <metrics statements="25" coveredstatements="7" conditionals="4" coveredconditionals="0" methods="4" coveredmethods="3"/>
-        <line num="7" count="17" type="stmt"/>
-        <line num="8" count="17" type="stmt"/>
-        <line num="12" count="17" type="stmt"/>
-        <line num="15" count="12" type="stmt"/>
-        <line num="16" count="12" type="stmt"/>
-        <line num="22" count="17" type="stmt"/>
-        <line num="23" count="0" type="stmt"/>
-        <line num="25" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="40" count="0" type="stmt"/>
-        <line num="41" count="0" type="stmt"/>
-        <line num="42" count="0" type="stmt"/>
-        <line num="44" count="0" type="cond" truecount="0" falsecount="2"/>
-        <line num="45" count="0" type="stmt"/>
-        <line num="47" count="0" type="stmt"/>
-        <line num="50" count="0" type="stmt"/>
-        <line num="51" count="0" type="stmt"/>
-        <line num="53" count="0" type="cond" truecount="0" falsecount="2"/>
+        <metrics statements="23" coveredstatements="20" conditionals="4" coveredconditionals="3" methods="4" coveredmethods="4"/>
+        <line num="7" count="40" type="stmt"/>
+        <line num="8" count="40" type="stmt"/>
+        <line num="12" count="40" type="stmt"/>
+        <line num="15" count="32" type="stmt"/>
+        <line num="16" count="32" type="stmt"/>
+        <line num="22" count="40" type="stmt"/>
+        <line num="23" count="2" type="stmt"/>
+        <line num="25" count="2" type="stmt"/>
+        <line num="27" count="2" type="stmt"/>
+        <line num="40" count="2" type="stmt"/>
+        <line num="44" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="45" count="1" type="stmt"/>
+        <line num="47" count="1" type="stmt"/>
+        <line num="50" count="1" type="stmt"/>
+        <line num="51" count="1" type="stmt"/>
+        <line num="53" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="54" count="0" type="stmt"/>
         <line num="55" count="0" type="stmt"/>
         <line num="56" count="0" type="stmt"/>
-        <line num="59" count="0" type="stmt"/>
-        <line num="60" count="0" type="stmt"/>
-        <line num="61" count="0" type="stmt"/>
-        <line num="64" count="17" type="stmt"/>
+        <line num="59" count="1" type="stmt"/>
+        <line num="60" count="1" type="stmt"/>
+        <line num="61" count="1" type="stmt"/>
+        <line num="64" count="40" type="stmt"/>
       </file>
       <file name="MainPage.jsx" path="/Users/sean/School/CSC/CSC 307/Group Project/CSC-307-To-Do-App/packages/react-frontend/src/pages/MainPage.jsx">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
@@ -295,19 +293,19 @@
       </file>
       <file name="ToastProvider.jsx" path="/Users/sean/School/CSC/CSC 307/Group Project/CSC-307-To-Do-App/packages/react-frontend/src/pages/components/ToastProvider.jsx">
         <metrics statements="13" coveredstatements="7" conditionals="4" coveredconditionals="1" methods="8" coveredmethods="2"/>
-        <line num="9" count="3" type="stmt"/>
-        <line num="12" count="7" type="stmt"/>
-        <line num="13" count="7" type="stmt"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="12" count="4" type="stmt"/>
+        <line num="13" count="4" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
         <line num="18" count="0" type="stmt"/>
-        <line num="24" count="7" type="stmt"/>
+        <line num="24" count="4" type="stmt"/>
         <line num="32" count="0" type="stmt"/>
-        <line num="46" count="25" type="stmt"/>
-        <line num="47" count="25" type="cond" truecount="1" falsecount="1"/>
+        <line num="46" count="9" type="stmt"/>
+        <line num="47" count="9" type="cond" truecount="1" falsecount="1"/>
         <line num="48" count="0" type="stmt"/>
-        <line num="51" count="25" type="stmt"/>
+        <line num="51" count="9" type="stmt"/>
       </file>
     </package>
   </project>

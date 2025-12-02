@@ -146,48 +146,6 @@ test("task page layout", async () => {
 //   ).toBeInTheDocument();
 // });
 
-// test("add new task", async () => {
-//   const user = userEvent.setup();
-//   fetch
-//     .mockResolvedValueOnce({
-//       ok: true,
-//       json: async () => []
-//     })
-//     .mockResolvedValueOnce({
-//       ok: true,
-//       json: async () => [{ _id: "123", name: "CSC 307" }]
-//     })
-//     //POST method when addTask() is called
-//     .mockResolvedValueOnce({
-//       ok: true,
-//       status: 201,
-//       json: async () => ({
-//         _id: "123",
-//         task: "Testing",
-//         date: "2025-12-13",
-//         done: false
-//       })
-//     });
-//   renderFolderTasks();
-//   await screen.findByText(/csc 307/i);
-//   await user.type(
-//     screen.getByLabelText(/task description/i),
-//     "Testing"
-//   );
-//   await user.type(screen.getByLabelText(/date/i), "2025-12-13");
-//   await user.click(
-//     screen.getByRole("button", { name: /\+ add task/i })
-//   );
-
-//   expect(
-//     await screen.findByText(/testing/i)
-//   ).toBeInTheDocument();
-//   expect(screen.getByText(/done/i)).toBeInTheDocument();
-//   expect(screen.getByText("Task")).toBeInTheDocument();
-//   expect(screen.getByText(/due date/i)).toBeInTheDocument();
-//   expect(screen.getByText(/actions/i)).toBeInTheDocument();
-// });
-
 test("create task", async () => {
   const user = userEvent.setup();
   fetch.mockResolvedValueOnce({

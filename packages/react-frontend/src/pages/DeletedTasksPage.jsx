@@ -52,7 +52,7 @@ export default function DeletedTasksPage() {
           );
           show("Task restored", "success");
         } else {
-          console.log("Unexpected status:", res.status);
+          show("Could not restore task");
         }
       })
       .catch((err) => console.error("Restore error:", err));

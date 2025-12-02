@@ -38,13 +38,13 @@ function LoginPage() {
     );
 
     const text = await res.text();
-    console.log("Raw response text: ", text);
-    console.log("Status code: ", res.status);
+    //console.log("Raw response text: ", text);
+    //console.log("Status code: ", res.status);
 
     if (!res.ok) {
-      console.log(show("Invalid username or password"));
-
-      throw new Error("Invalid username or password");
+      show("Invalid username or password");
+      //throw new Error("Invalid username or password");
+      return;
     }
 
     const data = JSON.parse(text);
@@ -57,7 +57,7 @@ function LoginPage() {
     }
 
     setUser({ username: "", password: "" });
-    console.log(show("Logged in successfully", "success"));
+    show("Logged in successfully", "success");
     navigate("/folders");
   };
 
