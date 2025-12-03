@@ -306,7 +306,8 @@ export default function FolderTasksPage() {
           display: "flex",
           alignItems: "center",
           gap: "8px",
-          fontSize: "14px"
+          fontSize: "14px",
+          color: "black"
         }}
       >
         ← Back to Folders
@@ -327,7 +328,8 @@ export default function FolderTasksPage() {
           border: "1px solid #ccc",
           fontSize: "14px",
           cursor: "pointer",
-          backgroundColor: "#ddd"
+          backgroundColor: "#ddd",
+          color: "black"
         }}
       >
         <option value="asc">Closest Date</option>
@@ -606,7 +608,8 @@ export default function FolderTasksPage() {
           border: "none",
           borderRadius: "4px",
           cursor: "pointer",
-          fontSize: "14px"
+          fontSize: "14px",
+          color: "black"
         }}
       >
         View Recently Deleted
