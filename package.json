@@ -8,7 +8,8 @@
   "scripts": {
     "test": "echo \"Error: no tests yet\"",
     "dev": "cd packages/react-frontend && npm run dev",
-    "lint": "npx eslint ."
+    "lint": "npx eslint .",
+    "test": "cd packages/react-frontend && npm test"
   },
   "repository": {
     "type": "git",

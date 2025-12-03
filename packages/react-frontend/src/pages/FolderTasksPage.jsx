@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "./components/Navbar.jsx";
+import { useToast } from "./components/ToastProvider.jsx";
 
 export default function FolderTasksPage() {
   const { folderId } = useParams();
@@ -11,6 +12,7 @@ export default function FolderTasksPage() {
   const [newTaskDate, setNewTaskDate] = useState("");
   const [newTaskRepeat, setNewTaskRepeat] = useState("none"); //repeat option
   const [loading, setLoading] = useState(true);
+  const { show } = useToast();
 
   //Fetch folder info and tasks
   useEffect(() => {
@@ -71,6 +73,7 @@ export default function FolderTasksPage() {
         setTasks([...tasks, newTask.tasks || newTask]);
         setNewTaskText("");
         setNewTaskDate("");
+        show("Task created", "success");
         setNewTaskRepeat("none"); //reset repeat option
       }
     } catch (err) {
@@ -80,13 +83,20 @@ export default function FolderTasksPage() {
 
   //Toggle task completion
   async function toggleTask(taskId, currentDone, task) {
-    console.log("Task object:", task);
-    console.log("Repeat type:", task.repeat);
+    // console.log("Task object:", task);
+    // console.log("Repeat type:", task.repeat);
     try {
       //if marking done and task is repeating, create next occurrence
-      if (!currentDone && task.repeat && task.repeat !== "none") {
-        const nextDate = calculateNextDate(task.date, task.repeat);
-        
+      if (
+        !currentDone &&
+        task.repeat &&
+        task.repeat !== "none"
+      ) {
+        const nextDate = calculateNextDate(
+          task.date,
+          task.repeat
+        );
+
         //create new task for next occurrence
         await fetch(
           "https://adder-backend.azurewebsites.net/api/tasks",
@@ -119,9 +129,13 @@ export default function FolderTasksPage() {
         setTasks(
           tasks.map((t) => (t._id === taskId ? updated : t))
         );
-        
+
         //refresh tasks
-        if (!currentDone && task.repeat && task.repeat !== "none") {
+        if (
+          !currentDone &&
+          task.repeat &&
+          task.repeat !== "none"
+        ) {
           const tasksRes = await fetch(
             `https://adder-backend.azurewebsites.net/api/folders/${folderId}/tasks`,
             { credentials: "include" }
@@ -137,14 +151,14 @@ export default function FolderTasksPage() {
 
   function calculateNextDate(currentDate, repeatType) {
     const date = new Date(currentDate);
-    
+
     if (repeatType === "daily") {
       date.setDate(date.getDate() + 1);
     } else if (repeatType === "weekly") {
       date.setDate(date.getDate() + 7);
     }
-    
-    return date.toISOString().split('T')[0];
+
+    return date.toISOString().split("T")[0];
   }
 
   //Delete a task
@@ -160,6 +174,7 @@ export default function FolderTasksPage() {
 
       if (res.status === 204) {
         setTasks(tasks.filter((t) => t._id !== taskId));
+        show("Task deleted", "success");
       }
     } catch (err) {
       console.error("Delete task error:", err);
@@ -187,6 +202,7 @@ export default function FolderTasksPage() {
         setTasks(
           tasks.map((t) => (t._id === taskId ? updated : t))
         );
+        show("Task updated", "success");
       }
     } catch (err) {
       console.error("Edit task error:", err);
@@ -195,7 +211,7 @@ export default function FolderTasksPage() {
   // to sort tasks w/ a dropdown menu - automatically set to asc aka closest date
   // automatically set to asc dates so users are able to prioritize those tasks
   const [sortOption, setSortOption] = useState("asc");
-  
+
   // sorts task based on whatever option the user chooses
   function sortTasks(option) {
     const day = new Date();
@@ -207,7 +223,8 @@ export default function FolderTasksPage() {
     nextWeek.setDate(nextWeek.getDate() + 7);
 
     if (option === "today") {
-      // user selects 'due today
+      // user selects 'due today'
+
       return tasks.filter((t) => {
         const date = new Date(t.date);
         return date >= today && date < tomorrow;
@@ -252,7 +269,7 @@ export default function FolderTasksPage() {
     const option = e.target.value;
     setSortOption(option);
   }
-  
+
   const displayedTasks = sortTasks(sortOption);
 
   if (loading) {
@@ -489,12 +506,14 @@ export default function FolderTasksPage() {
                   >
                     {getRepeatIcon(task.repeat)} {task.task}
                     {task.repeat && task.repeat !== "none" && (
-                      <span style={{ 
-                        fontSize: "12px", 
-                        color: "#666",
-                        marginLeft: "8px",
-                        fontStyle: "italic"
-                      }}>
+                      <span
+                        style={{
+                          fontSize: "12px",
+                          color: "#666",
+                          marginLeft: "8px",
+                          fontStyle: "italic"
+                        }}
+                      >
                         ({task.repeat})
                       </span>
                     )}
@@ -523,7 +542,9 @@ export default function FolderTasksPage() {
                     }}
                   >
                     <button
-                      onClick={() => editTask(task._id, task.task)}
+                      onClick={() =>
+                        editTask(task._id, task.task)
+                      }
                       style={{
                         background: "#ffcccc",
                         border: "1px solid #ff9999",
@@ -590,6 +611,7 @@ export default function FolderTasksPage() {
         >
           <input
             type="text"
+            aria-label="task description"
             placeholder="Task description"
             value={newTaskText}
             onChange={(e) => setNewTaskText(e.target.value)}
@@ -605,6 +627,7 @@ export default function FolderTasksPage() {
           />
           <input
             type="date"
+            aria-label="date"
             value={newTaskDate}
             onChange={(e) => setNewTaskDate(e.target.value)}
             style={{

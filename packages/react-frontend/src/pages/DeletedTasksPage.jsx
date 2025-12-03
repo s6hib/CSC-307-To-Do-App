@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar.jsx";
+import { useToast } from "./components/ToastProvider.jsx";
 
 export default function DeletedTasksPage() {
   const [tasks, setTasks] = useState([]);
+  const { show } = useToast();
 
   // READ deleted tasks
   useEffect(() => {
@@ -23,7 +25,7 @@ export default function DeletedTasksPage() {
         setTasks(list);
       })
       .catch((err) =>
-        console.error("Fetch deleted tasks error:", err)
+        console.error("Fetch deleted tasks error: ", err)
       );
   }, []);
 
@@ -48,8 +50,9 @@ export default function DeletedTasksPage() {
           setTasks((prev) =>
             prev.filter((_, i) => i !== index)
           );
+          show("Task restored", "success");
         } else {
-          console.log("Unexpected status:", res.status);
+          show("Could not restore task");
         }
       })
       .catch((err) => console.error("Restore error:", err));
@@ -72,11 +75,13 @@ export default function DeletedTasksPage() {
       );
       if (res.status == 204) {
         setTasks(tasks.filter((t) => t._id !== task._id));
+        show("Task deleted!", "success");
       } else {
         console.log("delete failed:", res.status);
       }
     } catch (err) {
-      console.log("hd error: ", err);
+      //console.log("hd error: ", err);
+      return;
     }
   }
 

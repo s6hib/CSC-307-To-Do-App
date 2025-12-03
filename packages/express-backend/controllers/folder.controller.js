@@ -1,6 +1,5 @@
 import Folder from "../models/folder.model.js";
 import Task from "../models/task.model.js";
-import mongoose from "mongoose";
 
 //Get all folders for authenticated user
 export async function getAllFolders(req, res) {

@@ -2,22 +2,6 @@ import Task from "../models/task.model.js";
 import mongoose from "mongoose";
 import "dotenv/config";
 
-// to find a collection of tasks
-export async function getAllTasks(req, res) {
-  try {
-    const items = await Task.find({
-      user: req.user._id,
-      deleted: false
-    }).lean();
-    return res.status(200).json({ tasks_list: items });
-  } catch (err) {
-    console.log("Couldn't fetch tasks");
-    return res
-      .status(500)
-      .json({ error: "Internal Server Error" });
-  }
-}
-
 //add task
 export async function addTask(req, res) {
   try {
@@ -207,7 +191,6 @@ export async function restoreTask(req, res) {
 
 // export to backend.js
 export default {
-  getAllTasks,
   addTask,
   deleteTaskById,
   hardDeleteTaskById,
