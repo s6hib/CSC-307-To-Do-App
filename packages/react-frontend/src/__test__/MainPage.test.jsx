@@ -3,7 +3,7 @@ import { MemoryRouter } from "react-router-dom";
 
 import App from "../App.jsx";
 
-test("start page", () => {
+test("main page layout", () => {
   render(
     <MemoryRouter initialEntries={["/"]}>
       <App />

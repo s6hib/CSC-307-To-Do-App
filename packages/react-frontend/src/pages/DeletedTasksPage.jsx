@@ -58,6 +58,31 @@ export default function DeletedTasksPage() {
       .catch((err) => console.error("Restore error:", err));
   }
 
+  // delete a task (permanently deleted!)
+  async function deleteOne(index) {
+    const task = tasks[index];
+    if (!task) {
+      console.log("task not available");
+      return;
+    }
+    try {
+      const res = await fetch(
+        `https://adder-backend.azurewebsites.net/api/tasks/${task._id}/remove`,
+        {
+          method: "DELETE",
+          credentials: "include"
+        }
+      );
+      if (res.status == 204) {
+        setTasks(tasks.filter((t) => t._id !== task._id));
+      } else {
+        console.log("delete failed:", res.status, body);
+      }
+    } catch (err) {
+      console.log("hd error: ", err);
+    }
+  }
+
   return (
     <div className="container" style={{ padding: 16 }}>
       <Navbar />
@@ -87,6 +112,11 @@ export default function DeletedTasksPage() {
               <td>
                 <button onClick={() => restoreOneTask(i)}>
                   Restore
+                </button>
+              </td>
+              <td>
+                <button onClick={() => deleteOne(i)}>
+                  Delete
                 </button>
               </td>
             </tr>

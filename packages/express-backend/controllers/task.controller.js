@@ -7,7 +7,8 @@ export async function addTask(req, res) {
   try {
     const task = req.body?.task?.trim();
     const date = req.body?.date?.trim();
-    const folder = req.body?.folder; // ADD THIS LINE
+    const folder = req.body?.folder; 
+    const repeat = req.body?.repeat || 'none';
 
     if (!task || !date) {
       return res
@@ -18,7 +19,8 @@ export async function addTask(req, res) {
     const newTask = await Task.create({
       task,
       date,
-      folder, // ADD THIS LINE
+      folder,
+      repeat,
       done: false,
       user: req.user._id
     });
@@ -52,6 +54,31 @@ export async function deleteTaskById(req, res) {
     return res
       .status(500)
       .json({ error: "Internal Server Error" });
+  }
+}
+
+// to permanently delete task via id (above only soft deletes 4 the archive)
+export async function hardDeleteTaskById(req, res) {
+  try {
+    const id = req.params.id;
+    if (!mongoose.isValidObjectId(id)) {
+      return res.status(400).json({ error: "invalid id!" });
+    }
+    const deletedTask = await Task.findOneAndDelete({
+      _id: id,
+      user: req.user._id,
+      deleted: true
+    });
+    if (!deletedTask)
+      return res
+        .status(404)
+        .json({ error: "task not found !" });
+    return res.status(204).end();
+  } catch (err) {
+    console.log("hard delete failed.");
+    return res
+      .status(500)
+      .json({ error: "internal server error" });
   }
 }
 
@@ -166,6 +193,7 @@ export async function restoreTask(req, res) {
 export default {
   addTask,
   deleteTaskById,
+  hardDeleteTaskById,
   updateTask,
   markDone,
   getDeletedTasks,
