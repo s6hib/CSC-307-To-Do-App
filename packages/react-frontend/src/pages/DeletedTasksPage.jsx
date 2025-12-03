@@ -56,7 +56,7 @@ export default function DeletedTasksPage() {
   }
 
   // delete a task (permanently deleted!)
-  /*async function deleteOne(index) {
+  async function deleteOne(index) {
     const task = tasks[index];
     if (!task) {
       console.log("task not available");
@@ -73,12 +73,12 @@ export default function DeletedTasksPage() {
       if (res.status == 204) {
         setTasks(tasks.filter((t) => t._id !== task._id));
       } else {
-        console.log("delete failed:", res.status, body);
+        console.log("delete failed:", res.status);
       }
     } catch (err) {
       console.log("hd error: ", err);
     }
-  }*/
+  }
 
   return (
     <div className="container" style={{ padding: 16 }}>
