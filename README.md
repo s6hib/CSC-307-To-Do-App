@@ -52,4 +52,5 @@ npm run dev   # runs on localhost:8000
 
 ```bash
 npm test
+npm run test:coverage  #testing with coverage
 ```
