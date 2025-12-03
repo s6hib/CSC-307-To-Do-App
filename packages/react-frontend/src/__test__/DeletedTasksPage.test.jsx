@@ -163,3 +163,82 @@ test("fail to restore task", async () => {
 
   expect(screen.getByText(/test/i)).toBeInTheDocument();
 });
+
+test("hard delete tasks", async () => {
+  const user = userEvent.setup();
+  fetch.mockResolvedValueOnce({
+    ok: true,
+    json: async () => [
+      {
+        _id: "1",
+        task: "test",
+        date: "2025-01-01T00:00:00.000Z"
+      }
+    ]
+  });
+  fetch.mockResolvedValueOnce({
+    status: 204,
+    json: async () => ({})
+  });
+  renderApp();
+
+  expect(await screen.findByText(/test/i)).toBeInTheDocument();
+  const deleteButton = screen.getByRole("button", {
+    name: /delete/i
+  });
+  await user.click(deleteButton);
+
+  expect(fetch).toHaveBeenLastCalledWith(
+    "https://adder-backend.azurewebsites.net/api/tasks/1/remove",
+    expect.objectContaining({
+      method: "DELETE",
+      credentials: "include"
+    })
+  );
+  //ensure task is now not in the document
+  await waitFor(() => {
+    expect(screen.queryByText(/test/i)).not.toBeInTheDocument();
+  });
+  //check toast for popup success message
+  expect(mockShow).toHaveBeenCalledWith(
+    "Task deleted!",
+    "success"
+  );
+});
+
+test("hard delete fail", async () => {
+  const user = userEvent.setup();
+  fetch.mockResolvedValueOnce({
+    ok: true,
+    json: async () => [
+      {
+        _id: "1",
+        task: "test",
+        date: "2025-01-01T00:00:00.000Z"
+      }
+    ]
+  });
+  fetch.mockResolvedValueOnce({
+    status: 500,
+    json: async () => ({})
+  });
+  renderApp();
+
+  expect(await screen.findByText(/test/i)).toBeInTheDocument();
+  const deleteButton = screen.getByRole("button", {
+    name: /delete/i
+  });
+  await user.click(deleteButton);
+
+  expect(fetch).toHaveBeenLastCalledWith(
+    "https://adder-backend.azurewebsites.net/api/tasks/1/remove",
+    expect.objectContaining({
+      method: "DELETE",
+      credentials: "include"
+    })
+  );
+  //ensure task is now not in the document
+  await waitFor(() => {
+    expect(screen.queryByText(/test/i)).toBeInTheDocument();
+  });
+});

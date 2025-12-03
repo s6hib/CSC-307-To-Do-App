@@ -73,7 +73,7 @@ export default function FolderTasksPage() {
         setTasks([...tasks, newTask.tasks || newTask]);
         setNewTaskText("");
         setNewTaskDate("");
-
+        show("Task created", "success");
         setNewTaskRepeat("none"); //reset repeat option
       }
     } catch (err) {
@@ -83,8 +83,8 @@ export default function FolderTasksPage() {
 
   //Toggle task completion
   async function toggleTask(taskId, currentDone, task) {
-    console.log("Task object:", task);
-    console.log("Repeat type:", task.repeat);
+    // console.log("Task object:", task);
+    // console.log("Repeat type:", task.repeat);
     try {
       //if marking done and task is repeating, create next occurrence
       if (
