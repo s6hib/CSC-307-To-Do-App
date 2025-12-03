@@ -77,7 +77,7 @@ export default function DeletedTasksPage() {
         setTasks(tasks.filter((t) => t._id !== task._id));
         show("Task deleted!", "success");
       } else {
-        console.log("delete failed:", res.status, body);
+        console.log("delete failed:", res.status);
       }
     } catch (err) {
       //console.log("hd error: ", err);
