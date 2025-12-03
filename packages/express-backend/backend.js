@@ -24,7 +24,8 @@ import {
   updateTask,
   markDone,
   getDeletedTasks,
-  restoreTask
+  restoreTask,
+  hardDeleteTaskById
 } from "./controllers/task.controller.js";
 import { authenticateUser } from "./middleware/authentication.js";
 
@@ -82,6 +83,11 @@ app.post("/api/logout", authenticateUser, logout);
 
 // DELETE METHOD
 app.delete("/api/tasks/:id", authenticateUser, deleteTaskById);
+app.delete(
+  "/api/tasks/:id/remove",
+  authenticateUser,
+  hardDeleteTaskById
+);
 app.get("/api/folders", authenticateUser, getAllFolders);
 app.get(
   "/api/folders/:id/tasks",

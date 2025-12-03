@@ -214,12 +214,9 @@ export default function FolderTasksPage() {
 
   // sorts task based on whatever option the user chooses
   function sortTasks(option) {
-    const now = new Date();
-    const today = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate()
-    );
+    const day = new Date();
+    const today = new Date(day);
+    today.setDate(today.getDate() - 1);
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
     const nextWeek = new Date(today);
@@ -299,6 +296,7 @@ export default function FolderTasksPage() {
   function overdue(date) {
     const newDate = new Date(date);
     const now = new Date();
+    now.setDate(now.getDate() - 1);
     return newDate < now;
   }
 
@@ -482,6 +480,7 @@ export default function FolderTasksPage() {
                     {new Date(task.date).toLocaleDateString(
                       "en-US",
                       {
+                        timeZone: "UTC",
                         year: "numeric",
                         month: "short",
                         day: "numeric"
