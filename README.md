@@ -5,6 +5,9 @@
 [Frontend](https://nice-glacier-0ec51b010.3.azurestaticapps.net/) </br>
 [Backend](adder-backend.azurewebsites.net)
 
+## UI Prototype (12/02/2025)
+(https://www.figma.com/design/XcBx6SbkDTE6RphCEUn38E/Adder?node-id=0-1&t=Uk4U2qqAMdy2cWEr-1)
+
 ## Getting Started: Install Dependencies
 
 ```bash
