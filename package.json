@@ -6,10 +6,10 @@
     "packages/*"
   ],
   "scripts": {
-    "test": "echo \"Error: no tests yet\"",
+    "test": "cd packages/react-frontend && npm test",
     "dev": "cd packages/react-frontend && npm run dev",
     "lint": "npx eslint .",
-    "test": "cd packages/react-frontend && npm test"
+    "test:coverage": "cd packages/react-frontend && npm run test:coverage"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,7 @@
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-react": "^7.37.5",
+    "jest": "^30.2.0",
     "prettier": "^3.6.2"
   },
   "dependencies": {
