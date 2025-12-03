@@ -283,6 +283,25 @@ export default function FolderTasksPage() {
     return newDate < now;
   }
 
+    //helper function for upcoming tasks
+    function isUpcoming(date){
+      const now = new Date(); 
+      const taskDate = new Date(date); 
+
+      const threeDaysAhead = new Date(); 
+      threeDaysAhead.setDate(now.getDate() + 3); 
+      return taskDate >= now && taskDate <= threeDaysAhead;
+    }
+    //notification banner for upcoming tasks
+    const upcomingTasks = tasks.filter ((t) => isUpcoming(t.date) && !t.done);
+  
+    //strips time from ISO string and return date with only y/m/d
+    function normalizeDate(dateStr) {
+      const [year, month, dayWithTime] = dateStr.split("-");
+      const day = dayWithTime.split("T")[0];  // removes "T00:00:00.000Z"
+      return new Date(year, month - 1, day);
+    }
+
   //Temporary repeat icon
   function getRepeatIcon(repeatType) {
     if (repeatType === "daily") return "🔄";
@@ -340,6 +359,31 @@ export default function FolderTasksPage() {
         <option value="all">All Tasks</option>
         <option value="overdue">Overdue Tasks</option>
       </select>
+      {/* --- Upcoming Tasks Notification Banner --- */}
+      {tasks.some(t => isUpcoming(t.date)) && (
+        <div
+          style={{
+            padding: "10px",
+            backgroundColor: "#fff3cd",
+            color: "#856404",
+            borderRadius: "4px",
+            marginBottom: "16px",
+          }}
+        >
+          <p>
+            You have {tasks.filter(t => isUpcoming(t.date) && !t.done).length} upcoming task(s) due in the next three days:
+          </p>
+          {upcomingTasks.map((t) => (
+             <div key={t._id}>
+              {t.task} — due{" "}
+              {normalizeDate(t.date).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+              })}
+            </div>
+          ))}
+        </div>
+      )}
 
       <div
         style={{
@@ -432,6 +476,8 @@ export default function FolderTasksPage() {
                           : "none",
                       color: task.done
                         ? "#999"
+                        :isUpcoming(task.date)
+                            ? "green" //makes upcoming tasks green 
                         : overdue(task.date) // makes task red if overdue!
                           ? "#d32f2f"
                           : "black",
