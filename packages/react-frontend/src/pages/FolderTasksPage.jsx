@@ -212,55 +212,76 @@ export default function FolderTasksPage() {
   // automatically set to asc dates so users are able to prioritize those tasks
   const [sortOption, setSortOption] = useState("asc");
 
+  // helper function to change date from utc -> local time
+  function toLocalDateOnly(date) {
+    console.log(date);
+    // in the case the date var is a Date obbject
+    if (date instanceof Date) {
+      const d = new Date(date);
+      d.setHours(0, 0, 0, 0);
+      return d;
+    }
+
+    // in  the case the date var is a string
+    if (typeof date === "string") {
+      // if it is -> string would look smt like this
+      // 2025-12-03T00:00:00.000Z - hence why split at T to separate it
+      const [str] = date.split("T");
+      // split based on '-' would turn date into ["2025", "12", "03"]
+      // map to turn into [2025, 12, 03]
+      const [year, month, day] = str.split("-").map(Number);
+      return new Date(year, month - 1, day); // note: month - zero based
+    }
+  }
+  
   // sorts task based on whatever option the user chooses
   function sortTasks(option) {
     const day = new Date();
-    const today = new Date(day);
-    today.setDate(today.getDate() - 1);
+    const today = toLocalDateOnly(day);
     const tomorrow = new Date(today);
     tomorrow.setDate(tomorrow.getDate() + 1);
     const nextWeek = new Date(today);
     nextWeek.setDate(nextWeek.getDate() + 7);
-
+  
     if (option === "today") {
       // user selects 'due today'
-
       return tasks.filter((t) => {
-        const date = new Date(t.date);
+        const date = toLocalDateOnly(t.date);
         return date >= today && date < tomorrow;
       });
     }
-
+  
     if (option === "tomorrow") {
       // user selects 'due tmr'
       const temp = new Date(tomorrow);
       temp.setDate(temp.getDate() + 1);
       return tasks.filter((t) => {
-        const date = new Date(t.date);
+        const date = toLocalDateOnly(t.date);
         return date >= tomorrow && date < temp;
       });
     }
-
+  
     if (option === "week") {
-      // user selects 'due next wk'
+    // user selects 'due next wk'
       return tasks.filter((t) => {
-        const date = new Date(t.date);
+        const date = toLocalDateOnly(t.date);
         return date >= today && date <= nextWeek;
       });
     }
-
+  
     if (option === "all") return [...tasks]; // user selects 'show all tasks' => in turn, it displays all tasks asc
-
+  
     if (option === "overdue") {
       return tasks.filter((t) => {
-        const date = new Date(t.date);
+        const date = toLocalDateOnly(t.date);
         return date < today;
       });
     }
+  
     // asc/desc
     return [...tasks].sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
+      const dateA = toLocalDateOnly(a.date);
+      const dateB = toLocalDateOnly(b.date);
       return option === "asc" ? dateA - dateB : dateB - dateA;
     });
   }
@@ -294,9 +315,8 @@ export default function FolderTasksPage() {
   }
   // check if smt is overdue
   function overdue(date) {
-    const newDate = new Date(date);
-    const now = new Date();
-    now.setDate(now.getDate() - 1);
+    const newDate = toLocalDateOnly(date);
+    const now = toLocalDateOnly(new Date());
     return newDate < now;
   }
 

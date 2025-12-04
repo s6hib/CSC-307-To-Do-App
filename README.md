@@ -47,3 +47,10 @@ npm run dev   # runs on localhost:5173
 cd packages/express-backend
 npm run dev   # runs on localhost:8000
 ```
+
+## Testing
+
+```bash
+npm test
+npm run test:coverage  #testing with coverage
+```
