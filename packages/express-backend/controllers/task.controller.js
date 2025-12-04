@@ -7,8 +7,8 @@ export async function addTask(req, res) {
   try {
     const task = req.body?.task?.trim();
     const date = req.body?.date?.trim();
-    const folder = req.body?.folder; 
-    const repeat = req.body?.repeat || 'none';
+    const folder = req.body?.folder;
+    const repeat = req.body?.repeat || "none";
 
     if (!task || !date) {
       return res
