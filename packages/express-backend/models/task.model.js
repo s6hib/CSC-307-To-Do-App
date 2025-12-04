@@ -41,8 +41,8 @@ const taskSchema = new mongoose.Schema(
     },
     repeat: {
       type: String,
-      enum: ['none', 'daily', 'weekly'],
-      default: 'none'
+      enum: ["none", "daily", "weekly"],
+      default: "none"
     }
   },
   { timestamps: true, collection: "tasks_list" }
