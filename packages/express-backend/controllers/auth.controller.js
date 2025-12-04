@@ -86,7 +86,7 @@ export const login = async (req, res) => {
     }
 
     const oldUser = new User({
-      id: user._id,
+      _id: user._id,
       username: username
     });
 
@@ -94,7 +94,7 @@ export const login = async (req, res) => {
     generateTokenAndSetCookie(oldUser, res);
     return res.status(200).json({
       user: {
-        id: user._id,
+        _id: user._id,
         username: user.username
       }
     });
