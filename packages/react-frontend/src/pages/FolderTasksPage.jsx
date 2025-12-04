@@ -233,7 +233,7 @@ export default function FolderTasksPage() {
       return new Date(year, month - 1, day); // note: month - zero based
     }
   }
-  
+
   // sorts task based on whatever option the user chooses
   function sortTasks(option) {
     const day = new Date();
@@ -242,7 +242,7 @@ export default function FolderTasksPage() {
     tomorrow.setDate(tomorrow.getDate() + 1);
     const nextWeek = new Date(today);
     nextWeek.setDate(nextWeek.getDate() + 7);
-  
+
     if (option === "today") {
       // user selects 'due today'
       return tasks.filter((t) => {
@@ -250,7 +250,7 @@ export default function FolderTasksPage() {
         return date >= today && date < tomorrow;
       });
     }
-  
+
     if (option === "tomorrow") {
       // user selects 'due tmr'
       const temp = new Date(tomorrow);
@@ -260,24 +260,24 @@ export default function FolderTasksPage() {
         return date >= tomorrow && date < temp;
       });
     }
-  
+
     if (option === "week") {
-    // user selects 'due next wk'
+      // user selects 'due next wk'
       return tasks.filter((t) => {
         const date = toLocalDateOnly(t.date);
         return date >= today && date <= nextWeek;
       });
     }
-  
+
     if (option === "all") return [...tasks]; // user selects 'show all tasks' => in turn, it displays all tasks asc
-  
+
     if (option === "overdue") {
       return tasks.filter((t) => {
         const date = toLocalDateOnly(t.date);
         return date < today;
       });
     }
-  
+
     // asc/desc
     return [...tasks].sort((a, b) => {
       const dateA = toLocalDateOnly(a.date);
@@ -320,24 +320,26 @@ export default function FolderTasksPage() {
     return newDate < now;
   }
 
-    //helper function for upcoming tasks
-    function isUpcoming(date){
-      const now = new Date(); 
-      const taskDate = new Date(date); 
+  //helper function for upcoming tasks
+  function isUpcoming(date) {
+    const now = new Date();
+    const taskDate = new Date(date);
 
-      const threeDaysAhead = new Date(); 
-      threeDaysAhead.setDate(now.getDate() + 3); 
-      return taskDate >= now && taskDate <= threeDaysAhead;
-    }
-    //notification banner for upcoming tasks
-    const upcomingTasks = tasks.filter ((t) => isUpcoming(t.date) && !t.done);
-  
-    //strips time from ISO string and return date with only y/m/d
-    function normalizeDate(dateStr) {
-      const [year, month, dayWithTime] = dateStr.split("-");
-      const day = dayWithTime.split("T")[0];  // removes "T00:00:00.000Z"
-      return new Date(year, month - 1, day);
-    }
+    const threeDaysAhead = new Date();
+    threeDaysAhead.setDate(now.getDate() + 3);
+    return taskDate >= now && taskDate <= threeDaysAhead;
+  }
+  //notification banner for upcoming tasks
+  const upcomingTasks = tasks.filter(
+    (t) => isUpcoming(t.date) && !t.done
+  );
+
+  //strips time from ISO string and return date with only y/m/d
+  function normalizeDate(dateStr) {
+    const [year, month, dayWithTime] = dateStr.split("-");
+    const day = dayWithTime.split("T")[0]; // removes "T00:00:00.000Z"
+    return new Date(year, month - 1, day);
+  }
 
   //Temporary repeat icon
   function getRepeatIcon(repeatType) {
@@ -397,26 +399,34 @@ export default function FolderTasksPage() {
         <option value="overdue">Overdue Tasks</option>
       </select>
       {/* --- Upcoming Tasks Notification Banner --- */}
-      {tasks.some(t => isUpcoming(t.date)) && (
+      {tasks.some((t) => isUpcoming(t.date)) && (
         <div
           style={{
             padding: "10px",
             backgroundColor: "#fff3cd",
             color: "#856404",
             borderRadius: "4px",
-            marginBottom: "16px",
+            marginBottom: "16px"
           }}
         >
           <p>
-            You have {tasks.filter(t => isUpcoming(t.date) && !t.done).length} upcoming task(s) due in the next three days:
+            You have{" "}
+            {
+              tasks.filter((t) => isUpcoming(t.date) && !t.done)
+                .length
+            }{" "}
+            upcoming task(s) due in the next three days:
           </p>
           {upcomingTasks.map((t) => (
-             <div key={t._id}>
+            <div key={t._id}>
               {t.task} — due{" "}
-              {normalizeDate(t.date).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-              })}
+              {normalizeDate(t.date).toLocaleDateString(
+                "en-US",
+                {
+                  month: "short",
+                  day: "numeric"
+                }
+              )}
             </div>
           ))}
         </div>
@@ -513,11 +523,11 @@ export default function FolderTasksPage() {
                           : "none",
                       color: task.done
                         ? "#999"
-                        :isUpcoming(task.date)
-                            ? "green" //makes upcoming tasks green 
-                        : overdue(task.date) // makes task red if overdue!
-                          ? "#d32f2f"
-                          : "black",
+                        : isUpcoming(task.date)
+                          ? "green" //makes upcoming tasks green
+                          : overdue(task.date) // makes task red if overdue!
+                            ? "#d32f2f"
+                            : "black",
                       cursor: "pointer"
                     }}
                     onClick={() =>
