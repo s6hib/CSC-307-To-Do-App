@@ -1,6 +1,5 @@
 export default [
   {
-    files: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
     ignores: [
       "node_modules",
       "coverage",
@@ -10,7 +9,11 @@ export default [
       "**/coverage/**",
       "**/dist/**",
       "**/build/**"
-    ],
+    ]
+  },
+  {
+    files: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"],
+
     languageOptions: {
       ecmaVersion: 2022,
       sourceType: "module"
