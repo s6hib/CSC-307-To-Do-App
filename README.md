@@ -1,9 +1,16 @@
-# CSC-307-To-Do-App
+# Adder: To-Do Lissst
+
+## Description
+
+This is a to-do app! Use this to track your chores, homework, etc. It's not just any other to-do app - we have added features so you can store your tasks in their relevant folders, plus a task archive!
 
 ## Deployment Info
 
 [Frontend](https://nice-glacier-0ec51b010.3.azurestaticapps.net/) </br>
 [Backend](adder-backend.azurewebsites.net)
+
+## UI Prototype (12/02/2025)
+(https://www.figma.com/design/XcBx6SbkDTE6RphCEUn38E/Adder?node-id=0-1&t=Uk4U2qqAMdy2cWEr-1)
 
 ## Getting Started: Install Dependencies
 
@@ -39,4 +46,11 @@ npm run dev   # runs on localhost:5173
 # Terminal 2
 cd packages/express-backend
 npm run dev   # runs on localhost:8000
+```
+
+## Testing
+
+```bash
+npm test
+npm run test:coverage  #testing with coverage
 ```

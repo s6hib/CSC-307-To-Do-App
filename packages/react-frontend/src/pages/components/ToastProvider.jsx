@@ -43,10 +43,10 @@ export function ToastProvider({ children }) {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export function useToast() {
-  const ctx = useContext(ToastCtx);
-  if (!ctx)
+  const context = useContext(ToastCtx);
+  if (!context)
     throw new Error(
       "useToast must be used inside <ToastProvider>"
     );
-  return ctx;
+  return context;
 }

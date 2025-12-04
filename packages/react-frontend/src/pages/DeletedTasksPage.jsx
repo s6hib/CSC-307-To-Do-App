@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar.jsx";
+import { useToast } from "./components/ToastProvider.jsx";
 
 export default function DeletedTasksPage() {
   const [tasks, setTasks] = useState([]);
+  const { show } = useToast();
 
   // READ deleted tasks
   useEffect(() => {
@@ -23,7 +25,7 @@ export default function DeletedTasksPage() {
         setTasks(list);
       })
       .catch((err) =>
-        console.error("Fetch deleted tasks error:", err)
+        console.error("Fetch deleted tasks error: ", err)
       );
   }, []);
 
@@ -48,15 +50,16 @@ export default function DeletedTasksPage() {
           setTasks((prev) =>
             prev.filter((_, i) => i !== index)
           );
+          show("Task restored", "success");
         } else {
-          console.log("Unexpected status:", res.status);
+          show("Could not restore task");
         }
       })
       .catch((err) => console.error("Restore error:", err));
   }
 
   // delete a task (permanently deleted!)
-  /*async function deleteOne(index) {
+  async function deleteOne(index) {
     const task = tasks[index];
     if (!task) {
       console.log("task not available");
@@ -70,16 +73,17 @@ export default function DeletedTasksPage() {
           credentials: "include"
         }
       );
-      if (res.status == 200) {
-        // change to 204 after testing
+      if (res.status == 204) {
         setTasks(tasks.filter((t) => t._id !== task._id));
+        show("Task deleted!", "success");
       } else {
-        console.log("delete failed");
+        console.log("delete failed:", res.status);
       }
     } catch (err) {
-      console.log(err);
+      //console.log("hd error: ", err);
+      return;
     }
-  }*/
+  }
 
   return (
     <div className="container" style={{ padding: 16 }}>
@@ -112,7 +116,11 @@ export default function DeletedTasksPage() {
                   Restore
                 </button>
               </td>
-              <td></td>
+              <td>
+                <button onClick={() => deleteOne(i)}>
+                  Delete
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

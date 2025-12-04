@@ -33,6 +33,7 @@ export default function Table({
             >
               <input
                 type="checkbox"
+                aria-label="mark done"
                 checked={!!row.done}
                 onChange={() =>
                   updateTask(row._id, { done: !row.done })
