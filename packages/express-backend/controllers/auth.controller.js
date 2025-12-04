@@ -85,13 +85,13 @@ export const login = async (req, res) => {
         .json({ error: "Invalid username or password" });
     }
 
-    const oldUser = new User({
+    /*const oldUser = new User({
       _id: user._id,
       username: username
-    });
+    });*/
 
     // to generate an access token
-    generateTokenAndSetCookie(oldUser, res);
+    generateTokenAndSetCookie(/*oldUser*/user, res);
     return res.status(200).json({
       user: {
         _id: user._id,
