@@ -27,12 +27,12 @@ export default defineConfig([
         "error",
         { varsIgnorePattern: "^[A-Z_]" }
       ]
-    },
-    overrides: [
-      {
-        files: ["**/*.test.js", "**/*.test.jsx"],
-        env: { jest: true }
-      }
-    ]
+    }
+  },
+  {
+    files: ["**/*.test.js", "**/*.test.jsx"],
+    env: {
+      jest: true
+    }
   }
 ]);
