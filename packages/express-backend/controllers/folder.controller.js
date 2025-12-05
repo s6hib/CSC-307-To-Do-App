@@ -19,6 +19,7 @@ export async function createFolder(req, res) {
   try {
     const { name, color } = req.body;
 
+    //requires folder name
     if (!name || name.trim().length === 0) {
       return res
         .status(400)
@@ -55,7 +56,8 @@ export async function deleteFolderById(req, res) {
         .json({ message: "Folder not found" });
     }
 
-    //Soft delete all tasks
+    //Soft delete all tasks in folder
+    //Don't hard delete so that users can know which tasks they've deleted
     await Task.updateMany(
       { folder: id, user: req.user._id },
       { deleted: true }

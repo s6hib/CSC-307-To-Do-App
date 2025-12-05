@@ -40,6 +40,7 @@ beforeEach(() => {
   global.fetch = jest.fn();
 });
 
+//created some mock Ids for convenience
 const mockId123 = () => {
   fetch.mockResolvedValueOnce({
     ok: true,
@@ -51,7 +52,6 @@ const mockId123 = () => {
   });
   renderFolderTasks();
 };
-
 const mockId1234 = () => {
   fetch.mockResolvedValueOnce({
     ok: true,
@@ -151,19 +151,6 @@ test("task page layout", async () => {
     })
   ).toBeInTheDocument();
 });
-
-// test("reroute to folders page", async () => {
-//   const user = userEvent.setup();
-//   mockId123();
-//   await screen.findByText(/csc 307/i);
-//   await user.click(
-//     screen.getByRole("button", { name: /← back to folders/i })
-//   );
-
-//   expect(
-//     await screen.findByText(/folders page/i)
-//   ).toBeInTheDocument();
-// });
 
 test("create task", async () => {
   const user = userEvent.setup();

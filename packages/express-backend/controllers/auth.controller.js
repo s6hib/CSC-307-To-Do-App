@@ -24,6 +24,7 @@ export const signup = async (req, res) => {
         .json({ error: "Password is required" });
     }
 
+    //searches database if username exists
     const existingUser = await User.findOne({ username });
     if (existingUser) {
       return res
@@ -37,6 +38,7 @@ export const signup = async (req, res) => {
       });
     }
 
+    //salting and hashing the password for security purposes
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 

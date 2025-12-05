@@ -8,7 +8,7 @@ import { MemoryRouter, Routes, Route } from "react-router-dom";
 
 import FoldersPage from "../pages/FoldersPage.jsx";
 
-const renderApp = (route = "/folders") =>
+const renderFoldersPage = (route = "/folders") =>
   render(
     <MemoryRouter initialEntries={[route]}>
       <Routes>
@@ -21,6 +21,7 @@ beforeEach(() => {
   jest.spyOn(window, "confirm").mockReturnValue(true);
 });
 
+//mock rerouting
 const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
@@ -33,10 +34,11 @@ test("status 500", async () => {
     status: 500,
     json: async () => ({})
   });
+  //spy on the colsole for err msg
   const errorSpy = jest
     .spyOn(console, "error")
     .mockImplementation(() => {});
-  renderApp();
+  renderFoldersPage();
 
   await waitFor(() => {
     expect(global.fetch).toHaveBeenCalledTimes(1);
@@ -53,7 +55,7 @@ test("shows loading state before folders load", async () => {
     ok: true,
     json: async () => []
   });
-  renderApp();
+  renderFoldersPage();
 
   await waitFor(() =>
     expect(
@@ -63,7 +65,7 @@ test("shows loading state before folders load", async () => {
 });
 
 test("folder page layout", async () => {
-  renderApp();
+  renderFoldersPage();
   //main screen (not including navbar)
   expect(await screen.findByText(/adder/i)).toBeInTheDocument();
   expect(
@@ -76,7 +78,7 @@ test("folder page layout", async () => {
 
 test("click create new folder", async () => {
   const user = userEvent.setup();
-  renderApp();
+  renderFoldersPage();
 
   //waits until it finds the button
   const newFolder = await screen.findByText(/new folder/i);
@@ -100,7 +102,7 @@ test("click create new folder", async () => {
 
 test("click cancel", async () => {
   const user = userEvent.setup();
-  renderApp();
+  renderFoldersPage();
 
   //waits until it finds the button
   await user.click(await screen.findByText(/new folder/i));
@@ -117,7 +119,7 @@ test("click cancel", async () => {
 
 test("type in input", async () => {
   const user = userEvent.setup();
-  renderApp();
+  renderFoldersPage();
 
   //waits until it finds the button
   const newFolder = await screen.findByText(/new folder/i);
@@ -138,7 +140,7 @@ test("fetch folders", async () => {
       { _id: "2", name: "CSC 308", color: "#ffffff" }
     ]
   });
-  renderApp();
+  renderFoldersPage();
   const folder1 = await screen.findByText(/csc 307/i);
   const folder2 = await screen.findByText(/csc 308/i);
 
@@ -152,7 +154,7 @@ test("folder name is empty", async () => {
     ok: true,
     json: async () => []
   });
-  renderApp();
+  renderFoldersPage();
   await user.click(await screen.findByText(/new folder/i));
   //making sure the form is empty
   const empty = screen.getByPlaceholderText(/folder name/i);
@@ -183,7 +185,7 @@ test("create and delete folder", async () => {
     status: 204,
     text: async () => ""
   });
-  renderApp();
+  renderFoldersPage();
   await user.click(await screen.findByText(/new folder/i));
   //creating a folder
   const form = screen.getByPlaceholderText(/folder name/i);
@@ -229,7 +231,7 @@ test("fail to create", async () => {
   const consoleSpy = jest
     .spyOn(console, "error")
     .mockImplementation(() => {});
-  renderApp();
+  renderFoldersPage();
   await user.click(await screen.findByText(/new folder/i));
   //creating a folder
   const form = screen.getByPlaceholderText(/folder name/i);
@@ -252,7 +254,7 @@ test("does not delete folder if user cancels", async () => {
       { _id: "1", name: "test", color: "#ffffff" }
     ]
   });
-  renderApp();
+  renderFoldersPage();
 
   const deleteButton = await screen.findByRole("button", {
     name: "×"
@@ -278,7 +280,7 @@ test("open folder", async () => {
       }
     ]
   });
-  renderApp();
+  renderFoldersPage();
   const folder = await screen.findByText(/test/i);
   await user.click(folder);
 

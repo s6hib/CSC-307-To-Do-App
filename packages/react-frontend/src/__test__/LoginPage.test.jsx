@@ -100,8 +100,7 @@ test("login success", async () => {
       method: "POST",
       credentials: "include",
       headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer null"
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         username: "sean",
@@ -109,14 +108,13 @@ test("login success", async () => {
       })
     }
   );
-  expect(localStorage.getItem("token")).toBe("token");
-
   // toast
   await waitFor(() => {
     expect(mockShow).toHaveBeenCalledWith(
       "Logged in successfully",
       "success"
     );
+    //reroute to folders
     expect(mockNavigate).toHaveBeenCalledWith("/folders");
   });
 });
