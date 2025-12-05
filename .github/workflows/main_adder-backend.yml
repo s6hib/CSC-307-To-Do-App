@@ -27,7 +27,7 @@ jobs:
         run: |
           npm install
           npm run build --if-present
-          echo "Skipping tests for now"
+          npm test --if-present
         working-directory: ./packages/express-backend
 
       - name: Zip artifact for deployment
