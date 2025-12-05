@@ -5,10 +5,7 @@ import reactRefresh from "eslint-plugin-react-refresh";
 import { defineConfig, globalIgnores } from "eslint/config";
 
 export default defineConfig([
-  // 1) Ignore built stuff
-  globalIgnores(["dist", "coverage", "node_modules"]),
-
-  // 2) Main React config
+  globalIgnores(["**/dist/**", "**/coverage/**"]),
   {
     files: ["**/*.{js,jsx}"],
     extends: [
@@ -34,20 +31,20 @@ export default defineConfig([
     }
   },
 
-  // 3) EXTRA CONFIG FOR TEST FILES (including setupTests.js)
   {
     files: [
-      "src/setupTests.js", // your file
-      "**/*.test.{js,jsx,ts,tsx}" // normal test files
+      "**/*.test.js",
+      "**/*.test.jsx",
+      "**/setupTests.js",
+      "**/setupTests.cjs"
     ],
     languageOptions: {
+      ecmaVersion: 2020,
+      sourceType: "module",
       globals: {
-        // browser globals if you use them
         ...globals.browser,
-        // Node-style global object
-        global: "writable",
-        // Jest globals: jest, describe, it, test, expect, etc.
-        ...globals.jest
+        ...globals.jest,
+        global: "readonly"
       }
     }
   }
