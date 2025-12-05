@@ -24,9 +24,9 @@ export default function DeletedTasksPage() {
             : [];
         setTasks(list);
       })
-      .catch((err) =>
-        console.error("Fetch deleted tasks error: ", err)
-      );
+      .catch((error) => {
+        console.error("Fetch deleted tasks error:", error);
+      });
   }, []);
 
   // RESTORE one
@@ -80,7 +80,7 @@ export default function DeletedTasksPage() {
         console.log("delete failed:", res.status);
       }
     } catch (err) {
-      //console.log("hd error: ", err);
+      console.log("hd error: ", err);
       return;
     }
   }
