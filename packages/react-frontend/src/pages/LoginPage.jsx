@@ -22,16 +22,13 @@ function LoginPage() {
   const login = async (e) => {
     e.preventDefault();
 
-    const token = localStorage.getItem("token");
-
     const res = await fetch(
       "https://adder-backend.azurewebsites.net/api/login",
       {
         method: "POST",
         credentials: "include",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(user)
       }
@@ -48,8 +45,6 @@ function LoginPage() {
     }
 
     const data = JSON.parse(text);
-    localStorage.setItem("token", data.token);
-
     if (!data.user) {
       console.log("No user found");
       alert("Login failed: No user info received");
@@ -59,6 +54,7 @@ function LoginPage() {
     setUser({ username: "", password: "" });
     show("Logged in successfully", "success");
     navigate("/folders");
+    console.log(data);
   };
 
   return (

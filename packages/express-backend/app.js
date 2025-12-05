@@ -36,17 +36,11 @@ app.use(
     ],
     credentials: true,
     methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
-
     allowedHeaders: ["Content-Type", "Authorization"]
   })
 );
 app.use(cookieParser());
 app.use(express.json());
-
-//testing
-app.get("/health", (req, res) => {
-  res.json({ status: "ok" });
-});
 
 // GET METHOD
 app.get(
