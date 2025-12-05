@@ -8,7 +8,8 @@
   "scripts": {
     "dev": "cd packages/react-frontend && npm run dev",
     "lint": "npx eslint .",
-    "test": "cd packages/react-frontend && npm test"
+    "test": "cd packages/react-frontend && npm test",
+    "test:coverage": "cd packages/react-frontend && npm run test:coverage"
   },
   "repository": {
     "type": "git",

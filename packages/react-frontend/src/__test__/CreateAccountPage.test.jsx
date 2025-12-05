@@ -20,6 +20,8 @@ const renderApp = (route = "/createaccount") =>
       </Routes>
     </MemoryRouter>
   );
+
+//clear mock before each test cases
 beforeEach(() => {
   mockShow.mockClear();
 });
@@ -68,6 +70,7 @@ test("submit no username gives error", async () => {
     name: /add account/i
   });
   await user.click(submitButton);
+  //toast
   expect(mockShow).toHaveBeenCalledWith("Username is required");
 });
 
@@ -82,6 +85,7 @@ test("submit no password gives error", async () => {
     name: /add account/i
   });
   await user.click(submitButton);
+  //toast
   expect(mockShow).toHaveBeenCalledWith("Password is required");
 });
 
@@ -97,6 +101,7 @@ test("submit password less than 6 characters gives error", async () => {
     name: /add account/i
   });
   await user.click(submitButton);
+  //toast
   expect(mockShow).toHaveBeenCalledWith(
     "Password must be at least 6 characters"
   );
@@ -118,6 +123,7 @@ test("submit taken username gives error", async () => {
     name: /add account/i
   });
   await user.click(submitButton);
+  //toast
   expect(mockShow).toHaveBeenCalledWith(
     "Username already taken"
   );

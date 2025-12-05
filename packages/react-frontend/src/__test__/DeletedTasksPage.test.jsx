@@ -13,7 +13,7 @@ jest.mock("../pages/components/ToastProvider.jsx", () => ({
   useToast: () => ({ show: mockShow })
 }));
 
-const renderApp = (route = "/tasks/deleted") =>
+const renderDeletedTasks = (route = "/tasks/deleted") =>
   render(
     <MemoryRouter initialEntries={[route]}>
       <Routes>
@@ -35,17 +35,18 @@ test("status 500", async () => {
     status: 500,
     json: async () => ({})
   });
+  //spy on console for error msg
   const errorSpy = jest
     .spyOn(console, "error")
     .mockImplementation(() => {});
-  renderApp();
+  renderDeletedTasks();
 
   await waitFor(() => {
     expect(global.fetch).toHaveBeenCalledTimes(1);
   });
   expect(errorSpy).toHaveBeenCalled();
   expect(errorSpy.mock.calls[0][0]).toBe(
-    "Fetch deleted tasks error: "
+    "Fetch deleted tasks error:"
   );
   errorSpy.mockRestore();
 });
@@ -55,7 +56,7 @@ test("deleted page layout", async () => {
     ok: true,
     json: async () => []
   });
-  renderApp();
+  renderDeletedTasks();
   expect(
     await screen.findByText(/deleted tasks/i)
   ).toBeInTheDocument();
@@ -80,7 +81,7 @@ test("displays deleted tasks", async () => {
       }
     ]
   });
-  renderApp();
+  renderDeletedTasks();
 
   expect(await screen.findByText("test")).toBeInTheDocument();
   expect(screen.getByText("test2")).toBeInTheDocument();
@@ -105,7 +106,7 @@ test("restore tasks", async () => {
     status: 200,
     json: async () => ({})
   });
-  renderApp();
+  renderDeletedTasks();
 
   expect(await screen.findByText(/test/i)).toBeInTheDocument();
 
@@ -148,7 +149,7 @@ test("fail to restore task", async () => {
     status: 400,
     json: async () => ({ error: "Bad request" })
   });
-  renderApp();
+  renderDeletedTasks();
 
   expect(await screen.findByText(/test/i)).toBeInTheDocument();
   const restoreButton = screen.getByRole("button", {
@@ -176,11 +177,12 @@ test("hard delete tasks", async () => {
       }
     ]
   });
+  //mock successful deletion
   fetch.mockResolvedValueOnce({
     status: 204,
     json: async () => ({})
   });
-  renderApp();
+  renderDeletedTasks();
 
   expect(await screen.findByText(/test/i)).toBeInTheDocument();
   const deleteButton = screen.getByRole("button", {
@@ -218,11 +220,12 @@ test("hard delete fail", async () => {
       }
     ]
   });
+  //mock error
   fetch.mockResolvedValueOnce({
     status: 500,
     json: async () => ({})
   });
-  renderApp();
+  renderDeletedTasks();
 
   expect(await screen.findByText(/test/i)).toBeInTheDocument();
   const deleteButton = screen.getByRole("button", {

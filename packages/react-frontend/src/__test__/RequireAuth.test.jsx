@@ -2,11 +2,13 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
 import RequireAuth from "../pages/components/RequireAuth.jsx";
 
+//mock toast
 const mockShow = jest.fn();
 jest.mock("../pages/components/ToastProvider.jsx", () => ({
   useToast: () => ({ show: mockShow })
 }));
 
+//mock rerouting
 const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
@@ -38,7 +40,7 @@ test("placeholder", async () => {});
 test("nothing is loaded", () => {
   global.fetch.mockReturnValue(new Promise(() => {}));
   renderWithRoutes();
-
+  //shouldn't have access to protected content
   expect(
     screen.queryByText(/protected content/i)
   ).not.toBeInTheDocument();
@@ -54,6 +56,7 @@ test("authorized", async () => {
   });
 
   renderWithRoutes();
+  //should be able to see protected content
   expect(
     await screen.findByText(/protected content/i)
   ).toBeInTheDocument();
@@ -76,5 +79,6 @@ test("unauthorized", async () => {
   expect(
     screen.queryByText(/protected content/i)
   ).not.toBeInTheDocument();
+  //authentication needed
   expect(mockShow).toHaveBeenCalledWith("You need to log in");
 });
