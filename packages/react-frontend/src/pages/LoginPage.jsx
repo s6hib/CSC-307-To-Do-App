@@ -23,7 +23,7 @@ function LoginPage() {
     e.preventDefault();
 
     const res = await fetch(
-      "hhttps://localhost:8000/api/folders/api/login",
+      "https://adder-backend.azurewebsites.net/api/login",
       {
         method: "POST",
         credentials: "include",
