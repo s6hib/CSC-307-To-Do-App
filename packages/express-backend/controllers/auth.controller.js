@@ -85,22 +85,22 @@ export const login = async (req, res) => {
         .json({ error: "Invalid username or password" });
     }
 
-    const oldUser = new User({
+    const tokenUser = {
       id: user._id,
-      username: username
-    });
-
+      username: user.username
+    };
     // to generate an access token
-    generateTokenAndSetCookie(oldUser, res);
+    const token = generateTokenAndSetCookie(tokenUser, res);
     return res.status(200).json({
       user: {
         id: user._id,
         username: user.username
-      }
+      },
+      token
     });
   } catch (error) {
     console.log("Error in login controller", error.message);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ error: "Internal Server Error " });
   }
 };
 

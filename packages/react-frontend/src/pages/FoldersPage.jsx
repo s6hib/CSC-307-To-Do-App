@@ -15,7 +15,7 @@ export default function FoldersPage() {
   //Fetch all folders
   useEffect(() => {
     fetch(
-      "https://adder-backend.azurewebsites.net/api/folders",
+      "https://localhost:8000/api/folders",
       //"/api/folders",
       { credentials: "include" }
     )
@@ -39,7 +39,7 @@ export default function FoldersPage() {
 
     try {
       const res = await fetch(
-        "https://adder-backend.azurewebsites.net/api/folders",
+        "hhttps://localhost:8000/api/folders",
         {
           method: "POST",
           credentials: "include",
@@ -56,6 +56,8 @@ export default function FoldersPage() {
         setFolders([...folders, newFolder]);
         setNewFolderName("");
         setShowNewFolderForm(false);
+        console.log("201");
+        console.log([...folders]);
       } else {
         console.error("Failed to create folder");
       }
@@ -75,7 +77,7 @@ export default function FoldersPage() {
 
     try {
       const res = await fetch(
-        `https://adder-backend.azurewebsites.net/api/folders/${id}`,
+        `https://localhost:8000/api/folders/api/folders/${id}`,
         {
           method: "DELETE",
           credentials: "include"

@@ -21,6 +21,11 @@ export function authenticateUser(req, res, next) {
         _id: payload.id,
         username: payload.username
       };
+      console.log("JWT payload:", payload);
+      console.log("req.user to be set:", {
+        _id: payload.id,
+        username: payload.username
+      });
       next();
     }
   );
