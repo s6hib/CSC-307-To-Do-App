@@ -25,20 +25,20 @@ jobs:
 
       - name: npm install, build, and test
         run: |
-          npm install --workspaces=false
-          npm run -w express-backend build --if-present
-        working-directory: packages/express-backend
+         npm install
+          npm run build --if-present
+          echo "Skipping tests for now"
+        working-directory: ./packages/express-backend
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
-        working-directory: packages/express-backend
+        working-directory: ./packages/express-backend
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: packages/express-backend
-
+          path: ./packages/express-backend
   deploy:
     runs-on: ubuntu-latest
     needs: build
