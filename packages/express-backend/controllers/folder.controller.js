@@ -7,10 +7,8 @@ export async function getAllFolders(req, res) {
     const folders = await Folder.find({
       user: req.user._id
     }).sort({ createdAt: 1 });
-    console.log("HERE");
     res.status(200).json(folders);
   } catch (error) {
-    console.log("THERE");
     console.error("Error fetching folders:", error);
     res.status(500).json({ message: "Error fetching folders" });
   }
