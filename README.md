@@ -13,6 +13,10 @@ This is a to-do app! Use this to track your chores, homework, etc. It's not just
 
 (https://www.figma.com/design/XcBx6SbkDTE6RphCEUn38E/Adder?node-id=0-1&t=Uk4U2qqAMdy2cWEr-1)
 
+
+## Documentation
+- [UML Class Diagram](docs/UML-CLASS-DIAGRAM.md) - Database models and relationships
+
 ## Getting Started: Install Dependencies
 
 ```bash
